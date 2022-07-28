@@ -25,4 +25,8 @@ public class Vacina extends AbstractEntity{
     @Column(name = "data", nullable = false)
     private LocalDateTime data;
 
+    @Getter @Setter
+    @JoinColumn(name = "id_gado", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Gado gado;
 }
