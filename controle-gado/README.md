@@ -1,1 +1,0 @@
-# sistema-controle-gado
