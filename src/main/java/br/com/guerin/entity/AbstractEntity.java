@@ -18,17 +18,17 @@ public abstract class AbstractEntity {
     private Long id;
 
     @Getter
-    @Column(name = "cadastro", nullable = false)
-    private LocalDateTime cadastro;
+    @Column(name = "registred", nullable = false)
+    private LocalDateTime registred;
 
     @Getter
-    @Column(name = "atualizado")
-    private LocalDateTime atualizado;
+    @Column(name = "updated")
+    private LocalDateTime updated;
 
     @Getter
     @Setter
-    @Column(name = "ativo", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean ativo;
+    @Column(name = "inactive", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean inactive;
 
     /**
      * @param id
@@ -41,15 +41,15 @@ public abstract class AbstractEntity {
      * Método executado antes da execução repository.save
      */
     @PrePersist
-    public void dataCadastro() {
-        this.cadastro = LocalDateTime.now();
+    public void dateRegistred() {
+        this.registred = LocalDateTime.now();
     }
 
     /**
      * Método executado antes da execução repository.update
      */
     @PreUpdate
-    public void dataAtualizacao() {
-        this.atualizado = LocalDateTime.now();
+    public void dateUpdated() {
+        this.updated = LocalDateTime.now();
     }
 }

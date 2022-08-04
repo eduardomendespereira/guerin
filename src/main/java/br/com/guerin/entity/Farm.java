@@ -10,10 +10,14 @@ import javax.persistence.Table;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "species", schema = "public")
-public class Specie extends AbstractEntity{
-    @Getter
-    @Setter
-    @Column(name = "name", nullable = false, unique = true, length = 30)
+@Table(name = "farms", schema = "public")
+public class Farm extends AbstractEntity{
+
+    @Getter @Setter
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Getter @Setter
+    @Column(name = "address", nullable = false)
+    private String address;
 }
