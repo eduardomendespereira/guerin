@@ -1,12 +1,12 @@
-package br.com.guerin.entity;
+package br.com.guerin.Entity;
 
-public enum Sex {
+public enum Gender {
     male("Macho"),
     female("Fêmea");
 
     public final String value;
 
-    private Sex(String value){
+    private Gender(String value){
         this.value = value;
     }
 }

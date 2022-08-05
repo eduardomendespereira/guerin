@@ -20,14 +20,14 @@ public class Cattle extends AbstractEntity{
     private Float weight;
 
     @Getter @Setter
-    @JoinColumn(name = "id_specie", nullable = true)
+    @JoinColumn(name = "specie_id", nullable = true)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Specie specie;
 
     @Getter @Setter
     @Enumerated(EnumType.STRING)
-    @Column(name = "sex", nullable = false)
-    private Sex sex;
+    @Column(name = "gender", nullable = false)
+    private Gender gender;
 
     @Getter @Setter
     @Column(name = "father", nullable = true)

@@ -1,4 +1,4 @@
-package br.com.guerin.entity;
+package br.com.guerin.Entity;
 
 import lombok.*;
 import javax.persistence.*;
@@ -14,7 +14,7 @@ public class VaccineApplication extends AbstractEntity{
     private String name;
 
     @Getter @Setter
-    @JoinColumn(name = "id_vaccine", nullable = true)
+    @JoinColumn(name = "vaccine_id", nullable = true)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Vaccine vaccine;
 

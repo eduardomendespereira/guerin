@@ -1,4 +1,4 @@
-package br.com.guerin.entity;
+package br.com.guerin.Entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

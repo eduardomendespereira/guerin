@@ -1,4 +1,4 @@
-package br.com.guerin.entity;
+package br.com.guerin.Entity;
 
 import lombok.*;
 import javax.persistence.*;
@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 public class CattleEvent extends AbstractEntity{
 
     @Getter @Setter
-    @JoinColumn(name = "id_cattle", nullable = true)
+    @JoinColumn(name = "cattle_id", nullable = true)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Cattle cattle;
 
     @Getter @Setter
-    @JoinColumn(name = "id_type", nullable = true)
+    @JoinColumn(name = "type_id", nullable = true)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private EventType eventType;
 
@@ -28,7 +28,7 @@ public class CattleEvent extends AbstractEntity{
     private String description;
 
     @Getter @Setter
-    @JoinColumn(name = "id_vaccination", nullable = true)
+    @JoinColumn(name = "vaccination_id", nullable = true)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private VaccineApplication vaccineApplication;
 }
