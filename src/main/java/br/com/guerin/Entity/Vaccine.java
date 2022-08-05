@@ -17,11 +17,6 @@ public class Vaccine extends AbstractEntity{
     private String name;
 
     @Getter @Setter
-    @Enumerated(EnumType.STRING)
-    @Column(name = "vaccine_type", nullable = false)
-    private VaccineType vaccineType;
-
-    @Getter @Setter
     @JoinColumn(name = "date", nullable = true)
     private LocalDateTime date;
 

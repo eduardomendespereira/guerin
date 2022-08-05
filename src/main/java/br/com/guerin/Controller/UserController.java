@@ -1,7 +1,10 @@
-package br.com.guerin.Controller;
+package br.com.guerin.controller;
 
 import java.util.Date;
 import javax.servlet.ServletException;
+
+import br.com.guerin.Config.JwtConstants;
+import br.com.guerin.Service.IService.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.guerin.Entity.User;
-import br.com.guerin.Service.UserService.IUserService;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController
