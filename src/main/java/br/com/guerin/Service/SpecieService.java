@@ -21,7 +21,22 @@ public class SpecieService {
     public Specie findById(Long id){
         return this.specieRepository.findById(id).orElse(new Specie());
     }
-    //public Page<Specie> listAll(Pageable pageable){
+    public Page<Specie> listAll(Pageable pageable){
         return this.specieRepository.findAll(pageable);
     }
+    @Transactional
+    public void update(Long id, Specie specie){
+        if(id == specie.getId()){
+            this.specieRepository.save(specie);
+        }else{
+            throw  new RuntimeException("Erro : Não foi possivel editar a Especie");
+        }
+    }
+    @Transactional
+    public void desativar(Long id, Specie specie ){
+        if(id == specie.getId()){
+            this.specieRepository.desativar(specie.getId());
+        }
+    }
+
 }
