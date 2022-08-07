@@ -21,7 +21,7 @@ public class SpecieService {
     public Specie findById(Long id){
         return this.specieRepository.findById(id).orElse(new Specie());
     }
-    public Page<Specie> listAll(Pageable pageable){
+    //public Page<Specie> listAll(Pageable pageable){
         return this.specieRepository.findAll(pageable);
     }
 }
