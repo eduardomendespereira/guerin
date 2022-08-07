@@ -35,7 +35,7 @@ public class CorsConfig {
 
     @Bean
     public WebMvcConfigurer mvcConfigurer() {
-        return new WebMvcConfigurerAdapter() {
+        return new WebMvcConfigurer() {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedMethods("GET", "PUT", "POST", "GET", "OPTIONS");
             }

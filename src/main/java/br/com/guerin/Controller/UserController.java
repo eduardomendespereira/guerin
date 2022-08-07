@@ -1,10 +1,12 @@
-package br.com.guerin.controller;
+package br.com.guerin.Controller;
 
 import java.util.Date;
 import javax.servlet.ServletException;
 
 import br.com.guerin.Config.JwtConstants;
+import br.com.guerin.Payload.User.LoginRequest;
 import br.com.guerin.Service.IService.IUserService;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +30,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestBody User login) throws ServletException {
+    public String login(@RequestBody LoginRequest login) throws ServletException {
 
         String jwtToken = "";
 
@@ -51,7 +53,7 @@ public class UserController {
             throw new ServletException("Credenciais invalidas. Verifique o email e a senha.");
         }
 
-        jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
+        jwtToken = Jwts.builder().setSubject(email).claim("roles", user.getRole()).setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, JwtConstants.SECRET).compact();
 
         return jwtToken;
