@@ -38,4 +38,16 @@ public class VaccineService {
             throw  new RuntimeException();
         }
     }
+
+    @Transactional
+    public void insert(Vaccine vaccine){
+        this.vaccineRepository.save(vaccine);
+    }
+
+    @Transactional
+    public void disable(Long id, Vaccine vaccine){
+        if(id == vaccine.getId()){
+            this.vaccineRepository.disable(vaccine.getId());
+        }
+    }
 }
