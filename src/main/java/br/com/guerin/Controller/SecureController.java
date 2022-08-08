@@ -1,4 +1,4 @@
-package br.com.guerin.Controller;
+package br.com.guerin.controller;
 
 import br.com.guerin.Service.IService.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
