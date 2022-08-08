@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Repository.User.VaccineRepository;
+import br.com.guerin.Service.IService.IVaccineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ import java.util.Optional;
  * @version 1.0.0
  */
 @Service
-public class VaccineService {
+public class VaccineService implements IVaccineService {
 
     @Autowired
     private VaccineRepository vaccineRepository;

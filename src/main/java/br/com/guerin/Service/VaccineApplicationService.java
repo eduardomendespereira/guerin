@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Repository.User.VaccineApplicationRepository;
+import br.com.guerin.Service.IService.IVaccineApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.Optional;
  * @version 1.0.0
  */
 @Service
-public class VaccineApplicationService {
+public class VaccineApplicationService implements IVaccineApplicationService {
 
     @Autowired
     private VaccineApplicationRepository vaccineApplicationRepository;
