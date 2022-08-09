@@ -43,7 +43,7 @@ public class CattleService implements ICattleService {
             this.cattleRepository.save(cattle);
         }
         else {
-            throw new RuntimeException();
+            throw new RuntimeException("Gado não encontrado");
         }
     }
 
@@ -55,10 +55,15 @@ public class CattleService implements ICattleService {
     @Transactional
     public void inactivate(Long id, Cattle cattle) {
         if (id == cattle.getId()) {
-            this.cattleRepository.inactivate(cattle.getId());
+            if (! this.findById(id).get().isInactive()) {
+                this.cattleRepository.inactivate(cattle.getId());
+            }
+            else {
+                throw new RuntimeException("Gado já está inativo!");
+            }
         }
         else {
-            throw new RuntimeException();
+            throw new RuntimeException("Gado não encontrado");
         }
     }
 }
