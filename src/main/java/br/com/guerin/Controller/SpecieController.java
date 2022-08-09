@@ -42,5 +42,33 @@ public class SpecieController {
             return ResponseEntity.ok().body("Falha ao Cadastrar Especie");
         }
     }
+    
+    @PutMapping("/{idSpecie}")
+    public ResponseEntity<?> update(
+            @PathVariable Long idSpecie,
+            @RequestBody Specie specie
+    ){
+        try {
+            this.specieService.update(idSpecie, specie);
+            return  ResponseEntity.ok().body("Especie editada com sucesso !");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Não foi possivel editar a Especie");
+        }
+    }
+
+    @PutMapping("/desativar/{idSpecie}")
+    public ResponseEntity<?> desativar(
+            @PathVariable Long idSpecie,
+            @RequestBody Specie specie
+    ){
+        try {
+            this.specieService.desativar(idSpecie, specie);
+            return ResponseEntity.ok().body("Especie desativada com sucesso");
+
+
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Não foi possivel desativar a Especie");
+        }
+    }
 
 }

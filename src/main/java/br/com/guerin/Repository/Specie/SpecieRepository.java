@@ -1,4 +1,4 @@
-package br.com.guerin.Repository.User;
+package br.com.guerin.Repository.Specie;
 
 import br.com.guerin.Entity.Specie;
 import org.springframework.data.jpa.repository.JpaRepository;

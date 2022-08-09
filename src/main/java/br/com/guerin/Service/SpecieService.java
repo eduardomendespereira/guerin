@@ -1,7 +1,7 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Specie;
-import br.com.guerin.Repository.User.SpecieRepository;
+import br.com.guerin.Repository.Specie.SpecieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
