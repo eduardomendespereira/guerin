@@ -14,10 +14,10 @@ import javax.persistence.Table;
 public class Farm extends AbstractEntity{
 
     @Getter @Setter
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Getter @Setter
-    @Column(name = "address", nullable = false)
+    @Column(name = "address", nullable = false, unique = true)
     private String address;
 }
