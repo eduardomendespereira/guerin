@@ -3,12 +3,10 @@ package br.com.guerin.Controller;
 import br.com.guerin.Entity.Cattle;
 import br.com.guerin.Service.CattleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
-import springfox.documentation.service.Response;
 
 @Controller
 @RequestMapping("/api/cattle")
@@ -18,13 +16,23 @@ public class CattleController {
     private CattleService cattleService;
 
     @GetMapping("/{cattleId}")
-    public ResponseEntity<Cattle> findById(@PathVariable("cattleId") Long cattleId) {
-        return ResponseEntity.ok().body(this.cattleService.findById(cattleId).get());
+    public ResponseEntity<?> findById(@PathVariable("cattleId") Long cattleId) {
+        try {
+            return ResponseEntity.ok().body(this.cattleService.findById(cattleId).get());
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping
-    public ResponseEntity<Page<Cattle>> findAll(Pageable pageable) {
-        return ResponseEntity.ok().body(this.cattleService.findAll(pageable));
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        try {
+            return ResponseEntity.ok().body(this.cattleService.findAll(pageable));
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping

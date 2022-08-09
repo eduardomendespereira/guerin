@@ -18,11 +18,23 @@ public class CattleService implements ICattleService {
     private CattleRepository cattleRepository;
 
     public Optional<Cattle> findById(Long id) {
-        return this.cattleRepository.findById(id);
+        Optional<Cattle> cattle = this.cattleRepository.findById(id);
+        if (cattle.isPresent()) {
+            return cattle;
+        }
+        else {
+            throw new RuntimeException("O gado informado não foi encontrado!");
+        }
     }
 
     public Page<Cattle> findAll(Pageable pageable) {
-        return this.cattleRepository.findAll(pageable);
+        Page<Cattle> cattles = this.cattleRepository.findAll(pageable);
+        if (! cattles.isEmpty()) {
+            return cattles;
+        }
+        else {
+            throw new RuntimeException("Não há gados registrados!");
+        }
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package br.com.guerin.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Cattle extends AbstractEntity{
 
     @Getter @Setter
     @JoinColumn(name = "specie_id", nullable = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  //I've added it, cause FetchType.LAZY wasn't working
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Specie specie;
 
