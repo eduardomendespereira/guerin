@@ -12,7 +12,7 @@ public class Cattle extends AbstractEntity{
 
     @Getter
     @Setter
-    @Column(name = "earring", nullable = false, unique = true)
+    @Column(name = "earring", nullable = false, unique=true)
     private Long earring;
 
     @Getter
