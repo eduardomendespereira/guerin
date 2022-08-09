@@ -9,6 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author Eduardo Mendes
+ *
+ * @since 1.0.0, 08/08/2022
+ * @version 1.0.0
+ */
+
 @Controller
 @RequestMapping("/api/vaccineApplications")
 public class VaccineApplicationController {
