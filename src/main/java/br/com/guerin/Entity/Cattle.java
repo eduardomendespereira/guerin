@@ -27,6 +27,12 @@ public class Cattle extends AbstractEntity{
     private Specie specie;
 
     @Getter @Setter
+    @JoinColumn(name = "farm_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Farm farm;
+
+    @Getter @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
     private Gender gender;
