@@ -9,6 +9,6 @@ import javax.persistence.*;
 public class EventType extends AbstractEntity{
 
     @Getter @Setter
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 }
