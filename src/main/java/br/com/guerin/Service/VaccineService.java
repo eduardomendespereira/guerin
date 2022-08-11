@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -33,7 +32,6 @@ public class VaccineService implements IVaccineService{
     }
 
     public void update(Long id, Vaccine vaccine){
-       essentialValidation(vaccine);
        saveTransactional(vaccine);
     }
 
@@ -43,7 +41,6 @@ public class VaccineService implements IVaccineService{
     }
 
     public void insert(Vaccine vaccine){
-        essentialValidation(vaccine);
         saveTransactional(vaccine);
     }
 
@@ -52,35 +49,5 @@ public class VaccineService implements IVaccineService{
         if(id == vaccine.getId()){
             this.vaccineRepository.disable(vaccine.getId());
         }
-    }
-
-    private boolean checkNameIsNull(Vaccine vaccine){
-        if(vaccine.getName() == null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    private boolean checkDateIsNull(Vaccine vaccine){
-        if(vaccine.getDate() == null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    private boolean checkDateIsFuture(Vaccine vaccine){
-        if(vaccine.dateIsFuture() == true){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    private void essentialValidation(Vaccine vaccine){
-        Assert.isTrue(checkNameIsNull(vaccine), "Erro: Nome da vacina é nulo");
-        Assert.isTrue(checkDateIsNull(vaccine), "Erro: Data da vacina é nula");
-        Assert.isTrue(checkDateIsFuture(vaccine), "Erro: Data da vacina consta como futura");
     }
 }

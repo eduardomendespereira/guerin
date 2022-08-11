@@ -40,12 +40,10 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public void update(Long id, VaccineApplication vaccineApplication){
-        essentialsValidation(vaccineApplication);
        saveTransactional(vaccineApplication);
     }
 
     public void insert(VaccineApplication vaccineApplication){
-        essentialsValidation(vaccineApplication);
         saveTransactional(vaccineApplication);
     }
 
@@ -57,26 +55,4 @@ public class VaccineApplicationService implements IVaccineApplicationService {
             throw new RuntimeException();
         }
     }
-
-    public boolean checkNameIsNull(VaccineApplication vaccineApplication){
-        if(vaccineApplication.getName() == null) {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-    public boolean checkVaccineIsNull(VaccineApplication vaccineApplication){
-        if(vaccineApplication.getVaccine() == null || vaccineApplication.getVaccine().getId() == null) {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-   public void essentialsValidation(VaccineApplication vaccineApplication){
-       Assert.isTrue(checkVaccineIsNull(vaccineApplication), "Erro: Vacina é nulo");
-       Assert.isTrue(checkNameIsNull(vaccineApplication), "Erro: Nome é nulo");
-       Assert.isTrue(vaccineApplication.dateIsFuture(), "Erro: Data de aplicação da vacina é futura");
-   }
 }

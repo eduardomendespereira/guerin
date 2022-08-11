@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
 
+    public Vaccine findVaccineByName(String name);
+
     @Modifying
     @Query("UPDATE Vaccine vaccine SET vaccine.inactive = true WHERE vaccine.id = :idVaccine")
     public void disable(@Param("idVaccine") Long idVaccine);

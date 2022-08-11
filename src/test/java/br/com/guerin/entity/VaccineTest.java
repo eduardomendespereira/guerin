@@ -23,11 +23,6 @@ public class VaccineTest {
     }
 
     @Test
-    public void testIfVaccineIsRequired(){
-        Assertions.assertTrue(vaccine.getRequired());
-    }
-
-    @Test
     public void testIfDateIsNotFuture(){
         Assertions.assertFalse(vaccine.dateIsFuture());
     }
