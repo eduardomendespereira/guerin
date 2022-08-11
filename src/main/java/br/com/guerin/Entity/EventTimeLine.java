@@ -1,5 +1,6 @@
 package br.com.guerin.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class EventTimeLine extends  AbstractEntity{
 
     @Getter @Setter
     @JoinColumn(name = "id_cattleEvent", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  //I've added it, cause FetchType.LAZY wasn't working
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private CattleEvent cattleEvent;
 }

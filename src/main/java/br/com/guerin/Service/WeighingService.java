@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Repository.Weighing.WeighingRepository;
+import br.com.guerin.Service.IService.IWeighingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,7 @@ import javax.transaction.Transactional;
  * @version 1.0.0
  */
 @Service
-public class WeighingService {
+public class WeighingService implements IWeighingService{
 
     @Autowired
     private WeighingRepository weighingRepository;
@@ -62,7 +63,7 @@ public class WeighingService {
      */
     public void update(Long id, Weighing weighing) {
         if (id == weighing.getId()) {
-            this.validarWeighing(weighing);
+            //this.validarWeighing(weighing);
             this.saveTransactional(weighing);
         }
         else {

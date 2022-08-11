@@ -18,7 +18,7 @@ public abstract class AbstractEntity {
     private Long id;
 
     @Getter
-    @Column(name = "registred", nullable = false)
+    @Column(name = "registred", nullable = true)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  // localdatetime deserializer
     private LocalDateTime registred;
 

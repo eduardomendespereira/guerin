@@ -1,7 +1,7 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Farm;
-import br.com.guerin.Repository.User.FarmRepository;
+import br.com.guerin.Repository.Farm.FarmRepository;
 import br.com.guerin.Service.IService.IFarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

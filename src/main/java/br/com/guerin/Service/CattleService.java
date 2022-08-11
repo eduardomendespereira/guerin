@@ -1,7 +1,7 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Cattle;
-import br.com.guerin.Repository.User.CattleRepository;
+import br.com.guerin.Repository.Cattle.CattleRepository;
 import br.com.guerin.Service.IService.ICattleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
