@@ -1,7 +1,6 @@
 package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.EventType;
-import br.com.guerin.Entity.Specie;
 import br.com.guerin.Service.EventTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -62,7 +61,7 @@ public class EventTypeController {
             @RequestBody EventType eventType
     ){
         try {
-            this.eventTypeService.desativar(idEvent_type, eventType);
+            this.eventTypeService.inactivate(idEvent_type, eventType);
             return ResponseEntity.ok().body("Tipo de Evento desativado com sucesso");
 
 

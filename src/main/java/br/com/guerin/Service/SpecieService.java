@@ -33,10 +33,18 @@ public class SpecieService {
         }
     }
     @Transactional
-    public void desativar(Long id, Specie specie ){
+    public void inactivate(Long id, Specie specie ){
         if(id == specie.getId()){
+            specie.dateUpdated();
             this.specieRepository.desativar(specie.getId());
         }
+    }
+
+    public boolean checkAtivo(Specie specie){
+        if(specie.isInactive()){
+            return false;
+        }
+        return true;
     }
 
 }
