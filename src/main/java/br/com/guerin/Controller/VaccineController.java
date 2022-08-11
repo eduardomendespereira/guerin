@@ -60,7 +60,6 @@ public class VaccineController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
     @PutMapping("/disable/{idVaccine}")
     public ResponseEntity<?> disable(
             @RequestBody Vaccine vaccine,

@@ -13,16 +13,12 @@ import java.time.LocalDateTime;
 public class Vaccine extends AbstractEntity{
     @Getter
     @Setter
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Getter @Setter
     @JoinColumn(name = "date", nullable = true)
     private LocalDateTime date;
-
-    @Getter @Setter
-    @JoinColumn(name = "inactive_date", nullable = true)
-    private LocalDateTime dateInac;
 
     @Getter @Setter
     @JoinColumn(name = "required", nullable = true)

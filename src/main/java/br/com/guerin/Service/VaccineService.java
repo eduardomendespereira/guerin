@@ -18,7 +18,7 @@ import java.util.Optional;
  * @version 1.0.0
  */
 @Service
-public class VaccineService implements IVaccineService {
+public class VaccineService {
 
     @Autowired
     private VaccineRepository vaccineRepository;
