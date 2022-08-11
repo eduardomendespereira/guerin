@@ -23,4 +23,9 @@ public class Vaccine extends AbstractEntity{
     @Getter @Setter
     @JoinColumn(name = "required", nullable = true)
     private Boolean required;
+
+    public boolean dateIsFuture(){
+        return date.compareTo(LocalDateTime.now()) > 0;
+    }
+
 }
