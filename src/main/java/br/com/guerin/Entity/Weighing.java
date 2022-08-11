@@ -1,4 +1,5 @@
 package br.com.guerin.Entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class Weighing extends AbstractEntity {
     private Cattle cattle;
 
     @Getter @Setter
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
