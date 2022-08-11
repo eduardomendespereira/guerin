@@ -22,4 +22,8 @@ public class VaccineApplication extends AbstractEntity{
     @Setter
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
+
+    public boolean dateIsFuture(){
+        return date.compareTo(LocalDateTime.now()) > 0;
+    }
 }

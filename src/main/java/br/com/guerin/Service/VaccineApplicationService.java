@@ -1,5 +1,6 @@
 package br.com.guerin.Service;
 
+import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Repository.User.VaccineApplicationRepository;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -33,25 +35,48 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     @Transactional
-    public void update(Long id, VaccineApplication vaccineApplication){
-        if(id == vaccineApplication.getId()){
-            this.vaccineApplicationRepository.save(vaccineApplication);
-        }else{
-            throw new RuntimeException();
-        }
+    public void saveTransactional(VaccineApplication vaccineApplication){
+        this.vaccineApplicationRepository.save(vaccineApplication);
     }
 
-    @Transactional
+    public void update(Long id, VaccineApplication vaccineApplication){
+        essentialsValidation(vaccineApplication);
+       saveTransactional(vaccineApplication);
+    }
+
     public void insert(VaccineApplication vaccineApplication){
-        this.vaccineApplicationRepository.save(vaccineApplication);
+        essentialsValidation(vaccineApplication);
+        saveTransactional(vaccineApplication);
     }
 
     @Transactional
     public void disable(Long id, VaccineApplication vaccineApplication){
-        if(id == vaccineApplication.getId()){
+        if(id == vaccineApplication.getId()) {
             this.vaccineApplicationRepository.disable(vaccineApplication.getId());
-        }else{
+        }else {
             throw new RuntimeException();
         }
     }
+
+    public boolean checkNameIsNull(VaccineApplication vaccineApplication){
+        if(vaccineApplication.getName() == null) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean checkVaccineIsNull(VaccineApplication vaccineApplication){
+        if(vaccineApplication.getVaccine() == null || vaccineApplication.getVaccine().getId() == null) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+   public void essentialsValidation(VaccineApplication vaccineApplication){
+       Assert.isTrue(checkVaccineIsNull(vaccineApplication), "Erro: Vacina é nulo");
+       Assert.isTrue(checkNameIsNull(vaccineApplication), "Erro: Nome é nulo");
+       Assert.isTrue(vaccineApplication.dateIsFuture(), "Erro: Data de aplicação da vacina é futura");
+   }
 }
