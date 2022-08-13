@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 @MappedSuperclass
@@ -55,4 +56,6 @@ public abstract class AbstractEntity {
     public void dateUpdated() {
         this.updated = LocalDateTime.now();
     }
+
+
 }

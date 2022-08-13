@@ -12,4 +12,5 @@ public interface SpecieRepository extends JpaRepository<Specie, Long> {
     @Query("UPDATE Specie specie SET specie.inactive = true " +
             "WHERE specie.id = :idSpecie")
     public void desativar(@Param("idSpecie") Long idSpecie);
+    Specie findByName(String name);
 }
