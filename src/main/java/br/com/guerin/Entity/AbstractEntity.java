@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 @MappedSuperclass
@@ -13,6 +14,7 @@ public abstract class AbstractEntity {
 
     @Id
     @Getter
+    @Setter
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
@@ -53,4 +55,6 @@ public abstract class AbstractEntity {
     public void dateUpdated() {
         this.updated = LocalDateTime.now();
     }
+
+
 }

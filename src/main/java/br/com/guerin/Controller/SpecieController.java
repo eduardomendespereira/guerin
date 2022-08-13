@@ -62,7 +62,7 @@ public class SpecieController {
             @RequestBody Specie specie
     ){
         try {
-            this.specieService.desativar(idSpecie, specie);
+            this.specieService.inactivate(idSpecie, specie);
             return ResponseEntity.ok().body("Especie desativada com sucesso");
 
 
