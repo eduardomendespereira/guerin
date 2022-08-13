@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "species", schema = "public")
 public class Specie extends AbstractEntity{
+
     @Getter
     @Setter
     @Column(name = "name", nullable = false, unique = true, length = 30)
