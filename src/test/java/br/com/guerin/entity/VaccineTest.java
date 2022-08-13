@@ -26,5 +26,4 @@ public class VaccineTest {
     public void testIfDateIsNotFuture(){
         Assertions.assertFalse(vaccine.dateIsFuture());
     }
-
 }
