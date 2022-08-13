@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Repository.Specie.SpecieRepository;
+import br.com.guerin.Service.IService.ISpecie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-public class SpecieService {
+public class SpecieService implements ISpecie {
     @Autowired
     private SpecieRepository specieRepository;
     @Transactional

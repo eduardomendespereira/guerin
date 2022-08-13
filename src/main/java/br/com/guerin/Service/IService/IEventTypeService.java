@@ -8,7 +8,6 @@ public interface IEventTypeService {
     void save(EventType eventType);
     void inactivate(Long id, EventType eventType);
     void update(Long id, EventType eventType);
-    public Page<EventType> listAll(Pageable pageable);
+    Page<EventType> listAll(Pageable pageable);
     EventType findById(Long id);
-
 }

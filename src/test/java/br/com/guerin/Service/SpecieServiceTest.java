@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 @SpringBootTest
-public class SpecieServiceTests {
+public class SpecieServiceTest {
     @Autowired
     SpecieService specieService;
 
@@ -30,11 +30,10 @@ public class SpecieServiceTests {
         specie.setName("Fidelis");
         specieService.update(specie.getId(), specie);
         Assertions.assertEquals("Fidelis", specie.getName());
-
     }
 
     @Test
-    public void inactiveSpecie(){
+    public void inactivateSpecie(){
         Specie specie = new Specie();
         specie.setInactive(true);
         specie.setId(1L);

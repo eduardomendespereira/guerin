@@ -13,8 +13,35 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 public class SpecieTest {
 
+    @Test
+    public void createSpecie(){
+        Specie specie = new Specie();
+        specie.setName("Fidelao");
+        specie.setInactive(false);
+        Assertions.assertEquals("Fidelao", specie.getName());
+        Assertions.assertFalse( specie.isInactive());
+    }
 
-
+    @Test
+    public void inactiveSpecie(){
+        Specie specie = new Specie();
+        specie.setName("Fidelao");
+        specie.setInactive(false);
+        Assertions.assertEquals("Fidelao", specie.getName());
+        Assertions.assertFalse( specie.isInactive());
+        specie.setInactive(true);
+        Assertions.assertTrue(specie.isInactive());
+    }
+    @Test
+    public void compareSpecies(){
+        Specie specie = new Specie("Fidelao");
+        specie.setInactive(false);
+        Specie specie1 = new Specie("Fidelin");
+        specie1.setInactive(false);
+        Assertions.assertFalse(specie.equals(specie1));
+        specie1.setName("Fidelao");
+        Assertions.assertTrue(specie.equals(specie1));
+    }
 
 
 

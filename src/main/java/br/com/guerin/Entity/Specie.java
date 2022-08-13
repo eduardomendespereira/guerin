@@ -21,10 +21,9 @@ public class Specie extends AbstractEntity{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (!(o instanceof Specie)) return false;
         Specie specie = (Specie) o;
-        return name.equals(specie.name);
+        return Objects.equals(name, specie.name);
     }
 
     @Override
