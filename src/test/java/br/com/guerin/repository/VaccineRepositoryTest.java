@@ -21,7 +21,7 @@ public class VaccineRepositoryTest {
     private VaccineRepository vaccineRepository;
 
     @Test
-    @DisplayName("inserindo 1 vaccina e listando")
+    @DisplayName("inserindo 1 vaccina e verificando se cadastrou")
     public void checkInsert(){
         Vaccine vaccine = new Vaccine();
         vaccine.setName("raiva");

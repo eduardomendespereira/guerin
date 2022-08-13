@@ -15,13 +15,13 @@ import java.time.LocalDateTime;
 public class VaccineApplication extends AbstractEntity{
     @Getter @Setter
     @NotBlank @NotNull
-    @Length(min = 3, max = 25, message = "O nome deverá ter no máximo {max} caracteres")
+    @Length(min = 3, max = 100, message = "O nome deverá ter no máximo {max} caracteres")
     @Column(name = "name", nullable = false)
     private String name;
 
     @Getter @Setter
     @NotNull
-    @JoinColumn(name = "vaccine_id", nullable = true)
+    @JoinColumn(name = "vaccine_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Vaccine vaccine;
 
