@@ -19,29 +19,29 @@ public class EventTypeServiceTest {
     EventTypeRepository eventTypeRepository;
     @Test
     public void insertEventType(){
-        EventType eventType = new EventType("Test");
+        EventType eventType = new EventType("1g");
         eventTypeService.save(eventType);
         List<EventType> eventTypeList = new ArrayList<EventType>();
         for(EventType eventType1 : eventTypeService.listAll(Pageable.unpaged())){
-            if(eventType1.getName().contains("Test")){
+            if(eventType1.getName().contains("1g")){
                 eventTypeList.add(eventType);
             }
         }
-        Assertions.assertEquals("Test", eventTypeList.get(0).getName());
+        Assertions.assertEquals("1g", eventTypeList.get(0).getName());
     }
     @Test
     public void updateEventType(){
-        EventType eventType1 = eventTypeRepository.findById(1L).orElse(new EventType("Tst"));
+        EventType eventType1 = eventTypeRepository.findById(1L).orElse(new EventType("Tste"));
         Assertions.assertNotNull(eventType1);
-        eventType1.setName("Ty");
+        eventType1.setName("Tyr");
         eventTypeService.save(eventType1);
         EventType eventType =  eventTypeService.findById(1L);
-        Assertions.assertEquals("Ty", eventType1.getName());
+        Assertions.assertEquals("Tyr", eventType1.getName());
     }
 
     @Test
     public void inactivateEventType(){
-        EventType eventType = eventTypeService.findById(1L);
+        EventType eventType = eventTypeRepository.findById(1L).orElse(new EventType("Tst1"));
         Assertions.assertFalse(eventType.isInactive());
         eventType.setInactive(true);
         eventTypeService.save(eventType);

@@ -1,6 +1,7 @@
 package br.com.guerin.Repository;
 
 
+import br.com.guerin.Entity.EventType;
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Repository.Specie.SpecieRepository;
 import org.junit.jupiter.api.Assertions;
@@ -20,47 +21,44 @@ public class SpecieRepositoryTest {
 
     @Test
     public void insertSpecie(){
-        Specie specie = new Specie("Fidelis");
+        Specie specie = new Specie("Test");
         specieRepository.save(specie);
-        Integer count = specieRepository.findAll().size();
-        Assertions.assertEquals(1, count);
+        List<Specie> specieList = new ArrayList<Specie>();
+        for(Specie specie1 : specieRepository.findAll()){
+            if(specie.getName().contains("Test")){
+                specieList.add(specie);
+            }
+        }
+        Assertions.assertEquals("Test", specieList.get(0).getName());
     }
-    @Test
-    public void findByName(){
-        Specie specie1 = new Specie("Gabriel");
-        specieRepository.save(specie1);
-        Specie specie = specieRepository.findByName("Gabriel");
-        Assertions.assertNotNull(specie);
-
-    }
-    @Test
-    public void findById(){
-        Specie specie = new Specie("Fidelis");
-        specieRepository.save(specie);
-        Optional<Specie> specie1 = specieRepository.findById(1L);
-        Assertions.assertEquals("Fidelis", specie1.get().getName());
-    }
-
     @Test
     public void updateSpecie(){
-        Specie specie = new Specie("Fidelis");
+        Specie specie = specieRepository.findById(1L).orElse(new Specie("Tst"));
+        Assertions.assertNotNull(specie);
+        specie.setName("Ty");
         specieRepository.save(specie);
-        Specie specie1 = specieRepository.findByName("Fidelis");
-        specie1.setInactive(true);
-        specieRepository.save(specie1);
-        Integer count = specieRepository.findAll().size();
-        Assertions.assertEquals(1, count);
-        Assertions.assertTrue(specie1.isInactive());
+        Specie specie1 = specieRepository.findById(1L).orElse(new Specie());
+        Assertions.assertEquals("Ty", specie1.getName());
     }
     @Test
-    public void listAllSpecie(){
-        for(int i = 0; i < 5; i++){
-            Specie specie = new Specie();
-            specie.setName("A" + i);
-            specieRepository.save(specie);
-        }
-        Integer count = specieRepository.findAll().size();
-        Assertions.assertEquals(5, count);
+    public void inactivateSpecie(){
+        Specie specie =specieRepository.findById(1L).orElse(new Specie("Jk"));
+        Assertions.assertFalse(specie.isInactive());
+        specie.setInactive(true);
+        specieRepository.save(specie);
+        Specie specie1 = specieRepository.findById(1L).orElse(new Specie());
+        Assertions.assertTrue(specie1.isInactive());
     }
 
+    @Test
+    public void findById(){
+        Specie specie = specieRepository.findById(1L).orElse(new Specie("Jo"));
+        Assertions.assertNotNull(specie);
+    }
+
+
+    @Test
+    public void listAllSpecie() {
+        Assertions.assertNotNull(specieRepository.findAll());
+    }
 }
