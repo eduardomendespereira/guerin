@@ -1,4 +1,4 @@
-package br.com.guerin.service;
+package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Repository.User.VaccineRepository;
