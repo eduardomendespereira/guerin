@@ -3,7 +3,6 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.Farm;
 import br.com.guerin.Service.FarmService;
-import br.com.guerin.Service.IService.IFarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +12,24 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/api/farm")
 public class FarmController {
-    
+
     @Autowired
-    private IFarmService farmService;
+    private FarmService farmService;
 
     @GetMapping("/{farmId}")
     public ResponseEntity<?> findById(@PathVariable("farmId") Long farmId) {
         try {
             return ResponseEntity.ok().body(this.farmService.findById(farmId).get());
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/byname/{farmName}")
+    public ResponseEntity<?> findByName(@PathVariable("farmName") String farmName) {
+        try {
+            return ResponseEntity.ok().body(this.farmService.findByName(farmName));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -38,9 +47,9 @@ public class FarmController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Farm farm) {
+    public ResponseEntity<?> insert(@RequestBody Farm farm) {
         try {
-            this.farmService.save(farm);
+            this.farmService.insert(farm);
             return ResponseEntity.ok().body("Fazenda cadastrada com sucesso!");
         }
         catch (Exception e) {
