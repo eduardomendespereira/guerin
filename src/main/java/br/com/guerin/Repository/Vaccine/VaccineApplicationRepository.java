@@ -16,9 +16,6 @@ public interface VaccineApplicationRepository extends JpaRepository<VaccineAppli
     @Query("UPDATE VaccineApplication va SET va.inactive = true WHERE va.id = :idVaccineApplication")
     void disable(@Param("idVaccineApplication") Long idVaccineApplication);
 
-    @Query("SELECT va FROM VaccineApplication va where va.cattle = :id")
-    Optional<VaccineApplication> findByCattle(Long id);
-
     @Query("SELECT va FROM VaccineApplication va where va.vaccine = :id")
     Optional<VaccineApplication> findByVaccine(Long id);
 }

@@ -1,7 +1,9 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Cattle;
+import br.com.guerin.Entity.Farm;
 import br.com.guerin.Entity.Gender;
+import br.com.guerin.Entity.Specie;
 import br.com.guerin.Service.IService.ICattleService;
 import br.com.guerin.Service.IService.IFarmService;
 import br.com.guerin.Service.IService.ISpecieService;
@@ -26,6 +28,8 @@ public class CattleServiceTest {
     private Cattle father = null;
 
     public void generateCattles() {
+        generateSpecieAndFarm();
+
         son = new Cattle(123L, 300F,
                 specieService.findByName("Nelore").get(), farmService.findByName("Fazenda Generica").get(),
                 Gender.male, 124L, 125L);
@@ -38,6 +42,13 @@ public class CattleServiceTest {
         mother = new Cattle(125L, 400F,
                 specieService.findByName("Nelore").get(), farmService.findByName("Fazenda Generica").get(),
                 Gender.male, null, null);
+    }
+
+    public void generateSpecieAndFarm() {
+        if (farmService.findByName("Fazenda Generica") == null)
+            farmService.save(new Farm("Fazenda Generica", "Meio do mato"));
+        if (specieService.findByName("Nelore") == null)
+            specieService.save(new Specie("Nelore"));
     }
 
     @Test

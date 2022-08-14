@@ -25,9 +25,6 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     public Optional<VaccineApplication> findById(Long id){
         return this.vaccineApplicationRepository.findById(id);
     }
-    public Optional<VaccineApplication> findByCattle(Long id){
-        return this.vaccineApplicationRepository.findByCattle(id);
-    }
     public Optional<VaccineApplication> findByVaccine(Long id){
         return this.vaccineApplicationRepository.findByVaccine(id);
     }

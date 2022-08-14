@@ -13,6 +13,5 @@ public interface IVaccineApplicationService {
     VaccineApplication saveTransactional(VaccineApplication vaccineApplication);
     VaccineApplication update(Long id, VaccineApplication vaccineApplication);
     VaccineApplication save(VaccineApplication vaccineApplication);
-    Optional<VaccineApplication> findByCattle(Long id);
     Optional<VaccineApplication> findByVaccine(Long id);
 }

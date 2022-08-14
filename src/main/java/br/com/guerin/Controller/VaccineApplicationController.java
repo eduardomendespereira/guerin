@@ -3,6 +3,7 @@ package br.com.guerin.controller;
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
 import br.com.guerin.Service.VaccineApplicationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,12 +17,11 @@ import org.springframework.web.bind.annotation.*;
  * @since 1.0.0, 08/08/2022
  */
 
-@Controller
+@RestController
 @RequestMapping("/api/vaccineApplications")
+@RequiredArgsConstructor
 public class VaccineApplicationController {
-
-    @Autowired
-    private IVaccineApplicationService vaccineApplicationService;
+    private final IVaccineApplicationService vaccineApplicationService;
 
     @GetMapping("/{idVaccineApplication}")
     public ResponseEntity<?> findById(@PathVariable("idVaccineApplication") Long idVaccineApplication) {
