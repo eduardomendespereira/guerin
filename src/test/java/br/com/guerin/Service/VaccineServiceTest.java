@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Repository.User.VaccineRepository;
+import br.com.guerin.Service.IService.IVaccineService;
 import br.com.guerin.Service.VaccineService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,7 @@ import java.util.function.BooleanSupplier;
 public class VaccineServiceTest {
 
     @Autowired
-    VaccineService vaccineService;
+    IVaccineService vaccineService;
 
     @Test
     public void checkUpdate(){
@@ -25,7 +26,7 @@ public class VaccineServiceTest {
         vaccine.setName("raiva");
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
-        vaccineService.insert(vaccine);
+        vaccineService.save(vaccine);
         Vaccine vaccineTest = new Vaccine();
         vaccineTest.setName("carbunculo");
         vaccineTest.setDate(LocalDateTime.now());

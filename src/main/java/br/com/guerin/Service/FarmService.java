@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Service
 public class FarmService implements IFarmService {
@@ -66,13 +67,7 @@ public class FarmService implements IFarmService {
         }
     }
 
-    public Farm findByName(String name) {
-        Farm farm = this.farmRepository.findByName(name);
-        if (farm != null && ! farm.isInactive()) {
-            return farm;
-        }
-        else {
-            throw new RuntimeException("Fazenda não encontrada!");
-        }
+    public Optional<Farm> findByName(String name) {
+        return this.farmRepository.findByName(name);
     }
 }

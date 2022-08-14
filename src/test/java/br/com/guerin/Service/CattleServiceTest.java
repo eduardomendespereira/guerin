@@ -27,16 +27,16 @@ public class CattleServiceTest {
 
     public void generateCattles() {
         son = new Cattle(123L, 300F,
-                specieService.findByName("Nelore"), farmService.findByName("Fazenda Generica"),
+                specieService.findByName("Nelore").get(), farmService.findByName("Fazenda Generica").get(),
                 Gender.male, 124L, 125L);
 
         father = new Cattle(124L, 350F,
-                specieService.findByName("Nelore"), farmService.findByName("Fazenda Generica"),
+                specieService.findByName("Nelore").get(), farmService.findByName("Fazenda Generica").get(),
                 Gender.male, null, null);
 
 
         mother = new Cattle(125L, 400F,
-                specieService.findByName("Nelore"), farmService.findByName("Fazenda Generica"),
+                specieService.findByName("Nelore").get(), farmService.findByName("Fazenda Generica").get(),
                 Gender.male, null, null);
     }
 

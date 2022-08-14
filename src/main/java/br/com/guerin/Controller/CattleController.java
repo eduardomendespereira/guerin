@@ -18,7 +18,7 @@ public class CattleController {
     @GetMapping("/{cattleId}")
     public ResponseEntity<?> findById(@PathVariable("cattleId") Long cattleId) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.findById(cattleId).get());
+            return ResponseEntity.ok().body(this.cattleService.findById(cattleId));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

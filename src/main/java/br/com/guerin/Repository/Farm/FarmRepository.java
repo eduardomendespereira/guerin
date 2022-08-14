@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface FarmRepository extends JpaRepository<Farm, Long> {
 
@@ -16,5 +18,5 @@ public interface FarmRepository extends JpaRepository<Farm, Long> {
     void inactivate(@Param("farmId") Long farmId);
 
     @Query("SELECT farm FROM Farm farm WHERE farm.name = :farmName")
-    Farm findByName(@Param("farmName") String farmName);
+    Optional<Farm> findByName(@Param("farmName") String farmName);
 }

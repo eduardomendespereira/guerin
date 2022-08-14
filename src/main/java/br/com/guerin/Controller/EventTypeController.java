@@ -18,56 +18,50 @@ public class EventTypeController {
     private IEventTypeService eventTypeService;
 
     @GetMapping("/{idEvent_type}")
-    public ResponseEntity<EventType> findById(
-            @PathVariable("idEvent_type") Long idEvent_type
-    ){
-        return ResponseEntity.ok().body(this.eventTypeService.findById(idEvent_type));
+    public ResponseEntity<?> findById(@PathVariable("idEvent_type") Long idEvent_type){
+        try {
+            return ResponseEntity.ok().body(this.eventTypeService.findById(idEvent_type));
+        }
+        catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<Page<EventType>> listByAllPage(
-            Pageable pageable
-    ){
-        return  ResponseEntity.ok().body(this.eventTypeService.listAll(pageable));
+    @GetMapping
+    public ResponseEntity<?> listByAllPage(Pageable pageable){
+        try {
+            return ResponseEntity.ok().body(this.eventTypeService.listAll(pageable));
+        }
+        catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(
-            @RequestBody EventType eventType
-    ){
+    public ResponseEntity<?> save(@RequestBody EventType eventType){
         try {
-            this.eventTypeService.save(eventType);
-            return ResponseEntity.ok().body("Tipo de Evento Cadastrado com sucesso !");
-        }catch (Exception e){
-            return ResponseEntity.ok().body("Falha ao Cadastrar Tipo de Evento");
+            return ResponseEntity.ok().body(this.eventTypeService.save(eventType));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @PutMapping("/{idEvent_type}")
-    public ResponseEntity<?> update(
-            @PathVariable Long idEvent_type,
-            @RequestBody EventType eventType
-    ){
+    public ResponseEntity<?> update(@PathVariable Long idEvent_type, @RequestBody EventType eventType){
         try {
-            this.eventTypeService.update(idEvent_type, eventType);
-            return  ResponseEntity.ok().body("Tipo de evento editado com sucesso !");
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("Não foi possivel editar o Tipo de evento");
+            return ResponseEntity.ok().body(this.eventTypeService.update(idEvent_type, eventType));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @PutMapping("/desativar/{idEvent_type}")
-    public ResponseEntity<?> desativar(
-            @PathVariable Long idEvent_type,
-            @RequestBody EventType eventType
-    ){
+    public ResponseEntity<?> desativar(@PathVariable Long idEvent_type, @RequestBody EventType eventType){
         try {
             this.eventTypeService.desativar(idEvent_type, eventType);
             return ResponseEntity.ok().body("Tipo de Evento desativado com sucesso");
-
-
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("Não foi possivel desativar o Tipo de Evento");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 }

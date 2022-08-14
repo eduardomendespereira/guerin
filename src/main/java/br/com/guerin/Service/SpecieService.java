@@ -20,22 +20,22 @@ import java.util.Optional;
 public class SpecieService implements ISpecieService {
     private final SpecieRepository specieRepository;
     @Transactional
-    public void save(Specie specie){
-         specieRepository.save(specie);
+    public Specie save(Specie specie){
+         return specieRepository.save(specie);
     }
-    public Specie findById(Long id){
-        return this.specieRepository.findById(id).orElse(new Specie());
+    public Optional<Specie> findById(Long id){
+        return this.specieRepository.findById(id);
     }
-    public Specie findByName(String name) {
-        return this.specieRepository.findByName(name).orElse(new Specie());
+    public Optional<Specie> findByName(String name) {
+        return this.specieRepository.findByName(name);
     }
     public Page<Specie> listAll(Pageable pageable){
         return this.specieRepository.findAll(pageable);
     }
     @Transactional
-    public void update(Long id, Specie specie){
+    public Specie update(Long id, Specie specie){
         if(id == specie.getId()){
-            this.specieRepository.save(specie);
+            return this.specieRepository.save(specie);
         }else{
             throw  new RuntimeException("Erro : Não foi possivel editar a Especie");
         }

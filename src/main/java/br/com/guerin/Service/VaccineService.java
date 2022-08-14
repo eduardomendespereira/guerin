@@ -31,17 +31,17 @@ public class VaccineService implements IVaccineService{
         return this.vaccineRepository.findAll(pageable);
     }
 
-    public void update(Long id, Vaccine vaccine){
-       saveTransactional(vaccine);
+    public Vaccine update(Long id, Vaccine vaccine){
+      return saveTransactional(vaccine);
     }
 
     @Transactional
-    public void saveTransactional(Vaccine vaccine){
-        this.vaccineRepository.save(vaccine);
+    public Vaccine saveTransactional(Vaccine vaccine){
+       return this.vaccineRepository.save(vaccine);
     }
 
-    public void insert(Vaccine vaccine){
-        saveTransactional(vaccine);
+    public Vaccine save(Vaccine vaccine){
+       return saveTransactional(vaccine);
     }
 
     @Transactional

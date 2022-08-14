@@ -36,7 +36,7 @@ public class EventTypeServiceTest {
         Assertions.assertNotNull(eventType1);
         eventType1.setName("Tyr");
         eventTypeService.save(eventType1);
-        EventType eventType =  eventTypeService.findById(1L);
+        EventType eventType =  eventTypeService.findById(1L).get();
         Assertions.assertEquals("Tyr", eventType1.getName());
     }
 
@@ -46,14 +46,14 @@ public class EventTypeServiceTest {
         Assertions.assertFalse(eventType.isInactive());
         eventType.setInactive(true);
         eventTypeService.save(eventType);
-        EventType eventType1 = eventTypeService.findById(1L);
+        EventType eventType1 = eventTypeService.findById(1L).get();
         Assertions.assertTrue(eventType1.isInactive());
 
     }
 
     @Test
     public void findByIdEventType(){
-        EventType eventType = eventTypeService.findById(1L);
+        EventType eventType = eventTypeService.findById(1L).get();
         Assertions.assertNotNull(eventType);
     }
     @Test

@@ -9,6 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import br.com.guerin.Entity.User;
@@ -67,9 +68,9 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findAll(Pageable pageable) {
         try {
-            return ResponseEntity.ok().body(userService.findAll(PageRequest.of(0, 100)));
+            return ResponseEntity.ok().body(userService.findAll(pageable));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
@@ -80,8 +81,8 @@ public class UserController {
         userService.disable(id);
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<?> findById(@RequestBody Long id) {
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> findById(@PathVariable("id")  Long id) {
         try {
             return ResponseEntity.ok().body(userService.findById(id));
         } catch (Exception ex) {

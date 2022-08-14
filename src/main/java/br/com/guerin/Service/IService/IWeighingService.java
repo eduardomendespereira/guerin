@@ -8,8 +8,8 @@ public interface IWeighingService {
     void disable(Long idWeighing, Weighing weighing);
     Weighing findById(Long id);
     Page<Weighing> listAll(Pageable pageable);
-    void save(Weighing weighing);
-    void saveTransactional(Weighing weighing);
-    void update(Long id, Weighing weighing);
+    Weighing save(Weighing weighing);
+    Weighing saveTransactional(Weighing weighing);
+    Weighing update(Long id, Weighing weighing);
     void validarWeighing(Weighing weighing);
 }

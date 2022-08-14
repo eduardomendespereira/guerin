@@ -28,8 +28,12 @@ public class WeighingController {
      * @return
      */
     @GetMapping("/{idWeighing}")
-    public ResponseEntity<Weighing> findById(@PathVariable("idWeighing") Long idWeighing) {
-        return ResponseEntity.ok().body(this.weighingService.findById(idWeighing));
+    public ResponseEntity<?> findById(@PathVariable("idWeighing") Long idWeighing) {
+        try {
+            return ResponseEntity.ok().body(this.weighingService.findById(idWeighing));
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     /**
@@ -37,8 +41,12 @@ public class WeighingController {
      * @return
      */
     @GetMapping
-    public ResponseEntity<Page<Weighing>> listByAllPage(Pageable pageable) {
-        return ResponseEntity.ok().body(this.weighingService.listAll(pageable));
+    public ResponseEntity<?> listByAllPage(Pageable pageable) {
+        try {
+            return ResponseEntity.ok().body(this.weighingService.listAll(pageable));
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     /**

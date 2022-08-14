@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
+import br.com.guerin.Service.IService.IVaccineApplicationService;
 import br.com.guerin.Service.VaccineApplicationService;
 import br.com.guerin.Service.VaccineService;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class VaccineApplicationTest {
 
     @Autowired
-    VaccineApplicationService vaccineApplicationService;
+    IVaccineApplicationService vaccineApplicationService;
 
     @Autowired
     private VaccineService vaccineService;
@@ -27,12 +28,12 @@ public class VaccineApplicationTest {
         vaccine.setName("raiva");
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
-        vaccineService.insert(vaccine);
+        vaccineService.save(vaccine);
         VaccineApplication vaccineApplication = new VaccineApplication();
         vaccineApplication.setName("aplicação de vacina para raiva");
         vaccineApplication.setVaccine(vaccine);
         vaccineApplication.setDate(LocalDateTime.now());
-        vaccineApplicationService.insert(vaccineApplication);
+        vaccineApplicationService.save(vaccineApplication);
         VaccineApplication vaccineApp1 = new VaccineApplication();
         vaccineApp1.setName("aplicação de vacina para carbunculo");
         vaccineApp1.setVaccine(vaccine);

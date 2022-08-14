@@ -25,22 +25,27 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     public Optional<VaccineApplication> findById(Long id){
         return this.vaccineApplicationRepository.findById(id);
     }
-
+    public Optional<VaccineApplication> findByCattle(Long id){
+        return this.vaccineApplicationRepository.findByCattle(id);
+    }
+    public Optional<VaccineApplication> findByVaccine(Long id){
+        return this.vaccineApplicationRepository.findByVaccine(id);
+    }
     public Page<VaccineApplication> findAll(Pageable pageable){
         return this.vaccineApplicationRepository.findAll(pageable);
     }
 
     @Transactional
-    public void saveTransactional(VaccineApplication vaccineApplication){
-        this.vaccineApplicationRepository.save(vaccineApplication);
+    public VaccineApplication saveTransactional(VaccineApplication vaccineApplication){
+        return this.vaccineApplicationRepository.save(vaccineApplication);
     }
 
-    public void update(Long id, VaccineApplication vaccineApplication){
-       saveTransactional(vaccineApplication);
+    public VaccineApplication update(Long id, VaccineApplication vaccineApplication){
+       return saveTransactional(vaccineApplication);
     }
 
-    public void insert(VaccineApplication vaccineApplication){
-        saveTransactional(vaccineApplication);
+    public VaccineApplication save(VaccineApplication vaccineApplication){
+        return saveTransactional(vaccineApplication);
     }
 
     @Transactional

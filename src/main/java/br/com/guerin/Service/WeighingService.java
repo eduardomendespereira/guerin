@@ -45,9 +45,9 @@ public class WeighingService implements IWeighingService{
      *
      * @param weighing
      */
-    public void save(Weighing weighing) {
+    public Weighing save(Weighing weighing) {
         this.validarWeighing(weighing);
-        this.saveTransactional(weighing);
+        return this.saveTransactional(weighing);
     }
 
     /**
@@ -55,8 +55,8 @@ public class WeighingService implements IWeighingService{
      * @param weighing
      */
     @Transactional
-    public void saveTransactional(Weighing weighing) {
-        this.weighingRepository.save(weighing);
+    public Weighing saveTransactional(Weighing weighing) {
+        return this.weighingRepository.save(weighing);
     }
 
     /**
@@ -64,10 +64,10 @@ public class WeighingService implements IWeighingService{
      * @param id
      * @param weighing
      */
-    public void update(Long id, Weighing weighing) {
+    public Weighing update(Long id, Weighing weighing) {
         if (id == weighing.getId()) {
             //this.validarWeighing(weighing);
-            this.saveTransactional(weighing);
+            return this.saveTransactional(weighing);
         }
         else {
             throw new RuntimeException("Error: Não foi possivel editar a Pesagem.");

@@ -1,8 +1,13 @@
 package br.com.guerin.Repository;
 
+import br.com.guerin.Entity.Cattle;
+import br.com.guerin.Entity.Gender;
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Repository.User.VaccineApplicationRepository;
+import br.com.guerin.Service.IService.IFarmService;
+import br.com.guerin.Service.IService.ISpecieService;
+import br.com.guerin.Service.IService.IVaccineService;
 import br.com.guerin.Service.VaccineService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +27,13 @@ public class VaccineApplicationRepositoryTest {
     private VaccineApplicationRepository vaccineApplicationRepository;
 
     @Autowired
-    private VaccineService vaccineService;
+    private IVaccineService vaccineService;
+
+    @Autowired
+    ISpecieService specieService;
+
+    @Autowired
+    IFarmService farmService;
 
     @Test
     @DisplayName("inserindo 1 Aplicação de vacina e verificando se cadastrou")
@@ -33,7 +44,7 @@ public class VaccineApplicationRepositoryTest {
         vac.setRequired(true);
         VaccineApplication vaccineApp = new VaccineApplication();
         vaccineApp.setName("aplicação de vacina para raiva");
-        vaccineService.insert(vac);
+        vaccineService.save(vac);
         vaccineApp.setVaccine(vac);
         vaccineApp.setDate(LocalDateTime.now());
         vaccineApplicationRepository.save(vaccineApp);
@@ -51,7 +62,7 @@ public class VaccineApplicationRepositoryTest {
         VaccineApplication vaccineApplication = new VaccineApplication();
         vaccineApplication.setName("aplicação de vacina para carbunculo");
         vaccineApplication.setDate(LocalDateTime.now());
-        vaccineService.insert(vaccine);
+        vaccineService.save(vaccine);
         vaccineApplication.setVaccine(vaccine);
         vaccineApplicationRepository.save(vaccineApplication);
         Integer count = vaccineApplicationRepository.findAll().size();
@@ -65,10 +76,11 @@ public class VaccineApplicationRepositoryTest {
         vaccine.setName("febre B");
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
+
         VaccineApplication vaccineApplication = new VaccineApplication();
-        vaccineApplication.setName("aplicação de vacina para febre boi");
+        //vaccineApplication.setCattle(cattle);
         vaccineApplication.setDate(LocalDateTime.now());
-        vaccineService.insert(vaccine);
+        vaccineService.save(vaccine);
         vaccineApplication.setVaccine(vaccine);
         vaccineApplicationRepository.save(vaccineApplication);
         Optional<VaccineApplication> vaccineAppTest = vaccineApplicationRepository.findById(vaccineApplication.getId());
@@ -85,7 +97,7 @@ public class VaccineApplicationRepositoryTest {
         VaccineApplication vaccineApplication = new VaccineApplication();
         vaccineApplication.setName("aplicação de vacina para febre boi");
         vaccineApplication.setDate(LocalDateTime.now());
-        vaccineService.insert(vaccine);
+        vaccineService.save(vaccine);
         vaccineApplication.setVaccine(vaccine);
         vaccineApplicationRepository.save(vaccineApplication);
         Optional<VaccineApplication> vaccineAppTest = vaccineApplicationRepository.findById(vaccineApplication.getId());

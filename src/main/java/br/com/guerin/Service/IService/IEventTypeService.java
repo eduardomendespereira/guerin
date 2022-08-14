@@ -4,10 +4,12 @@ import br.com.guerin.Entity.EventType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface IEventTypeService {
-    void save(EventType eventType);
-    void update(Long id, EventType eventType);
+    EventType save(EventType eventType);
+    EventType update(Long id, EventType eventType);
     Page<EventType> listAll(Pageable pageable);
-    EventType findById(Long id);
+    Optional<EventType> findById(Long id);
     void desativar(Long id, EventType eventType);
 }

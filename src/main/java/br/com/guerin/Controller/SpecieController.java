@@ -19,56 +19,48 @@ public class SpecieController {
 
 
     @GetMapping("/{idSpecie}")
-    public ResponseEntity<Specie> findById(
-            @PathVariable("idSpecie") Long idSpecie
-    ) {
-        return ResponseEntity.ok().body(this.specieService.findById(idSpecie));
+    public ResponseEntity<?> findById(@PathVariable("idSpecie") Long idSpecie) {
+        try {
+            return ResponseEntity.ok().body(this.specieService.findById(idSpecie));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<Specie>> listByAllPage(
-            Pageable pageable
-    ) {
-        return ResponseEntity.ok().body(this.specieService.listAll(pageable));
+    public ResponseEntity<?> listByAllPage(Pageable pageable) {
+        try {
+            return ResponseEntity.ok().body(this.specieService.listAll(pageable));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(
-            @RequestBody Specie specie
-    ) {
+    public ResponseEntity<?> save(@RequestBody Specie specie) {
         try {
-            this.specieService.save(specie);
-            return ResponseEntity.ok().body("Especie Cadastrada com sucesso !");
-        } catch (Exception e) {
-            return ResponseEntity.ok().body("Falha ao Cadastrar Especie");
+            return ResponseEntity.ok().body(specieService.save(specie));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @PutMapping("/{idSpecie}")
-    public ResponseEntity<?> update(
-            @PathVariable Long idSpecie,
-            @RequestBody Specie specie
-    ) {
+    public ResponseEntity<?> update(@PathVariable Long idSpecie, @RequestBody Specie specie) {
         try {
-            this.specieService.update(idSpecie, specie);
-            return ResponseEntity.ok().body("Especie editada com sucesso !");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Não foi possivel editar a Especie");
+            return ResponseEntity.ok().body(specieService.update(idSpecie, specie));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @PutMapping("/desativar/{idSpecie}")
-    public ResponseEntity<?> desativar(
-            @PathVariable Long idSpecie,
-            @RequestBody Specie specie
-    ) {
+    public ResponseEntity<?> desativar(@PathVariable Long idSpecie, @RequestBody Specie specie) {
         try {
             this.specieService.desativar(idSpecie, specie);
             return ResponseEntity.ok().body("Especie desativada com sucesso");
-
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Não foi possivel desativar a Especie");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 

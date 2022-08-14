@@ -37,7 +37,7 @@ public class SpecieServiceTest {
         Assertions.assertNotNull(specie);
         specie.setName("Ty4");
         specieService.save(specie);
-        Specie specie1 = specieService.findById(1L);
+        Specie specie1 = specieService.findById(1L).get();
         Assertions.assertEquals("Ty4", specie1.getName());
     }
 
@@ -47,7 +47,7 @@ public class SpecieServiceTest {
         Assertions.assertFalse(specie.isInactive());
         specie.setInactive(true);
         specieService.save(specie);
-        Specie specie1 = specieService.findById(1L);
+        Specie specie1 = specieService.findById(1L).get();
         Assertions.assertTrue(specie1.isInactive());
     }
     @Test
@@ -56,7 +56,7 @@ public class SpecieServiceTest {
     }
     @Test
     public void findById(){
-        Specie specie = specieService.findById(1L);
+        Specie specie = specieService.findById(1L).get();
         Assertions.assertNotNull(specie);
     }
 }
