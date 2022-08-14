@@ -26,8 +26,8 @@ public class SpecieService implements ISpecieService {
     public Specie findById(Long id){
         return this.specieRepository.findById(id).orElse(new Specie());
     }
-    public Optional<Specie> findByName(String name) {
-        return this.specieRepository.findByName(name);
+    public Specie findByName(String name) {
+        return this.specieRepository.findByName(name).orElse(new Specie());
     }
     public Page<Specie> listAll(Pageable pageable){
         return this.specieRepository.findAll(pageable);

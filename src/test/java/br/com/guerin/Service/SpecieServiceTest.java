@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Repository.Specie.SpecieRepository;
+import br.com.guerin.Service.IService.ISpecieService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 @SpringBootTest
 public class SpecieServiceTest {
     @Autowired
-    SpecieService specieService;
+    ISpecieService specieService;
 
     @Autowired
     SpecieRepository specieRepository;
