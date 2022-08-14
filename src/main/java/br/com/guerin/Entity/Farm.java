@@ -18,6 +18,13 @@ public class Farm extends AbstractEntity{
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @Getter @Setter
+    @Column(name = "address", nullable = false, unique = true)
+    private String address;
+    public Farm(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -25,13 +32,8 @@ public class Farm extends AbstractEntity{
         Farm farm = (Farm) o;
         return Objects.equals(name, farm.name) && Objects.equals(address, farm.address);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(name, address);
     }
-
-    @Getter @Setter
-    @Column(name = "address", nullable = false, unique = true)
-    private String address;
 }

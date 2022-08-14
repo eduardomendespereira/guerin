@@ -37,9 +37,9 @@ public class FarmService implements IFarmService {
     }
 
     @Transactional
-    public void update(Long id, Farm farm) {
+    public Farm update(Long id, Farm farm) {
         if (id == farm.getId()) {
-            this.farmRepository.save(farm);
+            return this.farmRepository.save(farm);
         }
         else {
             throw new RuntimeException("Fazenda não encontrada!");
@@ -47,8 +47,8 @@ public class FarmService implements IFarmService {
     }
 
     @Transactional
-    public void insert(Farm farm) {
-        this.farmRepository.save(farm);
+    public Farm save(Farm farm) {
+       return this.farmRepository.save(farm);
     }
 
     @Transactional

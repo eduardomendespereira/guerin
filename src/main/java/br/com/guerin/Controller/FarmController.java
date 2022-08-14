@@ -47,10 +47,9 @@ public class FarmController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody Farm farm) {
+    public ResponseEntity<?> save(@RequestBody Farm farm) {
         try {
-            this.farmService.insert(farm);
-            return ResponseEntity.ok().body("Fazenda cadastrada com sucesso!");
+            return ResponseEntity.ok().body(this.farmService.save(farm));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -60,8 +59,7 @@ public class FarmController {
     @PutMapping("/{farmId}")
     public ResponseEntity<?> update(@RequestBody Farm farm, @PathVariable Long farmId) {
         try {
-            this.farmService.update(farmId, farm);
-            return ResponseEntity.ok().body("Fazenda atualizada com sucesso!");
+            return ResponseEntity.ok().body(this.farmService.update(farmId, farm));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

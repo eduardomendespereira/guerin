@@ -34,7 +34,7 @@ public class UserServiceTest {
         if (u.isPresent()) {
             User updated_user = new User(u.get().getId(), u.get().getRegistered(), u.get().isInactive(), "lucas",
                     "hanke12", "lucasghank@gmail.com", "bagrt", "123", Role.admin);
-            ;
+
             var obj = userService.save(updated_user);
             Assertions.assertEquals(updated_user.getFirstName(), obj.getFirstName());
             Assertions.assertEquals(updated_user.getLastName(), obj.getLastName());
