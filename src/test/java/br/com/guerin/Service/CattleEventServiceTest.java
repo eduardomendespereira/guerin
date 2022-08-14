@@ -61,6 +61,8 @@ public class CattleEventServiceTest {
     }
 
     private CattleEvent cattleEventWeighingFactory() {
+        generateSpecieAndFarm();
+
         var cattle = new Cattle(123L, 300F,
                 specieService.findByName("Nelore").get(), farmService.findByName("Fazenda Generica").get(),
                 Gender.male, 124L, 125L);
@@ -83,6 +85,12 @@ public class CattleEventServiceTest {
         cattleEvent.setEventType(event);
 
         return cattleEventService.save(cattleEvent);
+    }
+    public void generateSpecieAndFarm() {
+        if (farmService.findByName("Fazenda Generica") == null)
+            farmService.save(new Farm("Fazenda Generica", "Meio do mato"));
+        if (specieService.findByName("Nelore") == null)
+            specieService.save(new Specie("Nelore"));
     }
 
     private final CattleEvent cattleEventVaccine = this.cattleEventVaccineFactory();
