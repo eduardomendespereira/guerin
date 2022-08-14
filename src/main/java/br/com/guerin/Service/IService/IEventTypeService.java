@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface IEventTypeService {
     void save(EventType eventType);
-    void inactivate(Long id, EventType eventType);
     void update(Long id, EventType eventType);
     Page<EventType> listAll(Pageable pageable);
     EventType findById(Long id);
+    void desativar(Long id, EventType eventType);
 }

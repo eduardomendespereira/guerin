@@ -20,9 +20,9 @@ public abstract class AbstractEntity {
     private Long id;
 
     @Getter
-    @Column(name = "registred", nullable = true)
+    @Column(name = "registered", nullable = true)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  // localdatetime deserializer
-    private LocalDateTime registred;
+    private LocalDateTime registered;
 
     @Getter
     @Column(name = "updated")
@@ -40,12 +40,23 @@ public abstract class AbstractEntity {
         this.id = id;
     }
 
+    public AbstractEntity(Long id, LocalDateTime registered, LocalDateTime updated, boolean inactive) {
+        this.id = id;
+        this.registered = registered;
+        this.updated = updated;
+        this.inactive = inactive;
+    }
+    public AbstractEntity(Long id, LocalDateTime registered, boolean inactive) {
+        this.id = id;
+        this.registered = registered;
+        this.inactive = inactive;
+    }
     /**
      * Método executado antes da execução repository.save
      */
     @PrePersist
-    public void dateRegistred() {
-        this.registred = LocalDateTime.now();
+    public void dateRegistered() {
+        this.registered = LocalDateTime.now();
     }
 
     /**

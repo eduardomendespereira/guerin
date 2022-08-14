@@ -45,4 +45,17 @@ public class Cattle extends AbstractEntity{
     @Column(name = "mother", nullable = true)
     private Long mother;
 
+    public Cattle(Long earring) {
+        this.earring = earring;
+    }
+
+    public Cattle(Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother) {
+        this.earring = earring;
+        this.weight = weight;
+        this.specie = specie;
+        this.farm = farm;
+        this.gender = gender;
+        this.father = father;
+        this.mother = mother;
+    }
 }

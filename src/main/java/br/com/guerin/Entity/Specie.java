@@ -18,6 +18,7 @@ public class Specie extends AbstractEntity{
     @Column(name = "name", nullable = false, unique = true, length = 30)
     private String name;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -24,5 +24,5 @@ public interface WeighingRepository extends JpaRepository<Weighing, Long> {
     @Query("UPDATE Weighing weighing " +
             "SET weighing.inactive = true " +
             "WHERE weighing.id = :idWeighing")
-    public void disable( @Param("idWeighing") Long idWeighing);
+    void disable( @Param("idWeighing") Long idWeighing);
 }

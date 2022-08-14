@@ -3,6 +3,7 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.Farm;
 import br.com.guerin.Service.FarmService;
+import br.com.guerin.Service.IService.IFarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class FarmController {
     
     @Autowired
-    private FarmService farmService;
+    private IFarmService farmService;
 
     @GetMapping("/{farmId}")
     public ResponseEntity<?> findById(@PathVariable("farmId") Long farmId) {
@@ -37,9 +38,9 @@ public class FarmController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody Farm farm) {
+    public ResponseEntity<?> save(@RequestBody Farm farm) {
         try {
-            this.farmService.insert(farm);
+            this.farmService.save(farm);
             return ResponseEntity.ok().body("Fazenda cadastrada com sucesso!");
         }
         catch (Exception e) {

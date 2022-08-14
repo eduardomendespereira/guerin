@@ -12,5 +12,5 @@ public interface EventTypeRepository extends JpaRepository<EventType, Long> {
     @Modifying
     @Query("UPDATE EventType eventype SET eventype.inactive = true " +
             "WHERE eventype.id = :idEventType")
-    public void desativar(@Param("idEventType") Long idEventType);
+    void desativar(@Param("idEventType") Long idEventType);
 }

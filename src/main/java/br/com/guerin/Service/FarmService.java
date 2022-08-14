@@ -20,48 +20,52 @@ public class FarmService implements IFarmService {
         Optional<Farm> farm = this.farmRepository.findById(id);
         if (farm.isPresent()) {
             return farm;
+        } else {
+            throw new RuntimeException("A Fazenda informada não foi encontrada!");
         }
-        else {
+    }
+
+    public Optional<Farm> findByName(String name) {
+        Optional<Farm> farm = this.farmRepository.findByName(name);
+        if (farm.isPresent()) {
+            return farm;
+        } else {
             throw new RuntimeException("A Fazenda informada não foi encontrada!");
         }
     }
 
     public Page<Farm> findAll(Pageable pageable) {
         Page<Farm> farms = this.farmRepository.findAll(pageable);
-        if (! farms.isEmpty()) {
+        if (!farms.isEmpty()) {
             return farms;
-        }
-        else {
+        } else {
             throw new RuntimeException("Não há Fazendas registradas!");
         }
     }
 
     @Transactional
-    public void update(Long id, Farm farm) {
+    public Farm update(Long id, Farm farm) {
         if (id == farm.getId()) {
-            this.farmRepository.save(farm);
-        }
-        else {
+            return this.farmRepository.save(farm);
+        } else {
             throw new RuntimeException("Fazenda não encontrada!");
         }
     }
 
     @Transactional
-    public void insert(Farm farm) {
-        this.farmRepository.save(farm);
+    public Farm save(Farm farm) {
+        return this.farmRepository.save(farm);
     }
 
     @Transactional
     public void inactivate(Long id, Farm farm) {
         if (id == farm.getId()) {
-            if (! this.findById(id).get().isInactive()) {
+            if (!this.findById(id).get().isInactive()) {
                 this.farmRepository.inactivate(farm.getId());
-            }
-            else {
+            } else {
                 throw new RuntimeException("Fazenda já está inativa!");
             }
-        }
-        else {
+        } else {
             throw new RuntimeException("Fazenda não encontrada!");
         }
     }

@@ -2,6 +2,7 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.EventType;
 import br.com.guerin.Service.EventTypeService;
+import br.com.guerin.Service.IService.IEventTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/event_type")
 public class EventTypeController {
     @Autowired
-    private EventTypeService eventTypeService;
+    private IEventTypeService eventTypeService;
 
     @GetMapping("/{idEvent_type}")
     public ResponseEntity<EventType> findById(
@@ -61,7 +62,7 @@ public class EventTypeController {
             @RequestBody EventType eventType
     ){
         try {
-            this.eventTypeService.inactivate(idEvent_type, eventType);
+            this.eventTypeService.desativar(idEvent_type, eventType);
             return ResponseEntity.ok().body("Tipo de Evento desativado com sucesso");
 
 

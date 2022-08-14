@@ -2,25 +2,32 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Repository.Specie.SpecieRepository;
-import br.com.guerin.Service.IService.ISpecie;
+import br.com.guerin.Service.IService.ISpecieService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
-public class SpecieService implements ISpecie {
-    @Autowired
-    private SpecieRepository specieRepository;
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
+public class SpecieService implements ISpecieService {
+    private final SpecieRepository specieRepository;
     @Transactional
     public void save(Specie specie){
          specieRepository.save(specie);
     }
-
     public Specie findById(Long id){
         return this.specieRepository.findById(id).orElse(new Specie());
+    }
+    public Optional<Specie> findByName(String name) {
+        return this.specieRepository.findByName(name);
     }
     public Page<Specie> listAll(Pageable pageable){
         return this.specieRepository.findAll(pageable);
@@ -34,18 +41,17 @@ public class SpecieService implements ISpecie {
         }
     }
     @Transactional
-    public void inactivate(Long id, Specie specie ){
+    public void desativar(Long id, Specie specie ){
         if(id == specie.getId()){
-            specie.dateUpdated();
             this.specieRepository.desativar(specie.getId());
         }
     }
-
     public boolean checkAtivo(Specie specie){
         if(specie.isInactive()){
             return false;
         }
         return true;
     }
+
 
 }

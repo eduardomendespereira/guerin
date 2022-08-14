@@ -3,6 +3,8 @@ package br.com.guerin.Service;
 import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Repository.Weighing.WeighingRepository;
 import br.com.guerin.Service.IService.IWeighingService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +19,13 @@ import javax.transaction.Transactional;
  * @version 1.0.0
  */
 @Service
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class WeighingService implements IWeighingService{
+    private final WeighingRepository weighingRepository;
 
-    @Autowired
-    private WeighingRepository weighingRepository;
-
-    /**
+     /**
      *
      * @param id
      */
@@ -42,7 +45,7 @@ public class WeighingService implements IWeighingService{
      *
      * @param weighing
      */
-    public void insert(Weighing weighing) {
+    public void save(Weighing weighing) {
         this.validarWeighing(weighing);
         this.saveTransactional(weighing);
     }

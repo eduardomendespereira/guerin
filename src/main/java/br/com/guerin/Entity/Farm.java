@@ -20,4 +20,9 @@ public class Farm extends AbstractEntity{
     @Getter @Setter
     @Column(name = "address", nullable = false, unique = true)
     private String address;
+
+    public Farm(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
 }
