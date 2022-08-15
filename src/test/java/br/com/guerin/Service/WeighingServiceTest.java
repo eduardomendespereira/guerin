@@ -39,7 +39,7 @@ public class WeighingServiceTest {
         Cattle cattle = new Cattle();
         specieService.save(specie);
         cattle.setSpecie(specie);
-        farmService.insert(farm);
+        farmService.save(farm);
         cattle.setFarm(farm);
         cattle.setEarring(500L);
         cattle.setGender(Gender.male);
@@ -48,7 +48,7 @@ public class WeighingServiceTest {
         Weighing weighing = new Weighing();
         weighing.setDate(LOCAL_DATE_TIME);
         weighing.setWeight(50f);
-        cattleService.insert(cattle);
+        cattleService.save(cattle);
         weighing.setCattle(cattle);
         weighingRepository.save(weighing);
         ////////////////

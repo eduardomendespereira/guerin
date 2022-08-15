@@ -44,7 +44,7 @@ public class WeighingRepositoryTest{
         Cattle cattle = new Cattle();
         specieService.save(specie);
         cattle.setSpecie(specie);
-        farmService.insert(farm);
+        farmService.save(farm);
         cattle.setFarm(farm);
         cattle.setEarring(500L);
         cattle.setGender(Gender.male);
@@ -53,20 +53,20 @@ public class WeighingRepositoryTest{
         Weighing weighing = new Weighing();
         weighing.setDate(LOCAL_DATE_TIME);
         weighing.setWeight(50f);
-        cattleService.insert(cattle);
+        cattleService.save(cattle);
         weighing.setCattle(cattle);
-        weighingService.insert(weighing);
+        weighingService.save(weighing);
         ////////////////
         Weighing weighingUpdate = new Weighing();
         weighingUpdate.setDate(LOCAL_DATE_TIME);
         weighingUpdate.setWeight(200f);
-        cattleService.insert(cattle);
+        cattleService.save(cattle);
         weighingUpdate.setCattle(cattle);
         weighingRepository.save(weighingUpdate);
         ////////////////
         weighingService.update(weighing.getId(), weighingUpdate);
-        Optional<Weighing> wei = weighingService.findById(weighingUpdate.getId());
-        Assertions.assertEquals(wei.get().getWeight(), 200f);
+        Weighing wei = weighingService.findById(weighingUpdate.getId());
+        Assertions.assertEquals(wei.getWeight(), 200f);
     }
 
 }

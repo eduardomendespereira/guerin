@@ -21,7 +21,7 @@ public class CattleEventTest {
     IFarmService farmService;
     private CattleEvent cattleEventFactory() {
         var cattle = new Cattle(123L, 300F,
-                specieService.findByName("Nelore").get(), farmService.findByName("Fazenda Generica").get(),
+                specieService.findByName("Nelore").get().getName(), farmService.findByName("Fazenda Generica").get().getName(),
                 Gender.male, 124L, 125L);
 
         var vaccine = new Vaccine();

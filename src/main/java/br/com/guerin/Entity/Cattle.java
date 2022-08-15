@@ -58,4 +58,7 @@ public class Cattle extends AbstractEntity{
         this.father = father;
         this.mother = mother;
     }
+
+    public Cattle(long earring, float weight, String nelore, String fazenda_generica, Gender male, long father, long mother) {
+    }
 }
