@@ -32,7 +32,7 @@ public class CattleEventService implements ICattleEventService {
     public CattleEvent save(CattleEvent cattleEvent) {
         return cattleEventRepository.save(cattleEvent);
     }
-
+    @Transactional
     public void disable(Long id) {
         if (!this.findById(id).get().isInactive()) {
             cattleEventRepository.disable(id);

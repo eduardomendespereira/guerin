@@ -38,8 +38,7 @@ public class CattleController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody Cattle cattle) {
         try {
-            this.cattleService.save(cattle);
-            return ResponseEntity.ok().body("Gado cadastrado com sucesso!");
+            return ResponseEntity.ok().body(this.cattleService.save(cattle));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -49,8 +48,7 @@ public class CattleController {
     @PutMapping("/{cattleId}")
     public ResponseEntity<?> update(@RequestBody Cattle cattle, @PathVariable Long cattleId) {
         try {
-            this.cattleService.update(cattleId, cattle);
-            return ResponseEntity.ok().body("Gado atualizado com sucesso!");
+            return ResponseEntity.ok().body(this.cattleService.update(cattleId, cattle));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -86,7 +84,7 @@ public class CattleController {
     @GetMapping("/fathers/{earring}")
     public ResponseEntity<?> findFathers(@PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.getFathers(earring));
+            return ResponseEntity.ok().body(this.cattleService.findFathers(earring));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -95,16 +93,16 @@ public class CattleController {
     @GetMapping("/sons/{earring}")
     public ResponseEntity<?> findSons(@PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.getSons(earring));
+            return ResponseEntity.ok().body(this.cattleService.findFathers(earring));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @PutMapping("/inactivate/{cattleId}")
-    public ResponseEntity<?> inactivate(@RequestBody Cattle cattle, @PathVariable Long cattleId) {
+    @PutMapping("/disable/{cattleId}")
+    public ResponseEntity<?> disable(@RequestBody Cattle cattle, @PathVariable Long cattleId) {
         try {
-            this.cattleService.inactivate(cattleId, cattle);
+            this.cattleService.disable(cattleId, cattle);
             return ResponseEntity.ok().body("Gado inativado com sucesso!");
         }
         catch (Exception e) {

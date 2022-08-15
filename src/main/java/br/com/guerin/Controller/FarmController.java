@@ -4,6 +4,7 @@ package br.com.guerin.Controller;
 import br.com.guerin.Entity.Farm;
 import br.com.guerin.Service.FarmService;
 import br.com.guerin.Service.IService.IFarmService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/farm")
+@RequiredArgsConstructor
 public class FarmController {
 
-    @Autowired
-    private IFarmService farmService;
+    private final IFarmService farmService;
 
     @GetMapping("/{farmId}")
     public ResponseEntity<?> findById(@PathVariable("farmId") Long farmId) {
@@ -27,7 +28,7 @@ public class FarmController {
         }
     }
 
-    @GetMapping("/byname/{farmName}")
+    @GetMapping("/get-by-name/{farmName}")
     public ResponseEntity<?> findByName(@PathVariable("farmName") String farmName) {
         try {
             return ResponseEntity.ok().body(this.farmService.findByName(farmName));
@@ -67,10 +68,10 @@ public class FarmController {
         }
     }
 
-    @PutMapping("/inactivate/{farmId}")
-    public ResponseEntity<?> inactivate(@RequestBody Farm farm, @PathVariable Long farmId) {
+    @PutMapping("/disable/{farmId}")
+    public ResponseEntity<?> disable(@PathVariable Long farmId) {
         try {
-            this.farmService.inactivate(farmId, farm);
+            this.farmService.disable(farmId);
             return ResponseEntity.ok().body("Fazenda inativada com sucesso!");
         }
         catch (Exception e) {

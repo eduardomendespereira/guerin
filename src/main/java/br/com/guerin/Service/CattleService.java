@@ -1,13 +1,12 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Cattle;
-import br.com.guerin.Payload.Cattle.ResultGetFathers;
-import br.com.guerin.Payload.Cattle.ResultGetSons;
+import br.com.guerin.Payload.Cattle.ResultFindFathers;
+import br.com.guerin.Payload.Cattle.ResultFindSons;
 import br.com.guerin.Repository.Cattle.CattleRepository;
 import br.com.guerin.Service.IService.ICattleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,7 +57,7 @@ public class CattleService implements ICattleService {
     }
 
     @Transactional
-    public void inactivate(Long id, Cattle cattle) {
+    public void disable(Long id, Cattle cattle) {
         if (id == cattle.getId()) {
             if (!this.findById(id).get().isInactive()) {
                 this.cattleRepository.inactivate(cattle.getId());
@@ -70,51 +69,45 @@ public class CattleService implements ICattleService {
         }
     }
 
-    @Transactional
-    public Cattle findByEarring(Long earring) {
+    public Optional<Cattle> findByEarring(Long earring) {
         return this.cattleRepository.findByEarring(earring);
     }
 
-    @Transactional
     public Cattle findByEarringOrNew(Long earring) {
         var cattle = this.cattleRepository.findByEarring(earring);
-        if (cattle != null)
-            return cattle;
+        if (cattle.isPresent())
+            return cattle.get();
         return new Cattle(earring);
     }
 
-    @Transactional
     public ArrayList<Cattle> findBySpecie(Long specie_id) {
         return this.cattleRepository.findBySpecie(specie_id);
     }
 
-    @Transactional
     public ArrayList<Cattle> findByFarm(Long farm_id) {
         return this.cattleRepository.findByFarm(farm_id);
     }
 
-    @Transactional
-    public ResultGetFathers getFathers(Long earring) {
+    public ResultFindFathers findFathers(Long earring) {
         var cattle = findByEarring(earring);
         if (cattle != null) {
             Cattle father = null;
             Cattle mother = null;
-            if (cattle.getFather() != null)
-                father = findByEarringOrNew(cattle.getFather());
-            if (cattle.getMother() != null)
-                mother = findByEarringOrNew(cattle.getMother());
-            return new ResultGetFathers(cattle, father, mother);
+            if (cattle.get().getFather() != null)
+                father = findByEarringOrNew(cattle.get().getFather());
+            if (cattle.get().getFather() != null)
+                mother = findByEarringOrNew(cattle.get().getMother());
+            return new ResultFindFathers(cattle.get(), father, mother);
         } else {
             throw new RuntimeException("Not Found");
         }
     }
 
-    @Transactional
-    public ResultGetSons getSons(Long earring) {
+    public ResultFindSons findSons(Long earring) {
         var cattle = findByEarring(earring);
         if (cattle != null) {
-            var sons = this.cattleRepository.getSons(earring);
-            return new ResultGetSons(cattle, sons);
+            var sons = this.cattleRepository.findSons(earring);
+            return new ResultFindSons(cattle.get(), sons);
         } else {
             throw new RuntimeException("Not Found");
         }

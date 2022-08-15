@@ -11,5 +11,4 @@ public interface IWeighingService {
     Weighing save(Weighing weighing);
     Weighing saveTransactional(Weighing weighing);
     Weighing update(Long id, Weighing weighing);
-    void validarWeighing(Weighing weighing);
 }

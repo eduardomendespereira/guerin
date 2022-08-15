@@ -3,6 +3,8 @@ package br.com.guerin.Service;
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Repository.User.VaccineRepository;
 import br.com.guerin.Service.IService.IVaccineService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,10 +20,12 @@ import java.util.Optional;
  * @version 1.0.0
  */
 @Service
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class VaccineService implements IVaccineService{
 
-    @Autowired
-    private VaccineRepository vaccineRepository;
+    private final VaccineRepository vaccineRepository;
 
     public Optional<Vaccine> findById(Long id){
         return this.vaccineRepository.findById(id);
@@ -42,6 +46,10 @@ public class VaccineService implements IVaccineService{
 
     public Vaccine save(Vaccine vaccine){
        return saveTransactional(vaccine);
+    }
+
+    public Optional<Vaccine> findByName(String name) {
+        return vaccineRepository.findByName(name);
     }
 
     @Transactional

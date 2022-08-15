@@ -53,18 +53,8 @@ public class FarmService implements IFarmService {
     }
 
     @Transactional
-    public void inactivate(Long id, Farm farm) {
-        if (id == farm.getId()) {
-            if (! this.findById(id).get().isInactive()) {
-                this.farmRepository.inactivate(farm.getId());
-            }
-            else {
-                throw new RuntimeException("Fazenda já está inativa!");
-            }
-        }
-        else {
-            throw new RuntimeException("Fazenda não encontrada!");
-        }
+    public void disable(Long id) {
+        this.farmRepository.disable(id);
     }
 
     public Optional<Farm> findByName(String name) {

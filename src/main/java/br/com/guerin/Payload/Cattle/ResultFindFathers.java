@@ -4,7 +4,7 @@ import br.com.guerin.Entity.Cattle;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ResultGetFathers {
+public class ResultFindFathers {
     @Getter
     @Setter
     public Cattle son;
@@ -17,7 +17,7 @@ public class ResultGetFathers {
     @Setter
     public Cattle mother;
 
-    public ResultGetFathers(Cattle son, Cattle father, Cattle mother) {
+    public ResultFindFathers(Cattle son, Cattle father, Cattle mother) {
         this.son = son;
         this.father = father;
         this.mother = mother;

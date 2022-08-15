@@ -32,7 +32,7 @@ public class UserController {
     private final IUserService userService;
 
     @PostMapping("/user/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody User user) {
         try {
             return ResponseEntity.ok().body(userService.save(user));
         } catch (Exception ex) {
@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping("/user/update")
-    public ResponseEntity<?> updateUser(@RequestBody User user) {
+    public ResponseEntity<?> update(@RequestBody User user) {
         try {
             return ResponseEntity.ok().body(userService.save(user));
         } catch (Exception ex) {
@@ -77,7 +77,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/disable")
-    public void disableUser(Long id) {
+    public void disable(Long id) {
         userService.disable(id);
     }
 

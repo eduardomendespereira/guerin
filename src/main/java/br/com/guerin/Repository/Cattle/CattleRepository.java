@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 @Repository
@@ -17,9 +18,9 @@ public interface CattleRepository extends JpaRepository<Cattle, Long> {
     @Query("UPDATE Cattle cattle SET cattle.inactive = true WHERE cattle.id = :cattleId")
     void inactivate(@Param("cattleId") Long cattleId);
     @Query("SELECT c FROM Cattle c where c.earring = :earring")
-    Cattle findByEarring(Long earring);
+    Optional<Cattle> findByEarring(Long earring);
     @Query("SELECT c FROM Cattle c where c.mother = :earring or c.father = :earring")
-    ArrayList<Cattle> getSons(Long earring);
+    ArrayList<Cattle> findSons(Long earring);
     @Query("SELECT c FROM Cattle c where c.specie = :specie_id")
     ArrayList<Cattle> findBySpecie(Long specie_id);
     @Query("SELECT c FROM Cattle c where c.farm = :farm_id")

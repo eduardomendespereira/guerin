@@ -51,7 +51,7 @@ public class VaccineApplicationController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody VaccineApplication vaccineApplication) {
+    public ResponseEntity<?> save(@RequestBody VaccineApplication vaccineApplication) {
         try {
             return ResponseEntity.ok().body(this.vaccineApplicationService.save(vaccineApplication));
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class VaccineApplicationController {
     }
 
     @PutMapping("/disable/{idVaccineApplication}")
-    public ResponseEntity<?> updateStatus(
+    public ResponseEntity<?> disable(
             @RequestBody VaccineApplication vaccineApplication,
             @PathVariable Long idVaccineApplication
     ) {
