@@ -1,7 +1,7 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Vaccine;
-import br.com.guerin.Repository.User.VaccineRepository;
+import br.com.guerin.Repository.Vaccine.VaccineRepository;
 import br.com.guerin.Service.IService.IVaccineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,19 +31,6 @@ public class VaccineService implements IVaccineService{
         return this.vaccineRepository.findAll(pageable);
     }
 
-<<<<<<< HEAD
-    public void update(Long id, Vaccine vaccine){
-       saveTransactional(vaccine);
-    }
-
-    @Transactional
-    public void saveTransactional(Vaccine vaccine){
-        this.vaccineRepository.save(vaccine);
-    }
-
-    public void insert(Vaccine vaccine){
-        saveTransactional(vaccine);
-=======
     public Vaccine update(Long id, Vaccine vaccine){
       return saveTransactional(vaccine);
     }
@@ -55,7 +42,6 @@ public class VaccineService implements IVaccineService{
 
     public Vaccine save(Vaccine vaccine){
        return saveTransactional(vaccine);
->>>>>>> main
     }
 
     @Transactional

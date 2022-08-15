@@ -1,4 +1,4 @@
-package br.com.guerin.Service;
+package br.com.guerin.service;
 
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;

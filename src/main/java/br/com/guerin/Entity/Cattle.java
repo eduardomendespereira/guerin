@@ -27,12 +27,8 @@ public class Cattle extends AbstractEntity{
     private Specie specie;
 
     @Getter @Setter
-<<<<<<< HEAD
-    @JoinColumn(name = "farm_id", nullable = true)
-=======
     @JoinColumn(name = "farm_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
->>>>>>> main
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Farm farm;
 

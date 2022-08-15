@@ -1,4 +1,4 @@
-package br.com.guerin.controller;
+package br.com.guerin.Controller;
 
 import br.com.guerin.Config.JwtConstants;
 import br.com.guerin.Service.IService.IUserService;
@@ -40,22 +40,12 @@ public class UserController {
         }
     }
 
-<<<<<<< HEAD
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestBody User login) throws ServletException {
-
-        String jwtToken = "";
-
-        if (login.getEmail() == null || login.getPassword() == null) {
-            throw new ServletException("Preencha o usuario e a senha");
-=======
     @PutMapping("/user/update")
     public ResponseEntity<?> updateUser(@RequestBody User user) {
         try {
             return ResponseEntity.ok().body(userService.save(user));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
->>>>>>> main
         }
     }
 
@@ -77,10 +67,6 @@ public class UserController {
         }
     }
 
-<<<<<<< HEAD
-        jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, JwtConstants.SECRET).compact();
-=======
     @GetMapping("/users")
     public ResponseEntity<?> findAll(Pageable pageable) {
         try {
@@ -89,7 +75,6 @@ public class UserController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
->>>>>>> main
 
     @DeleteMapping("/user/disable")
     public void disableUser(Long id) {

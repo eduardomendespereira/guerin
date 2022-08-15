@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.guerin.Entity.User;
 
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/secure")
@@ -22,7 +24,7 @@ public class SecureController {
     }
 
     @RequestMapping(value = "/user/email", method = RequestMethod.POST)
-    public User findByEmail(@RequestBody String email) {
+    public Optional<User> findByEmail(@RequestBody String email) {
         return userService.findByEmail(email);
     }
 

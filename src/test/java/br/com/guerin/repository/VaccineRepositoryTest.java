@@ -1,7 +1,7 @@
-package br.com.guerin.Repository;
+package br.com.guerin.repository;
 
 import br.com.guerin.Entity.Vaccine;
-import br.com.guerin.Repository.User.VaccineRepository;
+import br.com.guerin.Repository.Vaccine.VaccineRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

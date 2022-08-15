@@ -1,11 +1,6 @@
 package br.com.guerin.Service.IService;
 
 import br.com.guerin.Entity.VaccineApplication;
-<<<<<<< HEAD
-
-public interface IVaccineApplicationService {
-    void disable(Long id, VaccineApplication vaccineApplication);
-=======
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,5 +14,4 @@ public interface IVaccineApplicationService {
     VaccineApplication update(Long id, VaccineApplication vaccineApplication);
     VaccineApplication save(VaccineApplication vaccineApplication);
     Optional<VaccineApplication> findByVaccine(Long id);
->>>>>>> main
 }
