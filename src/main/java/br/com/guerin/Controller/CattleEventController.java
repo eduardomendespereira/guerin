@@ -1,9 +1,7 @@
 package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.CattleEvent;
-import br.com.guerin.Entity.EventType;
 import br.com.guerin.Service.IService.ICattleEventService;
-import br.com.guerin.Service.IService.ICattleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;

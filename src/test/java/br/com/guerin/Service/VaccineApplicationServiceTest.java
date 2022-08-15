@@ -1,9 +1,8 @@
-package br.com.guerin.service;
+package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
-import br.com.guerin.Service.VaccineService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +28,16 @@ public class VaccineApplicationServiceTest {
         vaccine.setRequired(true);
         vaccineService.save(vaccine);
         VaccineApplication vaccineApplication = new VaccineApplication();
-        vaccineApplication.setName("aplicação de vacina para raiva");
+        vaccineApplication.setNote("aplicação de vacina para raiva");
         vaccineApplication.setVaccine(vaccine);
         vaccineApplication.setDate(LocalDateTime.now());
         vaccineApplicationService.save(vaccineApplication);
         VaccineApplication vaccineApp1 = new VaccineApplication();
-        vaccineApp1.setName("aplicação de vacina para carbunculo");
+        vaccineApp1.setNote("aplicação de vacina para carbunculo");
         vaccineApp1.setVaccine(vaccine);
         vaccineApp1.setDate(LocalDateTime.now());
         vaccineApplicationService.update(vaccineApplication.getId(), vaccineApp1);
         Optional<VaccineApplication> vaccineApp2 = vaccineApplicationService.findById(vaccineApp1.getId());
-        Assertions.assertEquals(vaccineApp2.get().getName(), "aplicação de vacina para carbunculo");
+        Assertions.assertEquals(vaccineApp2.get().getNote(), "aplicação de vacina para carbunculo");
     }
 }

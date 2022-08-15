@@ -2,9 +2,6 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.*;
 import br.com.guerin.Service.IService.*;
-import jdk.jfr.Event;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

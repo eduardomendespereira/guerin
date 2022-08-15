@@ -3,7 +3,6 @@ package br.com.guerin.Controller;
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Service.IService.ISpecieService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

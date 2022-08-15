@@ -1,6 +1,5 @@
 package br.com.guerin.Entity;
 
-import br.com.guerin.Service.IService.ICattleService;
 import br.com.guerin.Service.IService.IFarmService;
 import br.com.guerin.Service.IService.ISpecieService;
 import org.junit.jupiter.api.Assertions;
@@ -8,9 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @SpringBootTest
 public class CattleEventTest {

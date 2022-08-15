@@ -1,7 +1,10 @@
 package br.com.guerin.Entity;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -10,6 +13,8 @@ import java.util.Objects;
 public class EventType extends AbstractEntity{
 
     @Getter @Setter
+    @NotNull @NotBlank
+    @Length(min = 3, max = 50, message = "O nome deverá ter no máximo {max} caracteres")
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 

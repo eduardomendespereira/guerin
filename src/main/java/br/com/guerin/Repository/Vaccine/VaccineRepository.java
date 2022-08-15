@@ -1,4 +1,4 @@
-package br.com.guerin.Repository.User;
+package br.com.guerin.Repository.Vaccine;
 import br.com.guerin.Entity.Vaccine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

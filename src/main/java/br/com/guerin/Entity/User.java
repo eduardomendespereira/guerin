@@ -3,8 +3,13 @@ package br.com.guerin.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,30 +18,40 @@ import java.time.LocalDateTime;
 public class User extends AbstractEntity{
     @Getter
     @Setter
+    @NotNull @NotBlank
+    @Length(min = 3, max = 50, message = "O nome deverá ter no máximo {max} caracteres")
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
     @Getter
     @Setter
+    @NotNull @NotBlank
+    @Length(min = 3, max = 50, message = "O sobrenome deverá ter no máximo {max} caracteres")
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
     @Getter
     @Setter
-    @Column(name = "email", nullable = false, length = 100)
+    @Email
+    @Column(name = "email", nullable = true, length = 100)
     private String email;
 
     @Getter
     @Setter
-    @Column(name = "username", nullable = false, length = 50, unique = true)
+    @NotNull @NotBlank
+    @Length(min = 3, max = 20, message = "O username deverá ter no máximo {max} caracteres")
+    @Column(name = "username", nullable = false, length = 20, unique = true)
     private String username;
 
     @Getter
     @Setter
-    @Column(name = "password", nullable = false, length = 100)
+    @NotNull @NotBlank
+    @Max(255)
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
     @Getter @Setter
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;

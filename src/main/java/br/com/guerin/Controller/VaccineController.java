@@ -1,11 +1,8 @@
-package br.com.guerin.controller;
+package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Service.IService.IVaccineService;
-import br.com.guerin.Service.VaccineService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

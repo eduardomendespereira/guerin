@@ -2,10 +2,8 @@ package br.com.guerin.Controller;
 
 
 import br.com.guerin.Entity.Farm;
-import br.com.guerin.Service.FarmService;
 import br.com.guerin.Service.IService.IFarmService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

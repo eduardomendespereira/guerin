@@ -1,7 +1,5 @@
-package br.com.guerin.entity;
+package br.com.guerin.Entity;
 
-import br.com.guerin.Entity.Vaccine;
-import br.com.guerin.Entity.VaccineApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +13,7 @@ public class VaccineApplicationTest {
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
         VaccineApplication vaccineApplication = new VaccineApplication();
-        vaccineApplication.setName("Aplicação de vacina para raiva");
+        vaccineApplication.setNote("Aplicação de vacina para raiva");
         vaccineApplication.setDate(LocalDateTime.now());
         vaccineApplication.setVaccine(vaccine);
         return vaccineApplication;

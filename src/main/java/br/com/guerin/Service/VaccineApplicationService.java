@@ -1,7 +1,7 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.VaccineApplication;
-import br.com.guerin.Repository.User.VaccineApplicationRepository;
+import br.com.guerin.Repository.Vaccine.VaccineApplicationRepository;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
