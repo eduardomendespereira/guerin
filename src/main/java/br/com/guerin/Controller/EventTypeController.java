@@ -1,10 +1,8 @@
 package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.EventType;
-import br.com.guerin.Service.EventTypeService;
 import br.com.guerin.Service.IService.IEventTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -56,9 +54,9 @@ public class EventTypeController {
     }
 
     @PutMapping("/desativar/{idEvent_type}")
-    public ResponseEntity<?> desativar(@PathVariable Long idEvent_type, @RequestBody EventType eventType){
+    public ResponseEntity<?> disable(@PathVariable Long idEvent_type, @RequestBody EventType eventType){
         try {
-            this.eventTypeService.desativar(idEvent_type, eventType);
+            this.eventTypeService.disable(idEvent_type, eventType);
             return ResponseEntity.ok().body("Tipo de Evento desativado com sucesso");
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());

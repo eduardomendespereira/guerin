@@ -12,6 +12,6 @@ public interface ISpecieService {
     Specie update(Long id, Specie specie);
     Page<Specie> listAll(Pageable pageable);
     Optional<Specie> findById(Long id);
-    void desativar(Long id, Specie specie);
+    void disable(Long id, Specie specie);
     Optional<Specie> findByName(String name);
 }

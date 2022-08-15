@@ -41,7 +41,7 @@ public class SpecieService implements ISpecieService {
         }
     }
     @Transactional
-    public void desativar(Long id, Specie specie ){
+    public void disable(Long id, Specie specie ){
         if(id == specie.getId()){
             this.specieRepository.desativar(specie.getId());
         }

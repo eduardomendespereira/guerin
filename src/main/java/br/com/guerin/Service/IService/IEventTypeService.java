@@ -11,5 +11,5 @@ public interface IEventTypeService {
     EventType update(Long id, EventType eventType);
     Page<EventType> listAll(Pageable pageable);
     Optional<EventType> findById(Long id);
-    void desativar(Long id, EventType eventType);
+    void disable(Long id, EventType eventType);
 }

@@ -38,7 +38,7 @@ public class EventTypeService implements IEventTypeService {
         }
     }
     @Transactional
-    public void desativar(Long id, EventType eventType){
+    public void disable(Long id, EventType eventType){
         if(id == eventType.getId()){
             this.eventTypeRepository.desativar(eventType.getId());
         }
