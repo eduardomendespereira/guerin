@@ -1,4 +1,4 @@
-package br.com.guerin.Repository;
+package br.com.guerin.repository;
 
 import br.com.guerin.Entity.*;
 import br.com.guerin.Repository.Weighing.WeighingRepository;
