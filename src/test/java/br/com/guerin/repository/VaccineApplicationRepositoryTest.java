@@ -73,9 +73,8 @@ public class VaccineApplicationRepositoryTest {
         vaccine.setName("febre B");
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
-
         VaccineApplication vaccineApplication = new VaccineApplication();
-        //vaccineApplication.setCattle(cattle);
+        vaccineApplication.setName("aplicação de vacina para febre boi");
         vaccineApplication.setDate(LocalDateTime.now());
         vaccineService.save(vaccine);
         vaccineApplication.setVaccine(vaccine);
