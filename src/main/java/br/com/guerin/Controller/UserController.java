@@ -1,33 +1,46 @@
 package br.com.guerin.controller;
 
-import java.util.Date;
-import javax.servlet.ServletException;
-
 import br.com.guerin.Config.JwtConstants;
 import br.com.guerin.Service.IService.IUserService;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import br.com.guerin.Entity.User;
-import io.jsonwebtoken.Jwts;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api")
+@RequiredArgsConstructor
 public class UserController {
+    private final IUserService userService;
 
-    @Autowired
-    private IUserService userService;
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public User registerUser(@RequestBody User user) {
-        return userService.save(user);
+    @PostMapping("/user/register")
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok().body(userService.save(user));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
+<<<<<<< HEAD
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestBody User login) throws ServletException {
 
@@ -35,26 +48,102 @@ public class UserController {
 
         if (login.getEmail() == null || login.getPassword() == null) {
             throw new ServletException("Preencha o usuario e a senha");
+=======
+    @PutMapping("/user/update")
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok().body(userService.save(user));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+>>>>>>> main
         }
+    }
 
-        String email = login.getEmail();
-        String password = login.getPassword();
-
-        User user = userService.findByEmail(email);
-
-        if (user == null) {
-            throw new ServletException("Usuario nao localizado.");
+    @GetMapping("/user/get-by-email")
+    public ResponseEntity<?> findByEmail(String email) {
+        try {
+            return ResponseEntity.ok().body(userService.findByEmail(email));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
+    }
 
-        String pwd = user.getPassword();
-
-        if (!password.equals(pwd)) {
-            throw new ServletException("Credenciais invalidas. Verifique o email e a senha.");
+    @GetMapping("/user/get-by-username")
+    public ResponseEntity<?> findByUsername(String username) {
+        try {
+            return ResponseEntity.ok().body(userService.findByUsername(username));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
+    }
 
+<<<<<<< HEAD
         jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, JwtConstants.SECRET).compact();
+=======
+    @GetMapping("/users")
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        try {
+            return ResponseEntity.ok().body(userService.findAll(pageable));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+>>>>>>> main
 
-        return jwtToken;
+    @DeleteMapping("/user/disable")
+    public void disableUser(Long id) {
+        userService.disable(id);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> findById(@PathVariable("id")  Long id) {
+        try {
+            return ResponseEntity.ok().body(userService.findById(id));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/refresh-token")
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            try {
+                String refresh_token = authorizationHeader.substring("Bearer ".length());
+                Algorithm algorithm = Algorithm.HMAC256(JwtConstants.SECRET.getBytes());
+
+                JWTVerifier verifier = JWT.require(algorithm).build();
+                DecodedJWT decodedJWT = verifier.verify(refresh_token);
+
+                String username = decodedJWT.getSubject();
+                Optional<User> user = userService.findByUsername(username);
+
+                Collection<String> roles = new ArrayList<>();
+                roles.add(user.get().getRole().value);
+
+                String access_token = JWT.create()
+                        .withSubject(user.get().getUsername())
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 120 * 60 * 1000)) //2 hrs
+                        .withIssuer(request.getRequestURL().toString())
+                        .withClaim("roles", roles.stream().collect(Collectors.toList()))
+                        .sign(algorithm);
+
+                Map<String, String> tokens = new HashMap<>();
+                tokens.put("access_token", access_token);
+                tokens.put("refresh_token", refresh_token);
+                response.setContentType(APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+            } catch (Exception ex) {
+                response.setHeader("error", ex.getMessage());
+                response.setStatus(FORBIDDEN.value());
+                Map<String, String> error = new HashMap<>();
+                error.put("error_message", ex.getMessage());
+                response.setContentType(APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
+            }
+        } else {
+            throw new RuntimeException("Refresh Token nao encontrado");
+        }
     }
 }

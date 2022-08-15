@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 public class CattleEvent extends AbstractEntity{
 
     @Getter @Setter
-    @JoinColumn(name = "cattle_id", nullable = true)
+    @JoinColumn(name = "cattle_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Cattle cattle;
 
     @Getter @Setter
-    @JoinColumn(name = "type_id", nullable = true)
+    @JoinColumn(name = "type_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private EventType eventType;
 
@@ -28,7 +28,12 @@ public class CattleEvent extends AbstractEntity{
     private String description;
 
     @Getter @Setter
-    @JoinColumn(name = "vaccination_id", nullable = true)
+    @JoinColumn(name = "vaccination_id", nullable = true, unique = true)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private VaccineApplication vaccineApplication;
+
+    @Getter @Setter
+    @JoinColumn(name = "weighing_id", nullable = true, unique = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Weighing weighing;
 }

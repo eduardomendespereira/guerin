@@ -1,10 +1,11 @@
 package br.com.guerin.Entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 @MappedSuperclass
@@ -13,13 +14,15 @@ public abstract class AbstractEntity {
 
     @Id
     @Getter
+    @Setter
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
     @Getter
-    @Column(name = "registred", nullable = false)
-    private LocalDateTime registred;
+    @Column(name = "registered", nullable = true)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  // localdatetime deserializer
+    private LocalDateTime registered;
 
     @Getter
     @Column(name = "updated")
@@ -37,12 +40,23 @@ public abstract class AbstractEntity {
         this.id = id;
     }
 
+    public AbstractEntity(Long id, LocalDateTime registered, LocalDateTime updated, boolean inactive) {
+        this.id = id;
+        this.registered = registered;
+        this.updated = updated;
+        this.inactive = inactive;
+    }
+    public AbstractEntity(Long id, LocalDateTime registered, boolean inactive) {
+        this.id = id;
+        this.registered = registered;
+        this.inactive = inactive;
+    }
     /**
      * Método executado antes da execução repository.save
      */
     @PrePersist
-    public void dateRegistred() {
-        this.registred = LocalDateTime.now();
+    public void dateRegistered() {
+        this.registered = LocalDateTime.now();
     }
 
     /**
@@ -52,4 +66,6 @@ public abstract class AbstractEntity {
     public void dateUpdated() {
         this.updated = LocalDateTime.now();
     }
+
+
 }

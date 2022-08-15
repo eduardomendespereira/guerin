@@ -35,4 +35,8 @@ public class Vaccine extends AbstractEntity{
         return date.compareTo(LocalDateTime.now()) > 0;
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

@@ -33,4 +33,8 @@ public class VaccineApplication extends AbstractEntity{
     public boolean dateIsFuture(){
         return date.compareTo(LocalDateTime.now()) > 0;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main
