@@ -49,17 +49,18 @@ public class CattleService implements ICattleService {
     }
 
     @Transactional
-    public Cattle save(Cattle cattle) {
+    public Cattle save(Cattle cattle) {  // TODO: ...
         if (cattle.getId() == null & cattle.getEarring() != null && findByEarring(cattle.getEarring()).isPresent())
             return null;
         return this.cattleRepository.save(cattle);
     }
 
     @Transactional
-    public void disable(Long id, Cattle cattle) {
+    public Cattle disable(Long id, Cattle cattle) {
         if (id == cattle.getId()) {
             if (!this.findById(id).get().isInactive()) {
-                this.cattleRepository.inactivate(cattle.getId());
+                this.cattleRepository.disable(cattle.getId());
+                return this.cattleRepository.findById(id).get();
             }
             else {
                 throw new RuntimeException("Gado já está inativo!");
@@ -91,8 +92,8 @@ public class CattleService implements ICattleService {
     }
 
     public ResultFindParents findParents(Long earring) {
-        var cattle = findByEarring(earring);
-        if (cattle != null) {
+        Optional<Cattle> cattle = findByEarring(earring);
+        if (cattle.isPresent()) {
             Cattle father = null;
             Cattle mother = null;
 
@@ -112,9 +113,9 @@ public class CattleService implements ICattleService {
     }
 
     public ResultFindChildren findChildren(Long earring) {
-        var cattle = findByEarring(earring);
-        if (cattle != null) {
-            var children = this.cattleRepository.findChildren(earring);
+        Optional<Cattle> cattle = findByEarring(earring);
+        if (cattle.isPresent()) {
+            ArrayList<Cattle> children = this.cattleRepository.findChildren(earring);
             return new ResultFindChildren(cattle.get(), children);
         }
         else {

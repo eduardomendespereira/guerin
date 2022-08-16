@@ -117,11 +117,11 @@ public class CattleServiceTest {
         var i_mother = this.cattleService.save(mother);
 
         var sons_father = this.cattleService.findChildren(this.father.getEarring());
-        var exists_father = sons_father.getSons().stream().anyMatch(t -> t.getEarring() == this.son.getEarring());
+        var exists_father = sons_father.getChildren().stream().anyMatch(t -> t.getEarring() == this.son.getEarring());
         Assertions.assertEquals(true, exists_father);
 
         var sons_mother = this.cattleService.findChildren(mother.getEarring());
-        var exists_mother = sons_mother.getSons().stream().anyMatch(t -> t.getEarring() == this.son.getEarring());
+        var exists_mother = sons_mother.getChildren().stream().anyMatch(t -> t.getEarring() == this.son.getEarring());
         Assertions.assertEquals(true, exists_mother);
     }
 }

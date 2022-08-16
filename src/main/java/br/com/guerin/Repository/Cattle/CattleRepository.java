@@ -15,13 +15,17 @@ import java.util.Optional;
 public interface CattleRepository extends JpaRepository<Cattle, Long> {
     @Modifying
     @Query("UPDATE Cattle cattle SET cattle.inactive = true WHERE cattle.id = :cattleId")
-    void inactivate(@Param("cattleId") Long cattleId);
-    @Query("SELECT c FROM Cattle c where c.earring = :earring")
+    void disable(@Param("cattleId") Long cattleId);
+
+    @Query("SELECT cattle FROM Cattle cattle where cattle.earring = :earring")
     Optional<Cattle> findByEarring(Long earring);
-    @Query("SELECT c FROM Cattle c where c.mother = :earring or c.father = :earring")
+
+    @Query("SELECT cattle FROM Cattle cattle where cattle.mother = :earring or cattle.father = :earring")
     ArrayList<Cattle> findChildren(Long earring);
-    @Query("SELECT c FROM Cattle c where c.specie = :specie_id")
+
+    @Query("SELECT cattle FROM Cattle cattle where cattle.specie = :specie_id")
     ArrayList<Cattle> findBySpecie(Long specie_id);
-    @Query("SELECT c FROM Cattle c where c.farm = :farm_id")
+
+    @Query("SELECT cattle FROM Cattle cattle where cattle.farm = :farm_id")
     ArrayList<Cattle> findByFarm(Long farm_id);
 }

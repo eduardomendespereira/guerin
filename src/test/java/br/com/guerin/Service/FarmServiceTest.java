@@ -90,7 +90,4 @@ public class FarmServiceTest {
         Integer count = this.farmService.findAll(Pageable.unpaged()).getSize();
         Assertions.assertTrue(count >= 1);
     }
-    // TODO: findById & findAll
-
-
 }
