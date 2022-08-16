@@ -18,14 +18,12 @@ import java.time.LocalDateTime;
 public class User extends AbstractEntity{
     @Getter
     @Setter
-    @NotNull @NotBlank
     @Length(min = 3, max = 50, message = "O nome deverá ter no máximo {max} caracteres")
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
     @Getter
     @Setter
-    @NotNull @NotBlank
     @Length(min = 3, max = 50, message = "O sobrenome deverá ter no máximo {max} caracteres")
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
@@ -38,20 +36,16 @@ public class User extends AbstractEntity{
 
     @Getter
     @Setter
-    @NotNull @NotBlank
     @Length(min = 3, max = 20, message = "O username deverá ter no máximo {max} caracteres")
     @Column(name = "username", nullable = false, length = 20, unique = true)
     private String username;
 
     @Getter
     @Setter
-    @NotNull @NotBlank
-    @Max(255)
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
     @Getter @Setter
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;

@@ -51,9 +51,9 @@ public class VaccineService implements IVaccineService{
     }
 
     @Transactional
-    public void disable(Long id, Vaccine vaccine){
-        if(id == vaccine.getId()){
-            this.vaccineRepository.disable(vaccine.getId());
+    public void disable(Long id){
+        if(!this.vaccineRepository.findById(id).get().isInactive()){
+            this.vaccineRepository.disable(id);
         }
     }
 }

@@ -1,14 +1,11 @@
 package br.com.guerin.Repository;
 
-import br.com.guerin.Entity.Cattle;
-import br.com.guerin.Entity.Gender;
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
-import br.com.guerin.Repository.User.VaccineApplicationRepository;
+import br.com.guerin.Repository.Vaccine.VaccineApplicationRepository;
 import br.com.guerin.Service.IService.IFarmService;
 import br.com.guerin.Service.IService.ISpecieService;
 import br.com.guerin.Service.IService.IVaccineService;
-import br.com.guerin.Service.VaccineService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +40,7 @@ public class VaccineApplicationRepositoryTest {
         vac.setDate(LocalDateTime.now());
         vac.setRequired(true);
         VaccineApplication vaccineApp = new VaccineApplication();
-        vaccineApp.setName("aplicação de vacina para raiva");
+        vaccineApp.setNote("aplicação de vacina para raiva");
         vaccineService.save(vac);
         vaccineApp.setVaccine(vac);
         vaccineApp.setDate(LocalDateTime.now());
@@ -60,7 +57,7 @@ public class VaccineApplicationRepositoryTest {
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
         VaccineApplication vaccineApplication = new VaccineApplication();
-        vaccineApplication.setName("aplicação de vacina para carbunculo");
+        vaccineApplication.setNote("aplicação de vacina para carbunculo");
         vaccineApplication.setDate(LocalDateTime.now());
         vaccineService.save(vaccine);
         vaccineApplication.setVaccine(vaccine);
@@ -76,15 +73,14 @@ public class VaccineApplicationRepositoryTest {
         vaccine.setName("febre B");
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
-
         VaccineApplication vaccineApplication = new VaccineApplication();
-        //vaccineApplication.setCattle(cattle);
+        vaccineApplication.setNote("aplicação de vacina para febre boi");
         vaccineApplication.setDate(LocalDateTime.now());
         vaccineService.save(vaccine);
         vaccineApplication.setVaccine(vaccine);
         vaccineApplicationRepository.save(vaccineApplication);
         Optional<VaccineApplication> vaccineAppTest = vaccineApplicationRepository.findById(vaccineApplication.getId());
-        Assertions.assertEquals("aplicação de vacina para febre boi", vaccineAppTest.get().getName());
+        Assertions.assertEquals("aplicação de vacina para febre boi", vaccineAppTest.get().getNote());
     }
 
     @Test
@@ -95,7 +91,7 @@ public class VaccineApplicationRepositoryTest {
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
         VaccineApplication vaccineApplication = new VaccineApplication();
-        vaccineApplication.setName("aplicação de vacina para febre boi");
+        vaccineApplication.setNote("aplicação de vacina para febre boi");
         vaccineApplication.setDate(LocalDateTime.now());
         vaccineService.save(vaccine);
         vaccineApplication.setVaccine(vaccine);

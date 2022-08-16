@@ -58,11 +58,10 @@ public class CattleServiceTest {
     }
 
     public void generateSpecieAndFarm() {
-        if (this.farmService.findByName("Fazenda Generica") == null)
-            this.farmService.save(new Farm("Fazenda Generica", "Meio do mato"));
-
-        if (this.specieService.findByName("Nelore") == null)
-            this.specieService.save(new Specie("Nelore"));
+        if (!farmService.findByName("Fazenda Generica").isPresent())
+            farmService.save(new Farm("Fazenda Generica", "Meio do mato"));
+        if (!specieService.findByName("Nelore").isPresent())
+            specieService.save(new Specie("Nelore"));
     }
 
     @Test

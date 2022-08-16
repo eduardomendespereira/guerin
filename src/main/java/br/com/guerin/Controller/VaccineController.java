@@ -74,11 +74,10 @@ public class VaccineController {
 
     @PutMapping("/disable/{idVaccine}")
     public ResponseEntity<?> disable(
-            @RequestBody Vaccine vaccine,
             @PathVariable Long idVaccine
     ) {
         try {
-            this.vaccineService.disable(idVaccine, vaccine);
+            this.vaccineService.disable(idVaccine);
             return ResponseEntity.ok().body("Vacina desativada com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
