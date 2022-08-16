@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface VaccineApplicationRepository extends JpaRepository<VaccineApplication, Long> {
@@ -16,4 +18,8 @@ public interface VaccineApplicationRepository extends JpaRepository<VaccineAppli
 
     @Query("SELECT va FROM VaccineApplication va where va.vaccine = :id")
     Optional<VaccineApplication> findByVaccine(Long id);
+
+    @Query("SELECT va FROM VaccineApplication va WHERE va.cattle = :idCattle AND va.vaccine =: idVaccine " +
+            " AND va.date = :dataApp")
+    public List<VaccineApplication> findDuplicateApplication(Long idCattle, Long idVaccine, LocalDateTime dataApp);
 }

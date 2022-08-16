@@ -1,5 +1,6 @@
 package br.com.guerin.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -27,6 +28,7 @@ public class VaccineApplication extends AbstractEntity{
 
     @Getter @Setter
     @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
