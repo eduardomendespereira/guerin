@@ -1,7 +1,9 @@
 package br.com.guerin.Controller;
 
+import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
+import br.com.guerin.Service.IService.IVaccineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class VaccineApplicationController {
     private final IVaccineApplicationService vaccineApplicationService;
+    private final IVaccineService vaccineService;
 
     @GetMapping("/{idVaccineApplication}")
     public ResponseEntity<?> findById(@PathVariable("idVaccineApplication") Long idVaccineApplication) {
@@ -30,7 +33,12 @@ public class VaccineApplicationController {
     @GetMapping("/vaccine/{id}")
     public ResponseEntity<?> findByVaccine(@PathVariable("id") Long id) {
         try {
-            return ResponseEntity.ok().body(this.vaccineApplicationService.findByVaccine(id));
+            var vaccine = this.vaccineService.findById(id);
+            if (vaccine.isPresent()) {
+                return ResponseEntity.ok().body(this.vaccineApplicationService.findByVaccine(vaccine.get()));
+            } else {
+                return ResponseEntity.badRequest().body("Vacina não encontrada");
+            }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

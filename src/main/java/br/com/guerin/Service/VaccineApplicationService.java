@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -28,8 +29,8 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     public Optional<VaccineApplication> findById(Long id){
         return this.vaccineApplicationRepository.findById(id);
     }
-    public Optional<Vaccine> findByVaccine(Long id){
-        return this.vaccineApplicationRepository.findByVaccine(id);
+    public Optional<ArrayList<VaccineApplication>> findByVaccine(Vaccine vaccine){
+        return this.vaccineApplicationRepository.findByVaccine(vaccine);
     }
     public Page<VaccineApplication> findAll(Pageable pageable){
         return this.vaccineApplicationRepository.findAll(pageable);

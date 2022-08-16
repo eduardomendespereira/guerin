@@ -104,4 +104,19 @@ public class VaccineApplicationServiceTest {
         Optional<VaccineApplication> getVaccine = vaccineApplicationService.findById(updateVaccineApp.getId());
         Assertions.assertEquals(getVaccine.get().getVaccine().getName(), "micose vacitec");
     }
+
+    @Test
+    public void checkDisable(){
+        this.generateCattlesAndVaccine();
+        cattleService.save(cattle);
+        vaccineService.save(vaccine);
+        VaccineApplication vaccineApplication = new VaccineApplication();
+        vaccineApplication.setNote("Aplicacao de vacina para raiva");
+        vaccineApplication.setDate(LocalDateTime.now());
+        vaccineApplication.setVaccine(vaccine);
+        vaccineApplication.setCattle(cattle);
+        vaccineApplicationService.save(vaccineApplication);
+        vaccineApplicationService.disable(vaccineApplication.getId(), vaccineApplication);
+        Optional<VaccineApplication> getVaccineApp = vaccineApplicationService.findById(vaccineApplication.getId());
+    }
 }

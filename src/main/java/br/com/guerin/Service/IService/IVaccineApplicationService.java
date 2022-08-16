@@ -5,8 +5,7 @@ import br.com.guerin.Entity.VaccineApplication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public interface IVaccineApplicationService {
@@ -16,6 +15,6 @@ public interface IVaccineApplicationService {
     VaccineApplication saveTransactional(VaccineApplication vaccineApplication);
     VaccineApplication update(Long id, VaccineApplication vaccineApplication);
     VaccineApplication save(VaccineApplication vaccineApplication);
-    Optional<Vaccine> findByVaccine(Long id);
+    Optional<ArrayList<VaccineApplication>> findByVaccine(Vaccine vaccine);
     boolean validateSaveAndUpdate(VaccineApplication vaccineApplication);
 }
