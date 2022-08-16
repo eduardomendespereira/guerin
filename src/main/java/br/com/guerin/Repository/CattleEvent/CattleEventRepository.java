@@ -1,8 +1,6 @@
 package br.com.guerin.Repository.CattleEvent;
 
-import br.com.guerin.Entity.Cattle;
 import br.com.guerin.Entity.CattleEvent;
-import br.com.guerin.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

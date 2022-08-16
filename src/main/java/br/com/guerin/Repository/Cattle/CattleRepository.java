@@ -1,7 +1,6 @@
 package br.com.guerin.Repository.Cattle;
 
 import br.com.guerin.Entity.Cattle;
-import br.com.guerin.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,7 +19,7 @@ public interface CattleRepository extends JpaRepository<Cattle, Long> {
     @Query("SELECT c FROM Cattle c where c.earring = :earring")
     Optional<Cattle> findByEarring(Long earring);
     @Query("SELECT c FROM Cattle c where c.mother = :earring or c.father = :earring")
-    ArrayList<Cattle> findSons(Long earring);
+    ArrayList<Cattle> findChildren(Long earring);
     @Query("SELECT c FROM Cattle c where c.specie = :specie_id")
     ArrayList<Cattle> findBySpecie(Long specie_id);
     @Query("SELECT c FROM Cattle c where c.farm = :farm_id")

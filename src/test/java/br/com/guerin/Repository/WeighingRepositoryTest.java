@@ -1,4 +1,4 @@
-package br.com.guerin.repository;
+package br.com.guerin.Repository;
 
 import br.com.guerin.Entity.*;
 import br.com.guerin.Repository.Weighing.WeighingRepository;
@@ -7,13 +7,11 @@ import br.com.guerin.Service.FarmService;
 import br.com.guerin.Service.SpecieService;
 import br.com.guerin.Service.WeighingService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @SpringBootTest
 public class WeighingRepositoryTest{

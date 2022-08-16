@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
-public class ResultFindSons {
+public class ResultFindChildren {
     @Getter
     @Setter
     public Cattle cattle;
@@ -14,7 +14,7 @@ public class ResultFindSons {
     @Setter
     public ArrayList<Cattle> sons;
 
-    public ResultFindSons(Cattle cattle, ArrayList<Cattle> sons) {
+    public ResultFindChildren(Cattle cattle, ArrayList<Cattle> sons) {
         this.cattle = cattle;
         this.sons = sons;
     }

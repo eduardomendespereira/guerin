@@ -2,10 +2,7 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Service.IService.IWeighingService;
-import br.com.guerin.Service.WeighingService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

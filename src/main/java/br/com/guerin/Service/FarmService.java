@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Service
 public class FarmService implements IFarmService {
@@ -60,4 +58,8 @@ public class FarmService implements IFarmService {
     public Optional<Farm> findByName(String name) {
         return this.farmRepository.findByName(name);
     }
+    public Optional<Farm> findByAddress(String address) {
+        return this.farmRepository.findByAddress(address);
+    }
+
 }

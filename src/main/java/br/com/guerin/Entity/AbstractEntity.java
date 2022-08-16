@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import javax.validation.constraints.Past;
 import java.time.LocalDateTime;
-import java.util.Objects;
-
 
 @MappedSuperclass
 @NoArgsConstructor
@@ -21,10 +20,13 @@ public abstract class AbstractEntity {
 
     @Getter
     @Column(name = "registered", nullable = true)
+    @Past
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  // localdatetime deserializer
     private LocalDateTime registered;
 
     @Getter
+    @Past
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  // localdatetime deserializer
     @Column(name = "updated")
     private LocalDateTime updated;
 
@@ -36,16 +38,7 @@ public abstract class AbstractEntity {
     /**
      * @param id
      */
-    public AbstractEntity(Long id) {
-        this.id = id;
-    }
 
-    public AbstractEntity(Long id, LocalDateTime registered, LocalDateTime updated, boolean inactive) {
-        this.id = id;
-        this.registered = registered;
-        this.updated = updated;
-        this.inactive = inactive;
-    }
     public AbstractEntity(Long id, LocalDateTime registered, boolean inactive) {
         this.id = id;
         this.registered = registered;

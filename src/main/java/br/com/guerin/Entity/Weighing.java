@@ -3,6 +3,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,17 +14,20 @@ import java.time.LocalDateTime;
 public class Weighing extends AbstractEntity {
 
     @Getter @Setter
-    @JoinColumn(name = "cattle_id", nullable = true)
+    @NotNull
+    @JoinColumn(name = "cattle_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  //I've added it, cause FetchType.LAZY wasn't working
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     private Cattle cattle;
 
     @Getter @Setter
+    @Past
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
     @Getter @Setter
+    @NotNull @NotBlank
     @Column(name = "weight", nullable = false)
     private Float weight;
 }

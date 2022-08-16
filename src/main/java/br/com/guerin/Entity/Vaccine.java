@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -18,7 +17,7 @@ import java.time.LocalDateTime;
 public class Vaccine extends AbstractEntity{
     @Getter @Setter
     @NotNull @NotBlank
-    @Length(min = 3, max = 25, message = "O nome deverá ter no máximo {max} caracteres")
+    @Length(min = 3, max = 50, message = "O nome deverá ter no máximo {max} caracteres")
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
@@ -28,6 +27,7 @@ public class Vaccine extends AbstractEntity{
     private LocalDateTime date;
 
     @Getter @Setter
+    @NotNull
     @JoinColumn(name = "required", nullable = true)
     private Boolean required;
 

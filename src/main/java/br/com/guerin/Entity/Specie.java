@@ -3,10 +3,13 @@ package br.com.guerin.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +18,8 @@ import java.util.Objects;
 public class Specie extends AbstractEntity{
     @Getter
     @Setter
+    @NotNull @NotBlank
+    @Length(min = 3, max = 50, message = "O nome deverá ter no máximo {max} caracteres")
     @Column(name = "name", nullable = false, unique = true, length = 30)
     private String name;
 

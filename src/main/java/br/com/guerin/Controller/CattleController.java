@@ -1,10 +1,8 @@
 package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.Cattle;
-import br.com.guerin.Service.CattleService;
 import br.com.guerin.Service.IService.ICattleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -81,19 +79,19 @@ public class CattleController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping("/fathers/{earring}")
-    public ResponseEntity<?> findFathers(@PathVariable Long earring) {
+    @GetMapping("/parents/{earring}")
+    public ResponseEntity<?> findParents(@PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.findFathers(earring));
+            return ResponseEntity.ok().body(this.cattleService.findParents(earring));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping("/sons/{earring}")
-    public ResponseEntity<?> findSons(@PathVariable Long earring) {
+    @GetMapping("/children/{earring}")
+    public ResponseEntity<?> findChildren(@PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.findFathers(earring));
+            return ResponseEntity.ok().body(this.cattleService.findChildren(earring));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

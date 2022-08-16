@@ -19,4 +19,7 @@ public interface FarmRepository extends JpaRepository<Farm, Long> {
 
     @Query("SELECT farm FROM Farm farm WHERE farm.name = :farmName")
     Optional<Farm> findByName(@Param("farmName") String farmName);
+
+    @Query("SELECT farm FROM Farm farm WHERE farm.address = :farmAddress")
+    Optional<Farm> findByAddress(@Param("farmAddress") String farmAddress);
 }

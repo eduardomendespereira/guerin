@@ -1,8 +1,8 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Cattle;
-import br.com.guerin.Payload.Cattle.ResultFindFathers;
-import br.com.guerin.Payload.Cattle.ResultFindSons;
+import br.com.guerin.Payload.Cattle.ResultFindParents;
+import br.com.guerin.Payload.Cattle.ResultFindChildren;
 import br.com.guerin.Repository.Cattle.CattleRepository;
 import br.com.guerin.Service.IService.ICattleService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -51,8 +50,6 @@ public class CattleService implements ICattleService {
 
     @Transactional
     public Cattle save(Cattle cattle) {
-        if (cattle.getEarring() != null && findByEarring(cattle.getEarring()).isPresent())
-            return null;
         return this.cattleRepository.save(cattle);
     }
 
@@ -61,10 +58,12 @@ public class CattleService implements ICattleService {
         if (id == cattle.getId()) {
             if (!this.findById(id).get().isInactive()) {
                 this.cattleRepository.inactivate(cattle.getId());
-            } else {
+            }
+            else {
                 throw new RuntimeException("Gado já está inativo!");
             }
-        } else {
+        }
+        else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
@@ -75,8 +74,9 @@ public class CattleService implements ICattleService {
 
     public Cattle findByEarringOrNew(Long earring) {
         var cattle = this.cattleRepository.findByEarring(earring);
-        if (cattle.isPresent())
+        if (cattle.isPresent()) {
             return cattle.get();
+        }
         return new Cattle(earring);
     }
 
@@ -88,28 +88,35 @@ public class CattleService implements ICattleService {
         return this.cattleRepository.findByFarm(farm_id);
     }
 
-    public ResultFindFathers findFathers(Long earring) {
+    public ResultFindParents findParents(Long earring) {
         var cattle = findByEarring(earring);
         if (cattle != null) {
             Cattle father = null;
             Cattle mother = null;
-            if (cattle.get().getFather() != null)
+
+            if (cattle.get().getFather() != null) {
                 father = findByEarringOrNew(cattle.get().getFather());
-            if (cattle.get().getFather() != null)
+            }
+
+            if (cattle.get().getFather() != null) {
                 mother = findByEarringOrNew(cattle.get().getMother());
-            return new ResultFindFathers(cattle.get(), father, mother);
-        } else {
-            throw new RuntimeException("Not Found");
+            }
+
+            return new ResultFindParents(cattle.get(), father, mother);
+        }
+        else {
+            throw new RuntimeException("Gado não encontrado");
         }
     }
 
-    public ResultFindSons findSons(Long earring) {
+    public ResultFindChildren findChildren(Long earring) {  // TODO: ARRUMAR ISSO AQUI
         var cattle = findByEarring(earring);
         if (cattle != null) {
-            var sons = this.cattleRepository.findSons(earring);
-            return new ResultFindSons(cattle.get(), sons);
-        } else {
-            throw new RuntimeException("Not Found");
+            var children = this.cattleRepository.findChildren(earring);
+            return new ResultFindChildren(cattle.get(), children);
+        }
+        else {
+            throw new RuntimeException("Gado não encontrado");
         }
     }
 }

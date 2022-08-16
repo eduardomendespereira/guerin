@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface IFarmService {
     void disable(Long id);
     Optional<Farm> findByName(String name);
+    Optional<Farm> findByAddress(String address);
     Farm save(Farm farm);
     Farm update(Long id, Farm farm);
     Page<Farm> findAll(Pageable pageable);

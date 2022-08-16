@@ -1,15 +1,13 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Vaccine;
-import br.com.guerin.Repository.User.VaccineRepository;
+import br.com.guerin.Repository.Vaccine.VaccineRepository;
 import br.com.guerin.Service.IService.IVaccineService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Optional;
 
