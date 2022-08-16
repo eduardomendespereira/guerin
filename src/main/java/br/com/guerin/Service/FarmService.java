@@ -58,4 +58,8 @@ public class FarmService implements IFarmService {
     public Optional<Farm> findByName(String name) {
         return this.farmRepository.findByName(name);
     }
+    public Optional<Farm> findByAddress(String address) {
+        return this.farmRepository.findByAddress(address);
+    }
+
 }

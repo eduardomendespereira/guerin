@@ -79,19 +79,19 @@ public class CattleController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping("/fathers/{earring}")
-    public ResponseEntity<?> findFathers(@PathVariable Long earring) {
+    @GetMapping("/parents/{earring}")
+    public ResponseEntity<?> findParents(@PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.findFathers(earring));
+            return ResponseEntity.ok().body(this.cattleService.findParents(earring));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping("/sons/{earring}")
-    public ResponseEntity<?> findSons(@PathVariable Long earring) {
+    @GetMapping("/children/{earring}")
+    public ResponseEntity<?> findChildren(@PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.findFathers(earring));
+            return ResponseEntity.ok().body(this.cattleService.findChildren(earring));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

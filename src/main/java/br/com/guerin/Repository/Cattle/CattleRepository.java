@@ -19,7 +19,7 @@ public interface CattleRepository extends JpaRepository<Cattle, Long> {
     @Query("SELECT c FROM Cattle c where c.earring = :earring")
     Optional<Cattle> findByEarring(Long earring);
     @Query("SELECT c FROM Cattle c where c.mother = :earring or c.father = :earring")
-    ArrayList<Cattle> findSons(Long earring);
+    ArrayList<Cattle> findChildren(Long earring);
     @Query("SELECT c FROM Cattle c where c.specie = :specie_id")
     ArrayList<Cattle> findBySpecie(Long specie_id);
     @Query("SELECT c FROM Cattle c where c.farm = :farm_id")

@@ -26,10 +26,20 @@ public class FarmController {
         }
     }
 
-    @GetMapping("/get-by-name/{farmName}")
+    @GetMapping("/name/{farmName}")
     public ResponseEntity<?> findByName(@PathVariable("farmName") String farmName) {
         try {
             return ResponseEntity.ok().body(this.farmService.findByName(farmName));
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/name/{farmName}")
+    public ResponseEntity<?> findByAddress(@PathVariable("farmAddress") String farmAddress) {
+        try {
+            return ResponseEntity.ok().body(this.farmService.findByName(farmAddress));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
