@@ -20,7 +20,6 @@ public class Parameter {
     private String id;
 
     @Getter @Setter
-    @Past
     @NotNull
     @Column(name = "included", nullable = true)
     private LocalDateTime included;
