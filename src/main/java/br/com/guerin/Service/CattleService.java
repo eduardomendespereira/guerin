@@ -51,7 +51,7 @@ public class CattleService implements ICattleService {
 
     @Transactional
     public Cattle save(Cattle cattle) {
-        if (cattle.getEarring() != null && findByEarring(cattle.getEarring()) != null)
+        if (cattle.getEarring() != null && findByEarring(cattle.getEarring()).isPresent())
             return null;
         return this.cattleRepository.save(cattle);
     }

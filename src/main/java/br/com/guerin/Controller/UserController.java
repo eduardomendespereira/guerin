@@ -76,8 +76,8 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/user/disable")
-    public void disable(Long id) {
+    @DeleteMapping("/user/disable/{id}")
+    public void disable(@PathVariable("id") Long id) {
         userService.disable(id);
     }
 
