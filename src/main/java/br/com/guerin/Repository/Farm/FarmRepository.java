@@ -15,8 +15,11 @@ public interface FarmRepository extends JpaRepository<Farm, Long> {
 
     @Modifying
     @Query("UPDATE Farm farm SET farm.inactive = true WHERE farm.id = :farmId")
-    void inactivate(@Param("farmId") Long farmId);
+    void disable(@Param("farmId") Long farmId);
 
     @Query("SELECT farm FROM Farm farm WHERE farm.name = :farmName")
     Optional<Farm> findByName(@Param("farmName") String farmName);
+
+    @Query("SELECT farm FROM Farm farm WHERE farm.address = :farmAddress")
+    Optional<Farm> findByAddress(@Param("farmAddress") String farmAddress);
 }

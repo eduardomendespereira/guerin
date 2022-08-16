@@ -1,10 +1,8 @@
 package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.Cattle;
-import br.com.guerin.Service.CattleService;
 import br.com.guerin.Service.IService.ICattleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +36,7 @@ public class CattleController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody Cattle cattle) {
         try {
-            this.cattleService.save(cattle);
-            return ResponseEntity.ok().body("Gado cadastrado com sucesso!");
+            return ResponseEntity.ok().body(this.cattleService.save(cattle));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -49,8 +46,7 @@ public class CattleController {
     @PutMapping("/{cattleId}")
     public ResponseEntity<?> update(@RequestBody Cattle cattle, @PathVariable Long cattleId) {
         try {
-            this.cattleService.update(cattleId, cattle);
-            return ResponseEntity.ok().body("Gado atualizado com sucesso!");
+            return ResponseEntity.ok().body(this.cattleService.update(cattleId, cattle));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -83,28 +79,28 @@ public class CattleController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping("/fathers/{earring}")
-    public ResponseEntity<?> findFathers(@PathVariable Long earring) {
+    @GetMapping("/parents/{earring}")
+    public ResponseEntity<?> findParents(@PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.getFathers(earring));
+            return ResponseEntity.ok().body(this.cattleService.findParents(earring));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping("/sons/{earring}")
-    public ResponseEntity<?> findSons(@PathVariable Long earring) {
+    @GetMapping("/children/{earring}")
+    public ResponseEntity<?> findChildren(@PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.getSons(earring));
+            return ResponseEntity.ok().body(this.cattleService.findChildren(earring));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @PutMapping("/inactivate/{cattleId}")
-    public ResponseEntity<?> inactivate(@RequestBody Cattle cattle, @PathVariable Long cattleId) {
+    @PutMapping("/disable/{cattleId}")
+    public ResponseEntity<?> disable(@RequestBody Cattle cattle, @PathVariable Long cattleId) {
         try {
-            this.cattleService.inactivate(cattleId, cattle);
+            this.cattleService.disable(cattleId, cattle);
             return ResponseEntity.ok().body("Gado inativado com sucesso!");
         }
         catch (Exception e) {

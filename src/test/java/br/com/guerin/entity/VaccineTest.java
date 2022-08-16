@@ -1,6 +1,5 @@
 package br.com.guerin.Entity;
 
-import br.com.guerin.Entity.Vaccine;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

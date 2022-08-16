@@ -1,7 +1,6 @@
 package br.com.guerin.Repository;
 
 
-import br.com.guerin.Entity.EventType;
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Repository.Specie.SpecieRepository;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 public class SpecieRepositoryTest {

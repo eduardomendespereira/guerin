@@ -1,15 +1,12 @@
 package br.com.guerin.Controller;
 
+import br.com.guerin.Entity.CattleEvent;
 import br.com.guerin.Service.IService.ICattleEventService;
-import br.com.guerin.Service.IService.ICattleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/cattleEvent")
@@ -29,6 +26,14 @@ public class CattleEventController {
     @DeleteMapping("/disable/{id}")
     public void disable(@PathVariable("id") Long id) {
         cattleEventService.disable(id);
+    }
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody CattleEvent cattleEvent){
+        try {
+            return ResponseEntity.ok().body(cattleEventService.save(cattleEvent));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @GetMapping

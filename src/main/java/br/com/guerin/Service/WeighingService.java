@@ -5,7 +5,6 @@ import br.com.guerin.Repository.Weighing.WeighingRepository;
 import br.com.guerin.Service.IService.IWeighingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,48 +24,25 @@ import javax.transaction.Transactional;
 public class WeighingService implements IWeighingService{
     private final WeighingRepository weighingRepository;
 
-     /**
-     *
-     * @param id
-     */
     public Weighing findById(Long id) {
         return this.weighingRepository.findById(id).orElse(new Weighing());
     }
 
-    /**
-     *
-     * @param pageable
-     */
     public Page<Weighing> listAll(Pageable pageable) {
         return this.weighingRepository.findAll(pageable);
     }
 
-    /**
-     *
-     * @param weighing
-     */
     public Weighing save(Weighing weighing) {
-        this.validarWeighing(weighing);
         return this.saveTransactional(weighing);
     }
 
-    /**
-     *
-     * @param weighing
-     */
     @Transactional
     public Weighing saveTransactional(Weighing weighing) {
         return this.weighingRepository.save(weighing);
     }
 
-    /**
-     *
-     * @param id
-     * @param weighing
-     */
     public Weighing update(Long id, Weighing weighing) {
         if (id == weighing.getId()) {
-            //this.validarWeighing(weighing);
             return this.saveTransactional(weighing);
         }
         else {
@@ -74,11 +50,6 @@ public class WeighingService implements IWeighingService{
         }
     }
 
-    /**
-     *
-     * @param id
-     * @param weighing
-     */
     @Transactional
     public void disable(Long id, Weighing weighing) {
         if (id == weighing.getId()) {
@@ -87,13 +58,5 @@ public class WeighingService implements IWeighingService{
         else {
             throw new RuntimeException("Error: Não foi possivel desativar a Pesagem.");
         }
-    }
-
-    /**
-     *
-     * @param weighing
-     */
-    public void validarWeighing(Weighing weighing) {
-
     }
 }

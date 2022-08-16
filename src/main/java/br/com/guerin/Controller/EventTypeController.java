@@ -2,7 +2,7 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.EventType;
 import br.com.guerin.Service.IService.IEventTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @CrossOrigin(maxAge = 3600)
 @RequestMapping("/api/event_type")
+@RequiredArgsConstructor
 public class EventTypeController {
-    @Autowired
-    private IEventTypeService eventTypeService;
+    private final IEventTypeService eventTypeService;
 
     @GetMapping("/{idEvent_type}")
     public ResponseEntity<?> findById(@PathVariable("idEvent_type") Long idEvent_type){
@@ -35,7 +35,7 @@ public class EventTypeController {
         }
     }
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<?> save(@RequestBody EventType eventType){
         try {
             return ResponseEntity.ok().body(this.eventTypeService.save(eventType));
@@ -53,7 +53,7 @@ public class EventTypeController {
         }
     }
 
-    @PutMapping("/desativar/{idEvent_type}")
+    @PutMapping("/disable/{idEvent_type}")
     public ResponseEntity<?> disable(@PathVariable Long idEvent_type, @RequestBody EventType eventType){
         try {
             this.eventTypeService.disable(idEvent_type, eventType);

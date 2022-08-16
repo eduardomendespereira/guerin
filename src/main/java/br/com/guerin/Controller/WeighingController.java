@@ -2,9 +2,7 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Service.IService.IWeighingService;
-import br.com.guerin.Service.WeighingService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,15 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/weighing")
+@RequiredArgsConstructor
 public class WeighingController {
 
-    @Autowired
-    private IWeighingService weighingService;
+    private final IWeighingService weighingService;
 
-    /**
-     * @param idWeighing
-     * @return
-     */
     @GetMapping("/{idWeighing}")
     public ResponseEntity<?> findById(@PathVariable("idWeighing") Long idWeighing) {
         try {
@@ -36,10 +30,6 @@ public class WeighingController {
         }
     }
 
-    /**
-     * @param pageable
-     * @return
-     */
     @GetMapping
     public ResponseEntity<?> listByAllPage(Pageable pageable) {
         try {
@@ -49,41 +39,25 @@ public class WeighingController {
         }
     }
 
-    /**
-     * @param weighing
-     * @return
-     */
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody Weighing weighing) {
+    public ResponseEntity<?> save(@RequestBody Weighing weighing) {
         try {
-            this.weighingService.save(weighing);
-            return ResponseEntity.ok().body("Pesagem Cadastrada com Sucesso.");
+            return ResponseEntity.ok().body(this.weighingService.save(weighing));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    /**
-     * @param idWeighing
-     * @param weighing
-     * @return
-     */
     @PutMapping("/{idWeighing}")
     public ResponseEntity<?> update(@PathVariable Long idWeighing, @RequestBody Weighing weighing) {
         try {
-            this.weighingService.update(idWeighing, weighing);
-            return ResponseEntity.ok().body("Pesagem Atualizada com Sucesso.");
+            return ResponseEntity.ok().body(this.weighingService.update(idWeighing, weighing));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-     /**
-     * @param idWeighing
-     * @param weighing
-     * @return
-     */
-    @PutMapping("/desativar/{idWeighing}")
+    @PutMapping("/disable/{idWeighing}")
     public ResponseEntity<?> disable(@PathVariable Long idWeighing, @RequestBody Weighing weighing) {
         try {
             this.weighingService.disable(idWeighing, weighing);

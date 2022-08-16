@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Service
 public class FarmService implements IFarmService {
@@ -53,21 +51,15 @@ public class FarmService implements IFarmService {
     }
 
     @Transactional
-    public void inactivate(Long id, Farm farm) {
-        if (id == farm.getId()) {
-            if (! this.findById(id).get().isInactive()) {
-                this.farmRepository.inactivate(farm.getId());
-            }
-            else {
-                throw new RuntimeException("Fazenda já está inativa!");
-            }
-        }
-        else {
-            throw new RuntimeException("Fazenda não encontrada!");
-        }
+    public void disable(Long id) {
+        this.farmRepository.disable(id);
     }
 
     public Optional<Farm> findByName(String name) {
         return this.farmRepository.findByName(name);
     }
+    public Optional<Farm> findByAddress(String address) {
+        return this.farmRepository.findByAddress(address);
+    }
+
 }

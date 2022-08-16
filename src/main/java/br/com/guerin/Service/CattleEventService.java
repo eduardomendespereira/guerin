@@ -2,7 +2,6 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.CattleEvent;
 import br.com.guerin.Repository.CattleEvent.CattleEventRepository;
-import br.com.guerin.Repository.User.UserRepository;
 import br.com.guerin.Service.IService.ICattleEventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +31,7 @@ public class CattleEventService implements ICattleEventService {
     public CattleEvent save(CattleEvent cattleEvent) {
         return cattleEventRepository.save(cattleEvent);
     }
-
+    @Transactional
     public void disable(Long id) {
         if (!this.findById(id).get().isInactive()) {
             cattleEventRepository.disable(id);

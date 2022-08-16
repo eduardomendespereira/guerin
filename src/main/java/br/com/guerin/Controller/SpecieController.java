@@ -2,7 +2,7 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Service.IService.ISpecieService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @CrossOrigin(maxAge = 3600)
 @RequestMapping("/api/species")
+@RequiredArgsConstructor
 public class SpecieController {
-    @Autowired
-    private ISpecieService specieService;
-
+    private final ISpecieService specieService;
 
     @GetMapping("/{idSpecie}")
     public ResponseEntity<?> findById(@PathVariable("idSpecie") Long idSpecie) {
@@ -34,7 +33,7 @@ public class SpecieController {
         }
     }
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<?> save(@RequestBody Specie specie) {
         try {
             return ResponseEntity.ok().body(specieService.save(specie));
@@ -52,8 +51,8 @@ public class SpecieController {
         }
     }
 
-    @PutMapping("/desativar/{idSpecie}")
-    public ResponseEntity<?> desativar(@PathVariable Long idSpecie, @RequestBody Specie specie) {
+    @PutMapping("/disable/{idSpecie}")
+    public ResponseEntity<?> disable(@PathVariable Long idSpecie, @RequestBody Specie specie) {
         try {
             this.specieService.disable(idSpecie, specie);
             return ResponseEntity.ok().body("Especie desativada com sucesso");

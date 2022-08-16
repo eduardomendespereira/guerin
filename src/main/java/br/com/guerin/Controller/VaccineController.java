@@ -1,10 +1,8 @@
-package br.com.guerin.controller;
+package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Service.IService.IVaccineService;
-import br.com.guerin.Service.VaccineService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,10 +15,9 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @RequestMapping("/api/vaccines")
+@RequiredArgsConstructor
 public class VaccineController {
-
-    @Autowired
-    private IVaccineService vaccineService;
+    private final IVaccineService vaccineService;
 
     @GetMapping("/{idVaccine}")
     public ResponseEntity<?> findById(
@@ -43,14 +40,21 @@ public class VaccineController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @GetMapping("/get-by-name")
+    public ResponseEntity<?> findByName(String name) {
+        try {
+            return ResponseEntity.ok().body(vaccineService.findByName(name));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
 
     @PostMapping
-    public ResponseEntity<?> insert(
+    public ResponseEntity<?> save(
             @RequestBody Vaccine vaccine
     ) {
         try {
-            this.vaccineService.save(vaccine);
-            return ResponseEntity.ok().body("Vacina cadastrada com sucesso!");
+            return ResponseEntity.ok().body(this.vaccineService.save(vaccine));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -62,8 +66,7 @@ public class VaccineController {
             @PathVariable Long idVaccine
     ) {
         try {
-            this.vaccineService.update(idVaccine, vaccine);
-            return ResponseEntity.ok().body("Vacina editada com sucesso!");
+            return ResponseEntity.ok().body(this.vaccineService.update(idVaccine, vaccine));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

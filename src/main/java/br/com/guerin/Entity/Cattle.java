@@ -2,8 +2,9 @@ package br.com.guerin.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NoArgsConstructor
@@ -12,11 +13,13 @@ public class Cattle extends AbstractEntity{
 
     @Getter
     @Setter
+    @NotNull @NotBlank
     @Column(name = "earring", nullable = false, unique=true)
     private Long earring;
 
     @Getter
     @Setter
+    @NotNull @NotBlank
     @Column(name = "weight", nullable = false)
     private Float weight;
 
@@ -27,21 +30,25 @@ public class Cattle extends AbstractEntity{
     private Specie specie;
 
     @Getter @Setter
+    @NotNull
     @JoinColumn(name = "farm_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Farm farm;
 
     @Getter @Setter
+    @NotNull @NotBlank
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
     @Getter @Setter
+    @NotNull
     @Column(name = "father", nullable = true)
     private Long father;
 
     @Getter @Setter
+    @NotNull
     @Column(name = "mother", nullable = true)
     private Long mother;
 
