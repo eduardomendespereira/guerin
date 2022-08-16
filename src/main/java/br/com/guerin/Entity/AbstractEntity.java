@@ -24,7 +24,6 @@ public abstract class AbstractEntity {
     private LocalDateTime registered;
 
     @Getter
-    @Past
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  // localdatetime deserializer
     @Column(name = "updated")
     private LocalDateTime updated;
