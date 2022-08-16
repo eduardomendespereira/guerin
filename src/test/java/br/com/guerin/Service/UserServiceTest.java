@@ -5,17 +5,21 @@ import br.com.guerin.Entity.User;
 import br.com.guerin.Service.IService.IUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.Optional;
 
+
 @SpringBootTest
 public class UserServiceTest {
     @Autowired
     IUserService userService;
     private final User user = new User("lucas", "hanke", "lucasghank@hotmail.com", "bagrt", "123", Role.admin);
+
+    IUserService mock = Mockito.mock(IUserService.class);
 
     @Test
     public void save() {
@@ -59,9 +63,8 @@ public class UserServiceTest {
 
     @Test
     public void findById() {
-        var obj = userService.save(user);
-        var u = userService.findByUsername(user.getUsername());
-        var uId = userService.findById(u.get().getId());
+        Mockito.when(this.mock.findById(1L)).thenReturn(Optional.of(this.user));
+        var uId = this.mock.findById(1L);
         Assertions.assertEquals(user.getUsername(), uId.get().getUsername());
     }
 
