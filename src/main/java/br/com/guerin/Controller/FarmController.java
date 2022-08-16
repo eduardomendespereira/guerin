@@ -36,7 +36,7 @@ public class FarmController {
         }
     }
 
-    @GetMapping("/name/{farmName}")
+    @GetMapping("/address/{farmName}")
     public ResponseEntity<?> findByAddress(@PathVariable("farmAddress") String farmAddress) {
         try {
             return ResponseEntity.ok().body(this.farmService.findByName(farmAddress));
