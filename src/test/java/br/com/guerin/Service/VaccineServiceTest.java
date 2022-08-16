@@ -25,7 +25,7 @@ public class VaccineServiceTest {
     @DisplayName("inserindo 1 vaccina e verificando se cadastrou")
     public void checkInsert(){
         Vaccine vaccine = new Vaccine();
-        vaccine.setName("raiva");
+        vaccine.setName("raiva vacitec");
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
         vaccineService.save(vaccine);

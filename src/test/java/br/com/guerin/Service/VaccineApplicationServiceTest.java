@@ -1,13 +1,14 @@
 package br.com.guerin.Service;
 
-import br.com.guerin.Entity.Vaccine;
-import br.com.guerin.Entity.VaccineApplication;
-import br.com.guerin.Service.IService.IVaccineApplicationService;
+import br.com.guerin.Entity.*;
+import br.com.guerin.Service.IService.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -18,26 +19,73 @@ public class VaccineApplicationServiceTest {
     IVaccineApplicationService vaccineApplicationService;
 
     @Autowired
-    private VaccineService vaccineService;
+    private IVaccineService vaccineService;
+
+    @Autowired
+    private ISpecieService specieService;
+
+    @Autowired
+    private IFarmService farmService;
+
+    @Autowired
+    private ICattleService cattleService;
+
+    private Cattle cattle;
+    private Vaccine vaccine;
+
+    public void generateCattlesAndVaccine() {
+        this.generateSpecieAndFarm();
+
+        this.cattle = new Cattle(
+                123L,
+                300F,
+                specieService.findByName("Nelore").get(),
+                farmService.findByName("Fazenda Generica").get(),
+                Gender.male,
+                124L,
+                125L
+        );
+        this.vaccine = new Vaccine(
+                "carbunculo",
+                LocalDateTime.now(),
+                true
+                );
+    }
+
+    public void generateSpecieAndFarm() {
+        if (!farmService.findByName("Fazenda Generica").isPresent())
+            farmService.save(new Farm("Fazenda Generica", "Meio do mato"));
+        if (!specieService.findByName("Nelore").isPresent())
+            specieService.save(new Specie("Nelore"));
+    }
 
     @Test
-    public void checkUpdate(){
-        Vaccine vaccine = new Vaccine();
-        vaccine.setName("raiva");
-        vaccine.setDate(LocalDateTime.now());
-        vaccine.setRequired(true);
+    @Transactional
+    public void checkInsert(){
+        this.generateCattlesAndVaccine();
         vaccineService.save(vaccine);
+        cattleService.save(cattle);
         VaccineApplication vaccineApplication = new VaccineApplication();
-        vaccineApplication.setNote("aplicação de vacina para raiva");
-        vaccineApplication.setVaccine(vaccine);
+        vaccineApplication.setNote("Aplicacao de vacina para carbunculo");
         vaccineApplication.setDate(LocalDateTime.now());
+        vaccineApplication.setVaccine(vaccine);
+        vaccineApplication.setCattle(cattle);
         vaccineApplicationService.save(vaccineApplication);
-        VaccineApplication vaccineApp1 = new VaccineApplication();
-        vaccineApp1.setNote("aplicação de vacina para carbunculo");
-        vaccineApp1.setVaccine(vaccine);
-        vaccineApp1.setDate(LocalDateTime.now());
-        vaccineApplicationService.update(vaccineApplication.getId(), vaccineApp1);
-        Optional<VaccineApplication> vaccineApp2 = vaccineApplicationService.findById(vaccineApp1.getId());
-        Assertions.assertEquals(vaccineApp2.get().getNote(), "aplicação de vacina para carbunculo");
+        Optional<VaccineApplication> va2 = vaccineApplicationService.findById(vaccineApplication.getId());
+        Assertions.assertEquals(vaccineApplication.getNote(), va2.get().getNote());
     }
+
+    @Test
+    public void checkFindByAll(){
+        Assertions.assertNotNull(vaccineApplicationService.findAll(Pageable.unpaged()));
+    }
+
+//    @Test
+//    public void checkUpdate() {
+//        this.generateCattlesAndVaccine();
+//        cattleService.save(cattle);
+//        vaccineService.save(vaccine);
+//        VaccineApplication vaccineApplication = new VaccineApplication();
+//
+//    }
 }

@@ -26,7 +26,7 @@ public class VaccineApplication extends AbstractEntity{
     private Vaccine vaccine;
 
     @Getter @Setter
-    @Past @NotNull
+    @NotNull
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
