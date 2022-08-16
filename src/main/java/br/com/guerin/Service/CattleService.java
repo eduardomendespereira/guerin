@@ -50,6 +50,8 @@ public class CattleService implements ICattleService {
 
     @Transactional
     public Cattle save(Cattle cattle) {
+        if (cattle.getId() == null & cattle.getEarring() != null && findByEarring(cattle.getEarring()).isPresent())
+            return null;
         return this.cattleRepository.save(cattle);
     }
 
@@ -109,7 +111,7 @@ public class CattleService implements ICattleService {
         }
     }
 
-    public ResultFindChildren findChildren(Long earring) {  // TODO: ARRUMAR ISSO AQUI
+    public ResultFindChildren findChildren(Long earring) {
         var cattle = findByEarring(earring);
         if (cattle != null) {
             var children = this.cattleRepository.findChildren(earring);

@@ -20,7 +20,6 @@ public abstract class AbstractEntity {
 
     @Getter
     @Column(name = "registered", nullable = true)
-    @Past
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  // localdatetime deserializer
     private LocalDateTime registered;
 
