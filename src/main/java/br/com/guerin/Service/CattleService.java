@@ -43,16 +43,20 @@ public class CattleService implements ICattleService {
     public Cattle update(Long id, Cattle cattle) {
         if (id == cattle.getId()) {
             return this.cattleRepository.save(cattle);
-        } else {
+        }
+        else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
 
     @Transactional
-    public Cattle save(Cattle cattle) {  // TODO: ...
-        if (cattle.getId() == null & cattle.getEarring() != null && findByEarring(cattle.getEarring()).isPresent())
-            return null;
-        return this.cattleRepository.save(cattle);
+    public Cattle save(Cattle cattle) {
+        if (cattle.getId() == null && cattle.getEarring() != null && this.findByEarring(cattle.getEarring()).isPresent()) {
+            throw new RuntimeException("Gado já está registrado");
+        }
+        else {
+            return this.cattleRepository.save(cattle);
+        }
     }
 
     @Transactional
@@ -76,7 +80,7 @@ public class CattleService implements ICattleService {
     }
 
     public Cattle findByEarringOrNew(Long earring) {
-        var cattle = this.cattleRepository.findByEarring(earring);
+        Optional<Cattle> cattle = this.cattleRepository.findByEarring(earring);
         if (cattle.isPresent()) {
             return cattle.get();
         }
