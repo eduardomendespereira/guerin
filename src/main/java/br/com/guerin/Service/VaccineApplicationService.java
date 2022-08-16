@@ -1,15 +1,13 @@
 package br.com.guerin.Service;
 
+import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Repository.Vaccine.VaccineApplicationRepository;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
-import com.sun.jdi.request.DuplicateRequestException;
-import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -29,7 +27,7 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     public Optional<VaccineApplication> findById(Long id){
         return this.vaccineApplicationRepository.findById(id);
     }
-    public Optional<VaccineApplication> findByVaccine(Long id){
+    public Optional<Vaccine> findByVaccine(Long id){
         return this.vaccineApplicationRepository.findByVaccine(id);
     }
     public Page<VaccineApplication> findAll(Pageable pageable){

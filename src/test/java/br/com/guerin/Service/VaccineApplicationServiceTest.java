@@ -98,12 +98,10 @@ public class VaccineApplicationServiceTest {
         vaccineApplication.setVaccine(vaccine);
         vaccineApplication.setCattle(cattle);
         vaccineApplicationService.save(vaccineApplication);
-        VaccineApplication updateVaccineApp = new VaccineApplication();
-        updateVaccineApp.setNote("App de vacina para micose");
-        updateVaccineApp.setDate(LocalDateTime.now());
+        VaccineApplication updateVaccineApp = vaccineApplication;
         updateVaccineApp.setVaccine(vaccine2);
-        updateVaccineApp.setCattle(cattle);
-        vaccineApplicationService.update(vaccineApplication.getId(), updateVaccineApp);
-        Assertions.assertEquals(vaccineApplicationService.findAll(Pageable.unpaged()).getSize(), 1);
+        this.vaccineApplicationService.update(updateVaccineApp.getId(), updateVaccineApp);
+        Optional<VaccineApplication> getVaccine = vaccineApplicationService.findById(updateVaccineApp.getId());
+        Assertions.assertEquals(getVaccine.get().getVaccine().getName(), "micose vacitec");
     }
 }

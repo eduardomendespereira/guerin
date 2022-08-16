@@ -1,5 +1,6 @@
 package br.com.guerin.Repository.Vaccine;
 
+import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,7 +18,7 @@ public interface VaccineApplicationRepository extends JpaRepository<VaccineAppli
     void disable(@Param("idVaccineApplication") Long idVaccineApplication);
 
     @Query("SELECT va FROM VaccineApplication va where va.vaccine = :id")
-    Optional<VaccineApplication> findByVaccine(Long id);
+    Optional<Vaccine> findByVaccine(Long id);
 
     @Query("SELECT va FROM VaccineApplication va WHERE va.cattle = :idCattle AND va.vaccine = :idVaccine" +
             " AND va.date = :dataApp")
