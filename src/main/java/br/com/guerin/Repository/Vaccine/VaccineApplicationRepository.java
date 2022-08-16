@@ -1,5 +1,6 @@
 package br.com.guerin.Repository.Vaccine;
 
+import br.com.guerin.Entity.Cattle;
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,9 +21,9 @@ public interface VaccineApplicationRepository extends JpaRepository<VaccineAppli
     @Query("SELECT va FROM VaccineApplication va where va.vaccine = :id")
     Optional<Vaccine> findByVaccine(Long id);
 
-    @Query("SELECT va FROM VaccineApplication va WHERE va.cattle = :idCattle AND va.vaccine = :idVaccine" +
+    @Query("SELECT va FROM VaccineApplication va WHERE va.cattle = :cattle AND va.vaccine = :vaccine" +
             " AND va.date = :dataApp")
-    List<VaccineApplication> findDuplicateApplication(@Param("idCattle") Long idCattle,
-                                                      @Param("idVaccine") Long idVaccine,
+    List<VaccineApplication> findDuplicateApplication(@Param("cattle") Cattle cattle,
+                                                      @Param("vaccine") Vaccine vaccine,
                                                       @Param("dataApp") LocalDateTime dataApp);
 }

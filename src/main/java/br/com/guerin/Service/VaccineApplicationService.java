@@ -4,6 +4,7 @@ import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Repository.Vaccine.VaccineApplicationRepository;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
+import com.sun.jdi.request.DuplicateRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -44,11 +45,11 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public VaccineApplication save(VaccineApplication vaccineApplication){
-       // if(validateSaveAndUpdate(vaccineApplication)){
+        if(validateSaveAndUpdate(vaccineApplication)){
             return saveTransactional(vaccineApplication);
-       // }else {
-         //   throw new DuplicateRequestException();
-      //  }
+        }else {
+            throw new DuplicateRequestException();
+        }
     }
 
     @Transactional
@@ -61,8 +62,8 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public boolean validateSaveAndUpdate(VaccineApplication vaccineApplication){
-        if(vaccineApplicationRepository.findDuplicateApplication(vaccineApplication.getCattle().getId(),
-                vaccineApplication.getVaccine().getId(), vaccineApplication.getDate()).size() == 0){
+        if(vaccineApplicationRepository.findDuplicateApplication(vaccineApplication.getCattle(),
+                vaccineApplication.getVaccine(), vaccineApplication.getDate()).size() == 0){
             return true;
         }else{
             throw new RuntimeException("Erro: Vacina {vaccineApplication.getVaccine().getName()} já aplicada nessa nada");
