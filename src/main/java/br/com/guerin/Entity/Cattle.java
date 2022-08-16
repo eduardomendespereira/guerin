@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -26,14 +27,14 @@ public class Cattle extends AbstractEntity{
 
     @Getter @Setter
     @JoinColumn(name = "specie_id", nullable = true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  //I've added it, cause FetchType.LAZY wasn't working
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Specie specie;
 
     @Getter @Setter
     @JoinColumn(name = "farm_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Farm farm;
 
     @Getter @Setter
@@ -73,5 +74,18 @@ public class Cattle extends AbstractEntity{
             long mother
     ) {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cattle cattle = (Cattle) o;
+        return Objects.equals(earring, cattle.earring) && Objects.equals(weight, cattle.weight) && Objects.equals(specie, cattle.specie) && Objects.equals(farm, cattle.farm) && gender == cattle.gender && Objects.equals(father, cattle.father) && Objects.equals(mother, cattle.mother);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(earring, weight, specie, farm, gender, father, mother);
     }
 }

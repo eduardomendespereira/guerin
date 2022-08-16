@@ -64,7 +64,7 @@ public class CattleService implements ICattleService {
         if (id == cattle.getId()) {
             if (!this.findById(id).get().isInactive()) {
                 this.cattleRepository.disable(cattle.getId());
-                return this.cattleRepository.findById(id).get();
+                return this.findById(id).get();
             }
             else {
                 throw new RuntimeException("Gado já está inativo!");
@@ -88,11 +88,21 @@ public class CattleService implements ICattleService {
     }
 
     public ArrayList<Cattle> findBySpecie(Long specie_id) {
-        return this.cattleRepository.findBySpecie(specie_id);
+        if (specie_id != null) {
+            return this.cattleRepository.findBySpecie(specie_id);
+        }
+        else {
+            throw new RuntimeException("Especie não encontrada");
+        }
     }
 
     public ArrayList<Cattle> findByFarm(Long farm_id) {
-        return this.cattleRepository.findByFarm(farm_id);
+        if (farm_id != null) {
+            return this.cattleRepository.findByFarm(farm_id);
+        }
+        else {
+            throw new RuntimeException("Farm não encontrada");
+        }
     }
 
     public ResultFindParents findParents(Long earring) {
