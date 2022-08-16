@@ -19,7 +19,9 @@ public interface VaccineApplicationRepository extends JpaRepository<VaccineAppli
     @Query("SELECT va FROM VaccineApplication va where va.vaccine = :id")
     Optional<VaccineApplication> findByVaccine(Long id);
 
-    @Query("SELECT va FROM VaccineApplication va WHERE va.cattle = :idCattle AND va.vaccine =: idVaccine " +
+    @Query("SELECT va FROM VaccineApplication va WHERE va.cattle = :idCattle AND va.vaccine = :idVaccine" +
             " AND va.date = :dataApp")
-    public List<VaccineApplication> findDuplicateApplication(Long idCattle, Long idVaccine, LocalDateTime dataApp);
+    List<VaccineApplication> findDuplicateApplication(@Param("idCattle") Long idCattle,
+                                                      @Param("idVaccine") Long idVaccine,
+                                                      @Param("dataApp") LocalDateTime dataApp);
 }
