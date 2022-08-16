@@ -108,25 +108,25 @@ public class CattleServiceTest {
         Assertions.assertEquals(cattle.getEarring(), 1000L);
     }
 
-//    @Test
-//    public void findBySpecieTest() {
-//        Specie specie = this.specieFactory("specie");
-//        Farm farm = this.farmFactory("specie", "specie, 123");
-//        Cattle cattle = this.cattleFactory(106L, 300f, specie, farm, Gender.male, null, null);
-//        ArrayList<Cattle> cattles = this.cattleService.findBySpecie(cattle.getSpecie().getId());
-//
-//        Assertions.assertFalse(cattles.isEmpty());
-//    }
-//
-//    @Test
-//    public void findByFarmTest() {
-//        Specie specie = this.specieFactory("farm");
-//        Farm farm = this.farmFactory("farm", "farm, 123");
-//        Cattle cattle = this.cattleFactory(107L, 300f, specie, farm, Gender.male, null, null);
-//        ArrayList<Cattle> cattles = this.cattleService.findByFarm(cattle.getFarm().getId());
-//
-//        Assertions.assertFalse(cattles.isEmpty());
-//    }
+    @Test
+    public void findBySpecieTest() {
+        Specie specie = this.specieFactory("specie");
+        Farm farm = this.farmFactory("specie", "specie, 123");
+        Cattle cattle = this.cattleFactory(106L, 300f, specie, farm, Gender.male, null, null);
+        ArrayList<Cattle> cattles = this.cattleService.findBySpecie(cattle.getSpecie().getId());
+
+        Assertions.assertFalse(cattles.isEmpty());
+    }
+
+    @Test
+    public void findByFarmTest() {
+        Specie specie = this.specieFactory("farm");
+        Farm farm = this.farmFactory("farm", "farm, 123");
+        Cattle cattle = this.cattleFactory(107L, 300f, specie, farm, Gender.male, null, null);
+        ArrayList<Cattle> cattles = this.cattleService.findByFarm(cattle.getFarm().getId());
+
+        Assertions.assertFalse(cattles.isEmpty());
+    }
 
     @Test
     public void findChildrenTest() {

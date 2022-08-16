@@ -1,10 +1,14 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Cattle;
+import br.com.guerin.Entity.Farm;
+import br.com.guerin.Entity.Specie;
 import br.com.guerin.Payload.Cattle.ResultFindParents;
 import br.com.guerin.Payload.Cattle.ResultFindChildren;
 import br.com.guerin.Repository.Cattle.CattleRepository;
 import br.com.guerin.Service.IService.ICattleService;
+import br.com.guerin.Service.IService.IFarmService;
+import br.com.guerin.Service.IService.ISpecieService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,6 +24,9 @@ import java.util.Optional;
 @Slf4j
 public class CattleService implements ICattleService {
     private final CattleRepository cattleRepository;
+    private final ISpecieService specieService;
+    private final IFarmService farmService;
+
 
     public Optional<Cattle> findById(Long id) {
         Optional<Cattle> cattle = this.cattleRepository.findById(id);
@@ -89,7 +96,8 @@ public class CattleService implements ICattleService {
 
     public ArrayList<Cattle> findBySpecie(Long specie_id) {
         if (specie_id != null) {
-            return this.cattleRepository.findBySpecie(specie_id);
+            Specie specie = this.specieService.findById(specie_id).get();
+            return this.cattleRepository.findBySpecie(specie);
         }
         else {
             throw new RuntimeException("Especie não encontrada");
@@ -98,7 +106,8 @@ public class CattleService implements ICattleService {
 
     public ArrayList<Cattle> findByFarm(Long farm_id) {
         if (farm_id != null) {
-            return this.cattleRepository.findByFarm(farm_id);
+            Farm farm = this.farmService.findById(farm_id).get();
+            return this.cattleRepository.findByFarm(farm);
         }
         else {
             throw new RuntimeException("Farm não encontrada");
