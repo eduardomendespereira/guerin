@@ -46,11 +46,11 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public VaccineApplication save(VaccineApplication vaccineApplication){
-        if(validateSaveAndUpdate(vaccineApplication)){
+       // if(validateSaveAndUpdate(vaccineApplication)){
             return saveTransactional(vaccineApplication);
-        }else {
-            throw new DuplicateRequestException();
-        }
+       // }else {
+         //   throw new DuplicateRequestException();
+      //  }
     }
 
     @Transactional

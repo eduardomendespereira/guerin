@@ -32,10 +32,10 @@ public class VaccineApplicationServiceTest {
 
     private Cattle cattle;
     private Vaccine vaccine;
+    private Vaccine vaccine2;
 
     public void generateCattlesAndVaccine() {
         this.generateSpecieAndFarm();
-
         this.cattle = new Cattle(
                 123L,
                 300F,
@@ -49,7 +49,12 @@ public class VaccineApplicationServiceTest {
                 "carbunculo",
                 LocalDateTime.now(),
                 true
-                );
+        );
+        this.vaccine2 = new Vaccine(
+                "micose vacitec",
+                LocalDateTime.now(),
+                true
+        );
     }
 
     public void generateSpecieAndFarm() {
@@ -80,12 +85,25 @@ public class VaccineApplicationServiceTest {
         Assertions.assertNotNull(vaccineApplicationService.findAll(Pageable.unpaged()));
     }
 
-//    @Test
-//    public void checkUpdate() {
-//        this.generateCattlesAndVaccine();
-//        cattleService.save(cattle);
-//        vaccineService.save(vaccine);
-//        VaccineApplication vaccineApplication = new VaccineApplication();
-//
-//    }
+    @Test
+    @Transactional
+    public void checkUpdate() {
+        this.generateCattlesAndVaccine();
+        cattleService.save(cattle);
+        vaccineService.save(vaccine);
+        vaccineService.save(vaccine2);
+        VaccineApplication vaccineApplication = new VaccineApplication();
+        vaccineApplication.setNote("Aplicacao de vacina para raiva");
+        vaccineApplication.setDate(LocalDateTime.now());
+        vaccineApplication.setVaccine(vaccine);
+        vaccineApplication.setCattle(cattle);
+        vaccineApplicationService.save(vaccineApplication);
+        VaccineApplication updateVaccineApp = new VaccineApplication();
+        updateVaccineApp.setNote("App de vacina para micose");
+        updateVaccineApp.setDate(LocalDateTime.now());
+        updateVaccineApp.setVaccine(vaccine2);
+        updateVaccineApp.setCattle(cattle);
+        vaccineApplicationService.update(vaccineApplication.getId(), updateVaccineApp);
+        Assertions.assertEquals(vaccineApplicationService.findAll(Pageable.unpaged()).getSize(), 1);
+    }
 }
