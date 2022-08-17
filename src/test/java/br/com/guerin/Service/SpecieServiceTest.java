@@ -72,4 +72,12 @@ public class SpecieServiceTest {
         Specie specie = specieService.findById(1L).get();
         Assertions.assertNotNull(specie);
     }
+
+    @Test
+    public void findSpecieByName(){
+        Specie specie = specieService.save(new Specie("Bobao"));
+        Specie specie1 = specieService.findByName(specie.getName()).get();
+        Assertions.assertEquals("Bobao", specie1.getName());
+
+    }
 }
