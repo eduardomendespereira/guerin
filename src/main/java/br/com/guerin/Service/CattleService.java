@@ -83,7 +83,12 @@ public class CattleService implements ICattleService {
     }
 
     public Optional<Cattle> findByEarring(Long earring) {
-        return this.cattleRepository.findByEarring(earring);
+        if (earring != null) {
+            return this.cattleRepository.findByEarring(earring);
+        }
+        else {
+            throw new RuntimeException("Gado não encontrado");
+        }
     }
 
     public Cattle findByEarringOrNew(Long earring) {
@@ -100,7 +105,7 @@ public class CattleService implements ICattleService {
             return this.cattleRepository.findBySpecie(specie);
         }
         else {
-            throw new RuntimeException("Especie não encontrada");
+            throw new RuntimeException("Gado não encontrado");
         }
     }
 
@@ -110,7 +115,7 @@ public class CattleService implements ICattleService {
             return this.cattleRepository.findByFarm(farm);
         }
         else {
-            throw new RuntimeException("Farm não encontrada");
+            throw new RuntimeException("Gado não encontrado");
         }
     }
 
