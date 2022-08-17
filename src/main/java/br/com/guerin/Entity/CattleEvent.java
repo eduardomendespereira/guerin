@@ -36,12 +36,34 @@ public class CattleEvent extends AbstractEntity{
     private String description;
 
     @Getter @Setter
-    @JoinColumn(name = "vaccination_id", nullable = true, unique = true)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "vaccination_id", nullable = true, unique = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     private VaccineApplication vaccineApplication;
-
     @Getter @Setter
-    @JoinColumn(name = "weighing_id", nullable = true, unique = true)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "weighing_id", nullable = true, unique = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     private Weighing weighing;
+
+    public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description, VaccineApplication vaccineApplication) {
+        this.cattle = cattle;
+        this.eventType = eventType;
+        this.date = date;
+        this.description = description;
+        this.vaccineApplication = vaccineApplication;
+    }
+
+    public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description, Weighing weighing) {
+        this.cattle = cattle;
+        this.eventType = eventType;
+        this.date = date;
+        this.description = description;
+        this.weighing = weighing;
+    }
+
+    public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description) {
+        this.cattle = cattle;
+        this.eventType = eventType;
+        this.date = date;
+        this.description = description;
+    }
 }
