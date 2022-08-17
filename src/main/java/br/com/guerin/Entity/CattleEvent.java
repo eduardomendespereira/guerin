@@ -36,12 +36,12 @@ public class CattleEvent extends AbstractEntity{
     private String description;
 
     @Getter @Setter
-    @JoinColumn(name = "vaccination_id", nullable = true, unique = true)
+    @JoinColumn(name = "vaccination_id", nullable = true, unique = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private VaccineApplication vaccineApplication;
 
     @Getter @Setter
-    @JoinColumn(name = "weighing_id", nullable = true, unique = true)
+    @JoinColumn(name = "weighing_id", nullable = true, unique = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Weighing weighing;
 

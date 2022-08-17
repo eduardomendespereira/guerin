@@ -2,7 +2,6 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.*;
 import br.com.guerin.Service.IService.*;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -131,7 +130,7 @@ public class CattleEventServiceTest {
     }
 
     @Test
-    @DisplayName("Teste de inserção só com o tipo do evento")
+    @DisplayName("Teste de insercao so com o tipo do evento")
     @Transactional
     public void checkInsertCattleEventRandom(){
         generateEventFactory();
@@ -154,6 +153,7 @@ public class CattleEventServiceTest {
     }
 
     @Test
+    @DisplayName("teste edicao de um evento")
     @Transactional
     public void checkUpdate(){
         generateEventFactory();
@@ -176,4 +176,39 @@ public class CattleEventServiceTest {
         Assertions.assertEquals(getNameVaccineApp, "Aplicação de vacina para carbunculo");
     }
 
+    //com erro
+    @Test
+    @Transactional
+    public void checkDisable(){
+        generateEventFactory();
+        cattleService.save(cattle);
+        eventTypeService.save(eventRandom);
+        CattleEvent cattleEvent = new CattleEvent(
+                cattle,
+                eventRandom,
+                LocalDateTime.now(),
+                "Consulta veterinaria"
+        );
+        cattleEventService.save(cattleEvent);
+        cattleEventService.disable(cattleEvent.getId());
+        var cattleEventComparation = cattleEventService.findById(cattleEvent.getId());
+        Assertions.assertTrue(cattleEventComparation.get().isInactive());
+    }
+
+    //com erro
+    @Test
+    public void checkFindByEventType(){
+        generateEventFactory();
+        cattleService.save(cattle);
+        eventTypeService.save(eventRandom);
+        CattleEvent eventoRandom = new CattleEvent(
+                cattle,
+                eventRandom,
+                LocalDateTime.now(),
+                "Veterinário para tratar machucado na perna"
+        );
+        cattleEventService.save(eventoRandom);
+        var getEventType = cattleEventService.findByEventType(eventoRandom.getEventType().getId());
+        Assertions.assertEquals(getEventType, eventoRandom.getEventType().getId());
+    }
 }
