@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,29 +34,41 @@ public class SpecieServiceTest {
     }
     @Test
     public  void update(){
-        Specie specie = specieRepository.findById(1L).orElse(new Specie("Tst1"));
+        if(specieService.listAll(Pageable.unpaged()).isEmpty()){
+            specieService.save(new Specie("Fidelis"));
+        }
+        Specie specie = specieService.findById(1L).get();
         Assertions.assertNotNull(specie);
-        specie.setName("Ty4");
-        specieService.save(specie);
+        String temp = specie.getName();
+        specie.setName("Dragon");
+        specieService.update(1L, specie);
         Specie specie1 = specieService.findById(1L).get();
-        Assertions.assertEquals("Ty4", specie1.getName());
+        Assertions.assertNotEquals(temp, specie1.getName());
     }
 
     @Test
     public void inactivateSpecie(){
-        Specie specie =specieRepository.findById(1L).orElse(new Specie("Jk4"));
+        if(specieService.listAll(Pageable.unpaged()).isEmpty()){
+            specieService.save(new Specie("Jk4"));
+        }
+        Specie specie =specieService.findById(1L).get();
         Assertions.assertFalse(specie.isInactive());
-        specie.setInactive(true);
-        specieService.save(specie);
+        specieService.disable(1L, specie);
         Specie specie1 = specieService.findById(1L).get();
         Assertions.assertTrue(specie1.isInactive());
     }
     @Test
     public void listAllSpecie(){
+        if(specieService.listAll(Pageable.unpaged()).isEmpty()){
+            specieService.save(new Specie("Fidelao"));
+        }
         Assertions.assertNotNull(specieService.listAll(Pageable.unpaged()));
     }
     @Test
-    public void findById(){
+    public void findSpecieById(){
+        if(specieService.listAll(Pageable.unpaged()).isEmpty()){
+            specieService.save(new Specie("Fidelao"));
+        }
         Specie specie = specieService.findById(1L).get();
         Assertions.assertNotNull(specie);
     }
