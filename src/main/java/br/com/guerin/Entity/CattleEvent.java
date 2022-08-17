@@ -60,4 +60,11 @@ public class CattleEvent extends AbstractEntity{
         this.description = description;
         this.weighing = weighing;
     }
+
+    public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description) {
+        this.cattle = cattle;
+        this.eventType = eventType;
+        this.date = date;
+        this.description = description;
+    }
 }

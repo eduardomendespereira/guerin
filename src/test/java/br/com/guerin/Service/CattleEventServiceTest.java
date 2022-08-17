@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -40,6 +41,7 @@ public class CattleEventServiceTest {
     private EventType eventTypeVaccine;
     private EventType eventTypeWeighing;
 
+    private EventType eventRandom;
     private Weighing weighing;
 
     public void generateEventFactory() {
@@ -69,6 +71,9 @@ public class CattleEventServiceTest {
         );
         this.eventTypeWeighing = new EventType(
                 "Pesagem"
+        );
+        this.eventRandom = new EventType(
+                "Veterinário"
         );
         this.weighing = new Weighing(
                 cattle,
@@ -123,6 +128,29 @@ public class CattleEventServiceTest {
         cattleEventService.save(eventoDePesagem);
         var getEventComparation = cattleEventService.findById(eventoDePesagem.getId());
         Assertions.assertEquals(eventoDePesagem.getDescription(), getEventComparation.get().getDescription());
+    }
+
+    @Test
+    @DisplayName("Teste de inserção só com o tipo do evento")
+    @Transactional
+    public void checkInsertCattleEventRandom(){
+        generateEventFactory();
+        cattleService.save(cattle);
+        eventTypeService.save(eventRandom);
+        CattleEvent eventoRandom = new CattleEvent(
+                cattle,
+                eventRandom,
+                LocalDateTime.now(),
+                "Veterinário para tratar machucado na perna"
+        );
+        cattleEventService.save(eventoRandom);
+        var getEventComparation = cattleEventService.findById(eventoRandom.getId());
+        Assertions.assertEquals(eventoRandom.getDescription(), getEventComparation.get().getDescription());
+    }
+
+    @Test
+    public void checkFindByAll(){
+        Assertions.assertNotNull(cattleEventService.findAll(Pageable.unpaged()));
     }
 
 }
