@@ -213,4 +213,23 @@ public class CattleEventServiceTest {
         List<CattleEvent> getEventType = cattleEventService.findByEventType(newEventCattle.getEventType().getId());
         Assertions.assertTrue(getEventType.contains(newEventCattle));
     }
+
+    @Test
+    @Transactional
+    public void checkFindByWeighing(){
+        generateEventFactory();
+        cattleService.save(cattle);
+        eventTypeService.save(eventTypeWeighing);
+        weighingService.save(weighing);
+        CattleEvent eventoDePesagem = new CattleEvent(
+                cattle,
+                eventTypeWeighing,
+                LocalDateTime.now(),
+                "Pesagem do gado",
+                weighing
+        );
+        cattleEventService.save(eventoDePesagem);
+        List<CattleEvent> getWeighing = cattleEventService.findByWeighing(eventoDePesagem.getWeighing().getId());
+        Assertions.assertTrue(getWeighing.contains(eventoDePesagem));
+    }
 }
