@@ -19,8 +19,6 @@ public class UserServiceTest {
     IUserService userService;
     private final User user = new User("lucas", "hanke", "lucasghank@hotmail.com", "bagrt", "123", Role.admin);
 
-    IUserService mock = Mockito.mock(IUserService.class);
-
     @Test
     public void save() {
         var obj = userService.save(user);
@@ -63,11 +61,11 @@ public class UserServiceTest {
 
     @Test
     public void findById() {
-        Mockito.when(this.mock.findById(1L)).thenReturn(Optional.of(this.user));
-        var uId = this.mock.findById(1L);
+        var obj = userService.save(user);
+        var u = userService.findByUsername(user.getUsername());
+        var uId = userService.findById(u.get().getId());
         Assertions.assertEquals(user.getUsername(), uId.get().getUsername());
     }
-
     @Test
     public void findByEmail() {
         var obj = userService.save(user);
