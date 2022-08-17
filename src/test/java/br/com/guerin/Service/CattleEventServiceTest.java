@@ -37,7 +37,8 @@ public class CattleEventServiceTest {
     private Cattle cattle;
     private Vaccine vaccine;
     private VaccineApplication vaccineApplication;
-    private EventType eventType;
+    private EventType eventTypeVaccine;
+    private EventType eventTypeWeighing;
 
     private Weighing weighing;
 
@@ -63,8 +64,11 @@ public class CattleEventServiceTest {
                 LocalDateTime.now(),
                 cattle
         );
-        this.eventType = new EventType(
+        this.eventTypeVaccine = new EventType(
                 "Vacinação"
+        );
+        this.eventTypeWeighing = new EventType(
+                "Pesagem"
         );
         this.weighing = new Weighing(
                 cattle,
@@ -88,10 +92,10 @@ public class CattleEventServiceTest {
         cattleService.save(cattle);
         vaccineService.save(vaccine);
         vaccineApplicationService.save(vaccineApplication);
-        eventTypeService.save(eventType);
+        eventTypeService.save(eventTypeVaccine);
         CattleEvent eventoDeVacinacao = new CattleEvent(
                 cattle,
-                eventType,
+                eventTypeVaccine,
                 LocalDateTime.now(),
                 "Aplicação de vacina contra carbunculo",
                 vaccineApplication
@@ -99,6 +103,26 @@ public class CattleEventServiceTest {
         cattleEventService.save(eventoDeVacinacao);
         var getEventComparation = cattleEventService.findById(eventoDeVacinacao.getId());
         Assertions.assertEquals(eventoDeVacinacao.getDescription(), getEventComparation.get().getDescription());
+    }
+
+    @Test
+    @DisplayName("Teste de insercao de evento de pesagem")
+    @Transactional
+    public void checkInsertCattleEventWeighing(){
+        generateEventFactory();
+        cattleService.save(cattle);
+        eventTypeService.save(eventTypeWeighing);
+        weighingService.save(weighing);
+        CattleEvent eventoDePesagem = new CattleEvent(
+                cattle,
+                eventTypeWeighing,
+                LocalDateTime.now(),
+                "Pesagem do gado",
+                weighing
+        );
+        cattleEventService.save(eventoDePesagem);
+        var getEventComparation = cattleEventService.findById(eventoDePesagem.getId());
+        Assertions.assertEquals(eventoDePesagem.getDescription(), getEventComparation.get().getDescription());
     }
 
 }

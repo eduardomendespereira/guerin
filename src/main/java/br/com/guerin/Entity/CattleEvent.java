@@ -52,4 +52,12 @@ public class CattleEvent extends AbstractEntity{
         this.description = description;
         this.vaccineApplication = vaccineApplication;
     }
+
+    public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description, Weighing weighing) {
+        this.cattle = cattle;
+        this.eventType = eventType;
+        this.date = date;
+        this.description = description;
+        this.weighing = weighing;
+    }
 }
