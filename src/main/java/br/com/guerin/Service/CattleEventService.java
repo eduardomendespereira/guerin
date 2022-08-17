@@ -1,8 +1,10 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.CattleEvent;
+import br.com.guerin.Entity.EventType;
 import br.com.guerin.Repository.CattleEvent.CattleEventRepository;
 import br.com.guerin.Service.IService.ICattleEventService;
+import br.com.guerin.Service.IService.IEventTypeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +22,8 @@ import java.util.Optional;
 @Slf4j
 public class CattleEventService implements ICattleEventService {
     private final CattleEventRepository cattleEventRepository;
+
+    private final IEventTypeService eventTypeService;
 
     public Page<CattleEvent> findAll(Pageable pageable) {
         return cattleEventRepository.findAll(pageable);
@@ -38,8 +43,9 @@ public class CattleEventService implements ICattleEventService {
         }
     }
 
-    public ArrayList<CattleEvent> findByEventType(Long eventType_id) {
-        return cattleEventRepository.findByEventType(eventType_id);
+    public List<CattleEvent> findByEventType(Long eventTypeId) {
+        EventType eventType = this.eventTypeService.findById(eventTypeId).get();
+        return cattleEventRepository.findByEventType(eventType);
     }
 
     public Optional<CattleEvent> findByWeighing(Long weighing_id) {

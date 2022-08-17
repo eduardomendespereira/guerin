@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 public class CattleEventServiceTest {
@@ -195,20 +197,20 @@ public class CattleEventServiceTest {
         Assertions.assertTrue(cattleEventComparation.get().isInactive());
     }
 
-    //com erro
     @Test
+    @Transactional
     public void checkFindByEventType(){
         generateEventFactory();
         cattleService.save(cattle);
         eventTypeService.save(eventRandom);
-        CattleEvent eventoRandom = new CattleEvent(
+        CattleEvent newEventCattle = new CattleEvent(
                 cattle,
                 eventRandom,
                 LocalDateTime.now(),
-                "Veterinário para tratar machucado na perna"
+                "new event test"
         );
-        cattleEventService.save(eventoRandom);
-        var getEventType = cattleEventService.findByEventType(eventoRandom.getEventType().getId());
-        Assertions.assertEquals(getEventType, eventoRandom.getEventType().getId());
+        cattleEventService.save(newEventCattle);
+        List<CattleEvent> getEventType = cattleEventService.findByEventType(newEventCattle.getEventType().getId());
+        Assertions.assertTrue(getEventType.contains(newEventCattle));
     }
 }
