@@ -168,11 +168,12 @@ public class CattleEventServiceTest {
                 "Exames do veterinário"
         );
         cattleEventService.save(eventoRandom);
-        CattleEvent eventAtt = eventoRandom;
-        eventAtt.setEventType(eventTypeVaccine);
-        eventAtt.setVaccineApplication(vaccineApplication);
-
-
+        eventoRandom.setEventType(eventTypeVaccine);
+        eventoRandom.setVaccineApplication(vaccineApplication);
+        cattleEventService.update(eventoRandom.getId(), eventoRandom);
+        String getNameVaccineApp = String.valueOf(cattleEventService.findById(eventoRandom.getId()).get()
+                .getVaccineApplication().getNote());
+        Assertions.assertEquals(getNameVaccineApp, "Aplicação de vacina para carbunculo");
     }
 
 }
