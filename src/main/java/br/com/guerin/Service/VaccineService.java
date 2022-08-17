@@ -34,16 +34,16 @@ public class VaccineService implements IVaccineService{
     }
 
     public Vaccine update(Long id, Vaccine vaccine){
-      return saveTransactional(vaccine);
+        return saveTransactional(vaccine);
     }
 
     @Transactional
     public Vaccine saveTransactional(Vaccine vaccine){
-       return this.vaccineRepository.save(vaccine);
+        return this.vaccineRepository.save(vaccine);
     }
 
     public Vaccine save(Vaccine vaccine){
-       return saveTransactional(vaccine);
+        return saveTransactional(vaccine);
     }
 
     public Optional<Vaccine> findByName(String name) {
@@ -51,9 +51,9 @@ public class VaccineService implements IVaccineService{
     }
 
     @Transactional
-    public void disable(Long id, Vaccine vaccine){
-        if(id == vaccine.getId()){
-            this.vaccineRepository.disable(vaccine.getId());
+    public void disable(Long id){
+        if(!this.vaccineRepository.findById(id).get().isInactive()){
+            this.vaccineRepository.disable(id);
         }
     }
 }
