@@ -254,4 +254,21 @@ public class CattleEventServiceTest {
                 .getVaccineApplication().getId());
         Assertions.assertEquals(cattleEvent.get().getDescription(), eventoDeVacinacao.getDescription());
     }
+
+    @Test
+    @Transactional
+    public void checkFindByCattle(){
+        generateEventFactory();
+        cattleService.save(cattle);
+        eventTypeService.save(eventRandom);
+        CattleEvent newEventCattle = new CattleEvent(
+                cattle,
+                eventRandom,
+                LocalDateTime.now(),
+                "Test find cattle"
+        );
+        cattleEventService.save(newEventCattle);
+        var getCattleEvents = this.cattleEventService.findByCattle(newEventCattle.getCattle().getId());
+        Assertions.assertTrue(getCattleEvents.contains(newEventCattle));
+    }
 }

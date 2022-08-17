@@ -1,9 +1,6 @@
 package br.com.guerin.Repository.CattleEvent;
 
-import br.com.guerin.Entity.CattleEvent;
-import br.com.guerin.Entity.EventType;
-import br.com.guerin.Entity.VaccineApplication;
-import br.com.guerin.Entity.Weighing;
+import br.com.guerin.Entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,6 +24,6 @@ public interface CattleEventRepository extends JpaRepository<CattleEvent, Long> 
     @Query("SELECT ce FROM CattleEvent ce where ce.vaccineApplication = :vaccination")
     Optional<CattleEvent> findByVaccineApp(VaccineApplication vaccination);
 
-    @Query("SELECT ce FROM CattleEvent ce where ce.cattle = :cattle_id")
-    ArrayList<CattleEvent> findByCattle(Long cattle_id);
+    @Query("SELECT ce FROM CattleEvent ce where ce.cattle = :cattle")
+    ArrayList<CattleEvent> findByCattle(Cattle cattle);
 }
