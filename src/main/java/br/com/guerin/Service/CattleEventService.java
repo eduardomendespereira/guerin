@@ -1,8 +1,11 @@
 package br.com.guerin.Service;
 
+import br.com.guerin.Entity.Cattle;
 import br.com.guerin.Entity.CattleEvent;
+import br.com.guerin.Entity.EventType;
+import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Repository.CattleEvent.CattleEventRepository;
-import br.com.guerin.Service.IService.ICattleEventService;
+import br.com.guerin.Service.IService.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +24,10 @@ import java.util.Optional;
 public class CattleEventService implements ICattleEventService {
     private final CattleEventRepository cattleEventRepository;
 
+    private final IEventTypeService eventTypeService;
+    private final IWeighingService weighingService;
+    private final IVaccineApplicationService vaccineApplicationService;
+    private final ICattleService cattleService;
     public Page<CattleEvent> findAll(Pageable pageable) {
         return cattleEventRepository.findAll(pageable);
     }
@@ -38,19 +46,32 @@ public class CattleEventService implements ICattleEventService {
         }
     }
 
-    public ArrayList<CattleEvent> findByEventType(Long eventType_id) {
-        return cattleEventRepository.findByEventType(eventType_id);
+    public List<CattleEvent> findByEventType(Long eventTypeId) {
+        EventType eventType = this.eventTypeService.findById(eventTypeId).get();
+        return cattleEventRepository.findByEventType(eventType);
     }
 
-    public Optional<CattleEvent> findByWeighing(Long weighing_id) {
-        return cattleEventRepository.findByWeighing(weighing_id);
+    public List<CattleEvent> findByWeighing(Long weighingId) {
+        var weighing = this.weighingService.findById(weighingId);
+        return cattleEventRepository.findByWeighing(weighing);
     }
 
-    public Optional<CattleEvent> findByVaccineApp(Long vaccination_id) {
-        return cattleEventRepository.findByVaccineApp(vaccination_id);
+    public Optional<CattleEvent> findByVaccineApp(Long vaccinationId) {
+        VaccineApplication vaccination = this.vaccineApplicationService.findById(vaccinationId).get();
+        return cattleEventRepository.findByVaccineApp(vaccination);
     }
 
-    public ArrayList<CattleEvent> findByCattle(Long cattle_id) {
-        return cattleEventRepository.findByCattle(cattle_id);
+    public ArrayList<CattleEvent> findByCattle(Long cattleId) {
+        Cattle cattle = this.cattleService.findById(cattleId).get();
+        return cattleEventRepository.findByCattle(cattle);
+    }
+
+    @Transactional
+    public CattleEvent update(Long id, CattleEvent cattleEvent){
+        if(id == cattleEvent.getId()){
+            return this.cattleEventRepository.save(cattleEvent);
+        }else{
+            throw new RuntimeException("Evento não encontrado");
+        }
     }
 }
