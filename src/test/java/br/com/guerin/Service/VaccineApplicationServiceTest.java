@@ -106,6 +106,7 @@ public class VaccineApplicationServiceTest {
     }
 
     @Test
+    @Transactional
     public void checkDisable(){
         this.generateCattlesAndVaccine();
         cattleService.save(cattle);
@@ -118,5 +119,6 @@ public class VaccineApplicationServiceTest {
         vaccineApplicationService.save(vaccineApplication);
         vaccineApplicationService.disable(vaccineApplication.getId(), vaccineApplication);
         Optional<VaccineApplication> getVaccineApp = vaccineApplicationService.findById(vaccineApplication.getId());
+        Assertions.assertTrue(getVaccineApp.get().isInactive());
     }
 }
