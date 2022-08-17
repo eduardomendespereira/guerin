@@ -1,5 +1,6 @@
 package br.com.guerin.Service;
 
+import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Repository.Weighing.WeighingRepository;
 import br.com.guerin.Service.IService.IWeighingService;
@@ -33,17 +34,17 @@ public class WeighingService implements IWeighingService{
     }
 
     public Weighing save(Weighing weighing) {
-        return this.saveTransactional(weighing);
+        return saveTransactional(weighing);
     }
 
     @Transactional
-    public Weighing saveTransactional(Weighing weighing) {
+    public Weighing saveTransactional(Weighing weighing){
         return this.weighingRepository.save(weighing);
     }
 
     public Weighing update(Long id, Weighing weighing) {
         if (id == weighing.getId()) {
-            return this.saveTransactional(weighing);
+            return saveTransactional(weighing);
         }
         else {
             throw new RuntimeException("Error: Não foi possivel editar a Pesagem.");

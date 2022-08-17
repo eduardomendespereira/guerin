@@ -15,13 +15,12 @@ public class Weighing extends AbstractEntity {
 
     @Getter @Setter
     @NotNull
-    @JoinColumn(name = "cattle_id", nullable = false)
+    @JoinColumn(name = "cattle_id", nullable = false, unique = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  //I've added it, cause FetchType.LAZY wasn't working
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Cattle cattle;
 
     @Getter @Setter
-    @Past
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
