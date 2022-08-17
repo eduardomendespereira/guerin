@@ -22,7 +22,6 @@ public class EventTypeServiceTest {
     @Autowired
     EventTypeRepository eventTypeRepository;
 
-    IEventTypeService mock = Mockito.mock(EventTypeService.class);
 
     @Test
     public void insertEventType(){
@@ -38,33 +37,28 @@ public class EventTypeServiceTest {
     }
     @Test
     public void updateEventType(){
-        EventType eventType = new EventType();
-        eventType = eventTypeService.findById(1L).orElse(new EventType("Fidelis"));
+        EventType eventType = eventTypeService.save(new EventType("GGGG"));
         Assertions.assertNotNull(eventType);
         String temp = eventType.getName();
         eventType.setName("Fipo");
-        eventTypeService.update(1L, eventType);
-        Assertions.assertTrue(temp != eventTypeService.findById(1L).get().getName());
+        eventTypeService.update(eventType.getId(), eventType);
+        Assertions.assertTrue(temp != eventTypeService.findById(eventType.getId()).get().getName());
     }
 
     @Test
     public void inactivateEventType(){
-        if(eventTypeService.listAll(Pageable.unpaged()).isEmpty()){
-            eventTypeService.save(new EventType("Fidelis"));
-        }
-        EventType eventType = eventTypeService.findById(1L).get();
+
+        EventType eventType = eventTypeService.save(new EventType("G4G5"));
         Assertions.assertFalse(eventType.isInactive());
-        eventTypeService.disable(1L, eventType);
-        EventType eventType1 = eventTypeService.findById(1L).get();
+        eventTypeService.disable(eventType.getId(), eventType);
+        EventType eventType1 = eventTypeService.findById(eventType.getId()).get();
         Assertions.assertTrue(eventType1.isInactive());
     }
 
     @Test
     public void findByIdEventType() {
-       if(eventTypeService.listAll(Pageable.unpaged()).isEmpty()){
-           eventTypeService.save(new EventType("Fidelao"));
-       }
-       EventType eventType = eventTypeService.findById(1L).get();
+       EventType eventType1 = eventTypeService.save(new EventType("ASAS"));
+       EventType eventType = eventTypeService.findById(eventType1.getId()).get();
        Assertions.assertNotNull(eventType);
     }
     @Test

@@ -26,7 +26,7 @@ public class CattleEvent extends AbstractEntity{
     private EventType eventType;
 
     @Getter @Setter
-    @Past @NotNull
+    @NotNull
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
