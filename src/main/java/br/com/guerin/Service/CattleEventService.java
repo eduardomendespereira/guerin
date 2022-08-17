@@ -53,4 +53,13 @@ public class CattleEventService implements ICattleEventService {
     public ArrayList<CattleEvent> findByCattle(Long cattle_id) {
         return cattleEventRepository.findByCattle(cattle_id);
     }
+
+    @Transactional
+    public CattleEvent update(Long id, CattleEvent cattleEvent){
+        if(id == cattleEvent.getId()){
+            return this.cattleEventRepository.save(cattleEvent);
+        }else{
+            throw new RuntimeException("Evento não encontrado");
+        }
+    }
 }

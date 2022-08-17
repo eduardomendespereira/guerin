@@ -80,4 +80,13 @@ public class CattleEventController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PutMapping("/{cattleEventId}")
+    public ResponseEntity<?> update(@RequestBody CattleEvent cattleEvent, @PathVariable Long cattleEventId){
+        try{
+            return ResponseEntity.ok().body(this.cattleEventService.update(cattleEventId, cattleEvent));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

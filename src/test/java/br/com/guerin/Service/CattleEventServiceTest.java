@@ -153,4 +153,26 @@ public class CattleEventServiceTest {
         Assertions.assertNotNull(cattleEventService.findAll(Pageable.unpaged()));
     }
 
+    @Test
+    @Transactional
+    public void checkUpdate(){
+        generateEventFactory();
+        cattleService.save(cattle);
+        eventTypeService.save(eventRandom);
+        vaccineService.save(vaccine);
+        vaccineApplicationService.save(vaccineApplication);
+        CattleEvent eventoRandom = new CattleEvent(
+                cattle,
+                eventRandom,
+                LocalDateTime.now(),
+                "Exames do veterinário"
+        );
+        cattleEventService.save(eventoRandom);
+        CattleEvent eventAtt = eventoRandom;
+        eventAtt.setEventType(eventTypeVaccine);
+        eventAtt.setVaccineApplication(vaccineApplication);
+
+
+    }
+
 }
