@@ -30,4 +30,10 @@ public class Weighing extends AbstractEntity {
     @NotNull @NotBlank
     @Column(name = "weight", nullable = false)
     private Float weight;
+
+    public Weighing(Cattle cattle, LocalDateTime date, Float weight) {
+        this.cattle = cattle;
+        this.date = date;
+        this.weight = weight;
+    }
 }

@@ -38,6 +38,13 @@ public class VaccineApplication extends AbstractEntity{
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Cattle cattle;
 
+    public VaccineApplication(String note, Vaccine vaccine, LocalDateTime date, Cattle cattle) {
+        this.note = note;
+        this.vaccine = vaccine;
+        this.date = date;
+        this.cattle = cattle;
+    }
+
     public boolean dateIsFuture(){
         return date.compareTo(LocalDateTime.now()) > 0;
     }
