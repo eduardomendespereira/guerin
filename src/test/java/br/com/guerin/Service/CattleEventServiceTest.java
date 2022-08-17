@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class CattleEventServiceTest {
@@ -231,5 +232,26 @@ public class CattleEventServiceTest {
         cattleEventService.save(eventoDePesagem);
         List<CattleEvent> getWeighing = cattleEventService.findByWeighing(eventoDePesagem.getWeighing().getId());
         Assertions.assertTrue(getWeighing.contains(eventoDePesagem));
+    }
+
+    @Test
+    @Transactional
+    public void checkFindByVaccineApp(){
+        generateEventFactory();
+        cattleService.save(cattle);
+        vaccineService.save(vaccine);
+        vaccineApplicationService.save(vaccineApplication);
+        eventTypeService.save(eventTypeVaccine);
+        CattleEvent eventoDeVacinacao = new CattleEvent(
+                cattle,
+                eventTypeVaccine,
+                LocalDateTime.now(),
+                "Aplicação de vacina contra carbunculo",
+                vaccineApplication
+        );
+        cattleEventService.save(eventoDeVacinacao);
+        Optional<CattleEvent> cattleEvent = this.cattleEventService.findByVaccineApp(eventoDeVacinacao
+                .getVaccineApplication().getId());
+        Assertions.assertEquals(cattleEvent.get().getDescription(), eventoDeVacinacao.getDescription());
     }
 }

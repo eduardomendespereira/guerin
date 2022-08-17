@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "vaccine_applications", schema = "public")
 public class VaccineApplication extends AbstractEntity{
     @Getter @Setter
-    @NotBlank @NotNull
+    @NotNull
     @Length(min = 3, max = 255, message = "A descrição deverá ter no máximo {max} caracteres")
     @Column(name = "note", nullable = false)
     private String note;
@@ -33,7 +33,7 @@ public class VaccineApplication extends AbstractEntity{
     private LocalDateTime date;
 
     @Getter @Setter
-    @NotNull @NotBlank
+    @NotNull
     @JoinColumn(name = "cattle_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Cattle cattle;

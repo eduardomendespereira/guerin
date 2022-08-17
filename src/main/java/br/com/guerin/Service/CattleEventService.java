@@ -2,9 +2,11 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.CattleEvent;
 import br.com.guerin.Entity.EventType;
+import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Repository.CattleEvent.CattleEventRepository;
 import br.com.guerin.Service.IService.ICattleEventService;
 import br.com.guerin.Service.IService.IEventTypeService;
+import br.com.guerin.Service.IService.IVaccineApplicationService;
 import br.com.guerin.Service.IService.IWeighingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ public class CattleEventService implements ICattleEventService {
 
     private final IEventTypeService eventTypeService;
     private final IWeighingService weighingService;
+    private final IVaccineApplicationService vaccineApplicationService;
     public Page<CattleEvent> findAll(Pageable pageable) {
         return cattleEventRepository.findAll(pageable);
     }
@@ -54,8 +57,9 @@ public class CattleEventService implements ICattleEventService {
         return cattleEventRepository.findByWeighing(weighing);
     }
 
-    public Optional<CattleEvent> findByVaccineApp(Long vaccination_id) {
-        return cattleEventRepository.findByVaccineApp(vaccination_id);
+    public Optional<CattleEvent> findByVaccineApp(Long vaccinationId) {
+        VaccineApplication vaccination = this.vaccineApplicationService.findById(vaccinationId).get();
+        return cattleEventRepository.findByVaccineApp(vaccination);
     }
 
     public ArrayList<CattleEvent> findByCattle(Long cattle_id) {
