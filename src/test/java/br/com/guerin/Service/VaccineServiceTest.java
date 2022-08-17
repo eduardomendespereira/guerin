@@ -43,7 +43,7 @@ public class VaccineServiceTest {
     @DisplayName("teste findById")
     public void checkFindById(){
         Vaccine vaccine = new Vaccine();
-        vaccine.setName("carbunculo");
+        vaccine.setName("carbunculo vacitec");
         vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(false);
         vaccineService.save(vaccine);
