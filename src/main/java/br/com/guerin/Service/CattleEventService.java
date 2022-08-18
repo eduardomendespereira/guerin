@@ -37,7 +37,11 @@ public class CattleEventService implements ICattleEventService {
     }
     @Transactional
     public CattleEvent save(CattleEvent cattleEvent) {
-        return cattleEventRepository.save(cattleEvent);
+        if(!validateTypeEvent(cattleEvent)){
+           throw new RuntimeException("O evento possui 2 tipos de evento (vacinação e pesagem)");
+        }else{
+            return cattleEventRepository.save(cattleEvent);
+        }
     }
     @Transactional
     public void disable(Long id) {
@@ -68,10 +72,18 @@ public class CattleEventService implements ICattleEventService {
 
     @Transactional
     public CattleEvent update(Long id, CattleEvent cattleEvent){
-        if(id == cattleEvent.getId()){
+        if(id == cattleEvent.getId() && validateTypeEvent(cattleEvent)){
             return this.cattleEventRepository.save(cattleEvent);
         }else{
             throw new RuntimeException("Evento não encontrado");
+        }
+    }
+
+    public boolean validateTypeEvent(CattleEvent cattleEvent){
+        if(cattleEvent.getVaccineApplication() != null && cattleEvent.getWeighing() != null){
+            return false;
+        }else {
+            return true;
         }
     }
 }
