@@ -42,8 +42,8 @@ public class VaccineApplicationServiceTest {
                 specieService.findByName("Nelore").get(),
                 farmService.findByName("Fazenda Generica").get(),
                 Gender.male,
-                124L,
-                125L
+                null,
+                null
         );
         this.vaccine = new Vaccine(
                 "carbunculo",

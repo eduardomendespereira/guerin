@@ -54,8 +54,8 @@ public class CattleEventServiceTest {
                 specieService.findByName("Brandus").get(),
                 farmService.findByName("Fazenda Qualquer").get(),
                 Gender.male,
-                124L,
-                125L
+                null,
+                null
         );
         this.vaccine = new Vaccine(
                 "carbunculo",
