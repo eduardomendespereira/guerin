@@ -180,7 +180,6 @@ public class CattleEventServiceTest {
     }
 
     @Test
-    @Transactional
     public void checkDisable(){
         generateEventFactory();
         cattleService.save(cattle);

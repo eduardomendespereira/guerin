@@ -52,7 +52,6 @@ public class VaccineServiceTest {
     }
 
     @Test
-    @Transactional
     public void checkDisable(){
         Vaccine vaccine = new Vaccine();
         vaccine.setName("vermicida");
@@ -72,11 +71,11 @@ public class VaccineServiceTest {
         vaccine.setRequired(true);
         vaccineService.save(vaccine);
         Vaccine vaccineTest = new Vaccine();
-        vaccineTest.setName("carbunculo");
+        vaccineTest.setName("vacitec carbunc");
         vaccineTest.setDate(LocalDateTime.now());
         vaccineTest.setRequired(true);
         vaccineService.update(vaccine.getId(), vaccineTest);
         Optional<Vaccine> vaccineComparation = vaccineService.findById(vaccineTest.getId());
-        Assertions.assertEquals(vaccineComparation.get().getName(), "carbunculo");
+        Assertions.assertEquals(vaccineComparation.get().getName(), "vacitec carbunc");
     }
 }
