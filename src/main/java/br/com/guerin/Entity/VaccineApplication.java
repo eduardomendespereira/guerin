@@ -1,6 +1,5 @@
 package br.com.guerin.Entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -28,7 +27,6 @@ public class VaccineApplication extends AbstractEntity{
 
     @Getter @Setter
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
@@ -38,14 +36,14 @@ public class VaccineApplication extends AbstractEntity{
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Cattle cattle;
 
+    public boolean dateIsFuture(){
+        return date.compareTo(LocalDateTime.now()) > 0;
+    }
+
     public VaccineApplication(String note, Vaccine vaccine, LocalDateTime date, Cattle cattle) {
         this.note = note;
         this.vaccine = vaccine;
         this.date = date;
         this.cattle = cattle;
-    }
-
-    public boolean dateIsFuture(){
-        return date.compareTo(LocalDateTime.now()) > 0;
     }
 }

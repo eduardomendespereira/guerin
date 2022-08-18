@@ -74,6 +74,7 @@ public class VaccineController {
 
     @PutMapping("/disable/{idVaccine}")
     public ResponseEntity<?> disable(
+            @RequestBody Vaccine vaccine,
             @PathVariable Long idVaccine
     ) {
         try {

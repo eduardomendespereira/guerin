@@ -1,127 +1,159 @@
 package br.com.guerin.Service;
 
+import java.util.ArrayList;
 import br.com.guerin.Entity.*;
+import br.com.guerin.Payload.Cattle.ResultFindChildren;
+import br.com.guerin.Payload.Cattle.ResultFindParents;
 import br.com.guerin.Service.IService.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 
 @SpringBootTest
 public class CattleServiceTest {
-    @Autowired
-    ICattleService cattleService;
-
-    @Autowired
-    ISpecieService specieService;
-
-    @Autowired
-    IFarmService farmService;
-
-    private Cattle son = null;
-    private Cattle mother = null;
-    private Cattle father = null;
-
-    public void generateCattles() {
-        this.generateSpecieAndFarm();
-
-        this.son = new Cattle(
-                123L,
-                300F,
-                specieService.findByName("Nelore").get(),
-                farmService.findByName("Fazenda Generica").get(),
-                Gender.male,
-                124L,
-                125L
-        );
-
-        this.father = new Cattle(
-                124L,
-                350F,
-                specieService.findByName("Nelore").get(),
-                farmService.findByName("Fazenda Generica").get(),
-                Gender.male,
-                null,
-                null
-        );
-
-
-        this.mother = new Cattle(
-                125L,
-                400F,
-                specieService.findByName("Nelore").get(),
-                farmService.findByName("Fazenda Generica").get(),
-                Gender.male,
-                null,
-                null
-        );
+    private Farm farmFactory(String name, String address) {
+        Farm farm = new Farm(name, address);
+        return this.farmService.save(farm);
     }
 
-    public void generateSpecieAndFarm() {
-        if (!farmService.findByName("Fazenda Generica").isPresent())
-            farmService.save(new Farm("Fazenda Generica", "Meio do mato"));
-        if (!specieService.findByName("Nelore").isPresent())
-            specieService.save(new Specie("Nelore"));
+    private Specie specieFactory(String name) {
+        Specie specie = new Specie(name);
+        return this.specieService.save(specie);
+    }
+
+    private Cattle cattleFactory(
+            Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother
+    ) {
+        Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother);
+        return this.cattleService.save(cattle);
+    }
+
+    @Autowired
+    private ICattleService cattleService;
+
+    @Autowired
+    private ISpecieService specieService;
+
+    @Autowired
+    private IFarmService farmService;
+
+
+    @Test
+    public void saveTest() {
+        Specie specie = this.specieFactory("save");
+        Farm farm = this.farmFactory("save", "save, 123");
+        Cattle cattle = this.cattleFactory(100L, 300f, specie, farm, Gender.male, null, null);
+
+        Assertions.assertEquals(cattle, this.cattleService.findById(cattle.getId()).get());
     }
 
     @Test
-    public void save() {
-        this.generateCattles();
-        var i_son = this.cattleService.save(this.son);
-        var i_father = this.cattleService.save(this.father);
-        var i_mother = this.cattleService.save(this.mother);
+    public void updateTest() {
+        Specie specie = this.specieFactory("update");
+        Farm farm = this.farmFactory("update", "update, 123");
+        Cattle cattle = this.cattleFactory(101L, 300f, specie, farm, Gender.female, null, null);
+        cattle.setWeight(400f);
+        this.cattleService.update(cattle.getId(), cattle);
+        Float weight = this.cattleService.findById(cattle.getId()).get().getWeight();
 
-        if (i_son != null)
-            Assertions.assertEquals(son.getEarring(), i_son.getEarring());
-        else {
-            if (this.cattleService.findByEarring(this.son.getEarring()) != null)
-                Assertions.assertEquals(this.cattleService.findByEarring(this.son.getEarring()).get().getEarring(), this.son.getEarring());
-        }
-
-        if (i_father != null)
-            Assertions.assertEquals(this.father.getEarring(), i_father.getEarring());
-        else {
-            if (this.cattleService.findByEarring(this.father.getEarring()) != null)
-                Assertions.assertEquals(this.cattleService.findByEarring(this.father.getEarring()).get().getEarring(), this.father.getEarring());
-        }
-
-        if (i_mother != null)
-            Assertions.assertEquals(mother.getEarring(), i_mother.getEarring());
-        else {
-            if (this.cattleService.findByEarring(this.mother.getEarring()) != null)
-                Assertions.assertEquals(this.cattleService.findByEarring(this.mother.getEarring()).get().getEarring(), this.mother.getEarring());
-        }
+        Assertions.assertEquals(weight, 400f);
     }
 
     @Test
-    public void findFathers() {
-        if (this.son == null)
-            this.generateCattles();
+    public void findByIdTest() {
+        Specie specie = this.specieFactory("findbyid");
+        Farm farm = this.farmFactory("findbyid", "findbyid, 123");
+        Cattle cattle = this.cattleFactory(102L, 300f, specie, farm, Gender.female, null, null);
+        Cattle cattle2 = this.cattleService.findById(cattle.getId()).get();
 
-        var i_son = this.cattleService.save(this.son);
-        var i_father = this.cattleService.save(this.father);
-        var i_mother = this.cattleService.save(this.mother);
-
-        var fathers = this.cattleService.findParents(this.son.getEarring());
-        Assertions.assertEquals(fathers.father.getEarring(), this.father.getEarring());
-        Assertions.assertEquals(fathers.mother.getEarring(), this.mother.getEarring());
+        Assertions.assertEquals(cattle, cattle2);
     }
 
     @Test
-    public void findSons() {
-        if (father == null)
-            this.generateCattles();
+    public void findAllTest() {
+        Specie specie = this.specieFactory("findall");
+        Farm farm = this.farmFactory("findall", "findall, 123");
+        Cattle cattle = this.cattleFactory(103L, 300f, specie, farm, Gender.female, null, null);
+        Integer count = this.cattleService.findAll(Pageable.unpaged()).getSize();
 
-        var i_son = this.cattleService.save(son);
-        var i_father = this.cattleService.save(father);
-        var i_mother = this.cattleService.save(mother);
+        Assertions.assertTrue(count >= 1);
+    }
 
-        var sons_father = this.cattleService.findChildren(this.father.getEarring());
-        var exists_father = sons_father.getSons().stream().anyMatch(t -> t.getEarring() == this.son.getEarring());
-        Assertions.assertEquals(true, exists_father);
+    @Test
+    public void disableTest() {
+        Specie specie = this.specieFactory("disable");
+        Farm farm = this.farmFactory("disable", "disable, 123");
+        Cattle cattle = this.cattleFactory(104L, 300f, specie, farm, Gender.male, null, null);
+        this.cattleService.disable(cattle.getId(), cattle);
+        cattle = this.cattleService.findById(cattle.getId()).get();
 
-        var sons_mother = this.cattleService.findChildren(mother.getEarring());
-        var exists_mother = sons_mother.getSons().stream().anyMatch(t -> t.getEarring() == this.son.getEarring());
-        Assertions.assertEquals(true, exists_mother);
+        Assertions.assertTrue(cattle.isInactive());
+    }
+
+    @Test
+    public void findByEarringTest() {
+        Specie specie = this.specieFactory("earring");
+        Farm farm = this.farmFactory("earring", "earring, 123");
+        Cattle cattle = this.cattleFactory(105L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattle2 = this.cattleService.findByEarring(cattle.getEarring()).get();
+
+        Assertions.assertEquals(cattle, cattle2);
+    }
+
+    @Test
+    public void findByEarringOrNewTest() {
+        Cattle cattle = this.cattleService.findByEarringOrNew(1000L);
+        Assertions.assertEquals(cattle.getEarring(), 1000L);
+    }
+
+    @Test
+    public void findBySpecieTest() {
+        Specie specie = this.specieFactory("specie");
+        Farm farm = this.farmFactory("specie", "specie, 123");
+        Cattle cattle = this.cattleFactory(106L, 300f, specie, farm, Gender.male, null, null);
+        ArrayList<Cattle> cattles = this.cattleService.findBySpecie(cattle.getSpecie().getId());
+
+        Assertions.assertFalse(cattles.isEmpty());
+    }
+
+    @Test
+    public void findByFarmTest() {
+        Specie specie = this.specieFactory("farm");
+        Farm farm = this.farmFactory("farm", "farm, 123");
+        Cattle cattle = this.cattleFactory(107L, 300f, specie, farm, Gender.male, null, null);
+        ArrayList<Cattle> cattles = this.cattleService.findByFarm(cattle.getFarm().getId());
+
+        Assertions.assertFalse(cattles.isEmpty());
+    }
+
+    @Test
+    public void findChildrenTest() {
+        Specie specie = this.specieFactory("children");
+        Farm farm = this.farmFactory("children", "children, 123");
+        Cattle cattleFather = this.cattleFactory(108L, 300f, specie, farm, Gender.male, null, null);
+        this.cattleFactory(109L, 300f, specie, farm, Gender.female, null, null);
+        this.cattleFactory(110L, 300f, specie, farm, Gender.male, 108L, 109L);
+        this.cattleFactory(111L, 300f, specie, farm, Gender.female, 108L, 109L);
+        ResultFindChildren cattles = this.cattleService.findChildren(cattleFather.getEarring());
+
+        Assertions.assertEquals(cattles.getChildren().get(0).getFather(), cattleFather.getEarring());
+        Assertions.assertEquals(cattles.getChildren().get(1).getFather(), cattleFather.getEarring());
+    }
+
+    @Test
+    public void findParentsTest() {
+        Specie specie = this.specieFactory("parents");
+        Farm farm = this.farmFactory("parents", "parents, 123");
+        Cattle cattleFather = this.cattleFactory(112L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattleMother = this.cattleFactory(113L, 300f, specie, farm, Gender.female, null, null);
+        Cattle cattleSon = this.cattleFactory(114L, 300f, specie, farm, Gender.male, 112L, 113L);
+        ResultFindParents cattles = this.cattleService.findParents(cattleSon.getEarring());
+
+        Assertions.assertEquals(cattles.getSon(), cattleSon);
+        Assertions.assertEquals(cattles.getFather(), cattleFather);
+        Assertions.assertEquals(cattles.getMother(), cattleMother);
+
     }
 }

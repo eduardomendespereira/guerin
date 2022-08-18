@@ -9,6 +9,5 @@ public interface IWeighingService {
     Weighing findById(Long id);
     Page<Weighing> listAll(Pageable pageable);
     Weighing save(Weighing weighing);
-    Weighing saveTransactional(Weighing weighing);
     Weighing update(Long id, Weighing weighing);
 }

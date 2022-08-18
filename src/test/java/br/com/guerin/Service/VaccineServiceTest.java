@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
-
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -21,13 +19,19 @@ public class VaccineServiceTest {
     @Autowired
     IVaccineService vaccineService;
 
+    private Vaccine vaccineFactory(){
+        Vaccine vaccine = new Vaccine(
+                "raiva vacitec",
+                LocalDateTime.now(),
+                true
+        );
+        return vaccine;
+    }
+
     @Test
     @DisplayName("inserindo 1 vaccina e verificando se cadastrou")
     public void checkInsert(){
-        Vaccine vaccine = new Vaccine();
-        vaccine.setName("raiva vacitec");
-        vaccine.setDate(LocalDateTime.now());
-        vaccine.setRequired(true);
+        Vaccine vaccine = this.vaccineFactory();
         vaccineService.save(vaccine);
         Optional<Vaccine> getVaccine = vaccineService.findById(vaccine.getId());
         assertEquals(getVaccine.get().getName(), vaccine.getName());
@@ -42,41 +46,30 @@ public class VaccineServiceTest {
     @Test
     @DisplayName("teste findById")
     public void checkFindById(){
-        Vaccine vaccine = new Vaccine();
-        vaccine.setName("carbunculo vacitec");
-        vaccine.setDate(LocalDateTime.now());
-        vaccine.setRequired(false);
-        vaccineService.save(vaccine);
+        Vaccine vaccine = this.vaccineFactory();
+        vaccine.setName("vacina raiv");
+        vaccine = vaccineService.save(vaccine);
         Optional<Vaccine> vaccineTest = vaccineService.findById(vaccine.getId());
         Assertions.assertEquals(vaccine.getName(), vaccineTest.get().getName());
     }
 
     @Test
-    @Transactional
     public void checkDisable(){
-        Vaccine vaccine = new Vaccine();
-        vaccine.setName("vermicida");
-        vaccine.setDate(LocalDateTime.now());
-        vaccine.setRequired(false);
-        vaccineService.save(vaccine);
+        Vaccine vaccine = this.vaccineFactory();
+        vaccine.setName("micose vect");
+        vaccine = vaccineService.save(vaccine);
         vaccineService.disable(vaccine.getId());
         Optional<Vaccine> vaccineTest = vaccineService.findById(vaccine.getId());
-        Assertions.assertEquals(true ,vaccineTest.get().isInactive());
+        Assertions.assertTrue(vaccineTest.get().isInactive());
     }
 
     @Test
     public void checkUpdate(){
-        Vaccine vaccine = new Vaccine();
-        vaccine.setName("raiva");
-        vaccine.setDate(LocalDateTime.now());
-        vaccine.setRequired(true);
-        vaccineService.save(vaccine);
-        Vaccine vaccineTest = new Vaccine();
-        vaccineTest.setName("carbunculo");
-        vaccineTest.setDate(LocalDateTime.now());
-        vaccineTest.setRequired(true);
-        vaccineService.update(vaccine.getId(), vaccineTest);
-        Optional<Vaccine> vaccineComparation = vaccineService.findById(vaccineTest.getId());
-        Assertions.assertEquals(vaccineComparation.get().getName(), "carbunculo");
+        Vaccine vaccine = this.vaccineFactory();
+        vaccine.setName("carbunc b");
+        vaccine = vaccineService.save(vaccine);
+        vaccineService.update(vaccine.getId(), vaccine);
+        Optional<Vaccine> vaccineComparation = vaccineService.findById(vaccine.getId());
+        Assertions.assertEquals(vaccineComparation.get().getName(), "carbunc b");
     }
 }

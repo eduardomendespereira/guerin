@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "vaccines", schema = "public")
 public class Vaccine extends AbstractEntity{
     @Getter @Setter
-    @NotNull @NotBlank
+    @NotNull
     @Length(min = 3, max = 50, message = "O nome deverá ter no máximo {max} caracteres")
     @Column(name = "name", nullable = false, unique = true)
     private String name;

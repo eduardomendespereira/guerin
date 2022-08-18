@@ -1,6 +1,5 @@
 package br.com.guerin.Controller;
 
-import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
 import br.com.guerin.Service.IService.IVaccineService;

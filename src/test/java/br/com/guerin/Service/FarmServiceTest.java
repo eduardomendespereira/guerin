@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
 
 
 @SpringBootTest
@@ -89,7 +90,4 @@ public class FarmServiceTest {
         Integer count = this.farmService.findAll(Pageable.unpaged()).getSize();
         Assertions.assertTrue(count >= 1);
     }
-    // TODO: findById & findAll
-
-
 }

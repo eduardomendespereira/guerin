@@ -5,11 +5,13 @@ import br.com.guerin.Entity.User;
 import br.com.guerin.Service.IService.IUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.Optional;
+
 
 @SpringBootTest
 public class UserServiceTest {
@@ -64,7 +66,6 @@ public class UserServiceTest {
         var uId = userService.findById(u.get().getId());
         Assertions.assertEquals(user.getUsername(), uId.get().getUsername());
     }
-
     @Test
     public void findByEmail() {
         var obj = userService.save(user);

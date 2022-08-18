@@ -33,17 +33,25 @@ public class VaccineApplicationServiceTest {
     private Cattle cattle;
     private Vaccine vaccine;
     private Vaccine vaccine2;
+    private Farm farm;
+    private Specie specie;
 
-    public void generateCattlesAndVaccine() {
-        this.generateSpecieAndFarm();
+
+    public VaccineApplication generateVaccineApplication() {
+        this.specie = new Specie(
+                "brac"
+        );
+        this.farm = new Farm("Guerin223", "parana");
+        farmService.save(farm);
+        specieService.save(specie);
         this.cattle = new Cattle(
-                123L,
-                300F,
-                specieService.findByName("Nelore").get(),
-                farmService.findByName("Fazenda Generica").get(),
+                173L,
+                700F,
+                specie,
+                farm,
                 Gender.male,
-                124L,
-                125L
+                null,
+                null
         );
         this.vaccine = new Vaccine(
                 "carbunculo",
@@ -55,29 +63,25 @@ public class VaccineApplicationServiceTest {
                 LocalDateTime.now(),
                 true
         );
+        vaccineService.save(vaccine);
+        cattleService.save(cattle);
+        VaccineApplication vaccineApplication = new VaccineApplication(
+                "aplicacao de vacina pra raiva",
+                vaccine,
+                LocalDateTime.now(),
+                cattle
+        );
+        return vaccineApplication;
     }
 
-    public void generateSpecieAndFarm() {
-        if (!farmService.findByName("Fazenda Generica").isPresent())
-            farmService.save(new Farm("Fazenda Generica", "Meio do mato"));
-        if (!specieService.findByName("Nelore").isPresent())
-            specieService.save(new Specie("Nelore"));
-    }
 
     @Test
     @Transactional
     public void checkInsert(){
-        this.generateCattlesAndVaccine();
-        vaccineService.save(vaccine);
-        cattleService.save(cattle);
-        VaccineApplication vaccineApplication = new VaccineApplication();
-        vaccineApplication.setNote("Aplicacao de vacina para carbunculo");
-        vaccineApplication.setDate(LocalDateTime.now());
-        vaccineApplication.setVaccine(vaccine);
-        vaccineApplication.setCattle(cattle);
+        VaccineApplication vaccineApplication = this.generateVaccineApplication();
         vaccineApplicationService.save(vaccineApplication);
-        Optional<VaccineApplication> va2 = vaccineApplicationService.findById(vaccineApplication.getId());
-        Assertions.assertEquals(vaccineApplication.getNote(), va2.get().getNote());
+        var vaApp = vaccineApplicationService.findById(vaccineApplication.getId());
+        Assertions.assertEquals(vaccineApplication.getNote(), vaApp.get().getNote());
     }
 
     @Test
@@ -88,34 +92,18 @@ public class VaccineApplicationServiceTest {
     @Test
     @Transactional
     public void checkUpdate() {
-        this.generateCattlesAndVaccine();
-        cattleService.save(cattle);
-        vaccineService.save(vaccine);
-        vaccineService.save(vaccine2);
-        VaccineApplication vaccineApplication = new VaccineApplication();
-        vaccineApplication.setNote("Aplicacao de vacina para raiva");
-        vaccineApplication.setDate(LocalDateTime.now());
-        vaccineApplication.setVaccine(vaccine);
-        vaccineApplication.setCattle(cattle);
+
+        VaccineApplication vaccineApplication = this.generateVaccineApplication();
         vaccineApplicationService.save(vaccineApplication);
-        VaccineApplication updateVaccineApp = vaccineApplication;
-        updateVaccineApp.setVaccine(vaccine2);
-        this.vaccineApplicationService.update(updateVaccineApp.getId(), updateVaccineApp);
-        Optional<VaccineApplication> getVaccine = vaccineApplicationService.findById(updateVaccineApp.getId());
+        vaccineApplication.setVaccine(vaccine2);
+        this.vaccineApplicationService.update(vaccineApplication.getId(), vaccineApplication);
+        Optional<VaccineApplication> getVaccine = vaccineApplicationService.findById(vaccineApplication.getId());
         Assertions.assertEquals(getVaccine.get().getVaccine().getName(), "micose vacitec");
     }
 
     @Test
-    @Transactional
     public void checkDisable(){
-        this.generateCattlesAndVaccine();
-        cattleService.save(cattle);
-        vaccineService.save(vaccine);
-        VaccineApplication vaccineApplication = new VaccineApplication();
-        vaccineApplication.setNote("Aplicacao de vacina para raiva");
-        vaccineApplication.setDate(LocalDateTime.now());
-        vaccineApplication.setVaccine(vaccine);
-        vaccineApplication.setCattle(cattle);
+        VaccineApplication vaccineApplication = this.generateVaccineApplication();
         vaccineApplicationService.save(vaccineApplication);
         vaccineApplicationService.disable(vaccineApplication.getId(), vaccineApplication);
         Optional<VaccineApplication> getVaccineApp = vaccineApplicationService.findById(vaccineApplication.getId());

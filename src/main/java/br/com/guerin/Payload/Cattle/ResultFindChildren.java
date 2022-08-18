@@ -12,10 +12,10 @@ public class ResultFindChildren {
     public Cattle cattle;
     @Getter
     @Setter
-    public ArrayList<Cattle> sons;
+    public ArrayList<Cattle> children;
 
-    public ResultFindChildren(Cattle cattle, ArrayList<Cattle> sons) {
+    public ResultFindChildren(Cattle cattle, ArrayList<Cattle> children) {
         this.cattle = cattle;
-        this.sons = sons;
+        this.children = children;
     }
 }

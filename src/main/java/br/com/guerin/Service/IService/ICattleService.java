@@ -13,11 +13,14 @@ public interface ICattleService {
     Page<Cattle> findAll(Pageable pageable);
     Optional<Cattle> findById(Long id);
     Cattle save(Cattle cattle);
-    void disable(Long id, Cattle cattle);
+    Cattle disable(Long id, Cattle cattle);
     Optional<Cattle> findByEarring(Long earring);
     Cattle findByEarringOrNew(Long earring);
     ResultFindParents findParents(Long earring);
     ResultFindChildren findChildren(Long earring);
     ArrayList<Cattle> findBySpecie(Long specie_id);
     ArrayList<Cattle> findByFarm(Long farm_id);
+    void validateParents(Cattle cattle);
+    void validateFather(Cattle cattle);
+    void validateMother(Cattle cattle);
 }
