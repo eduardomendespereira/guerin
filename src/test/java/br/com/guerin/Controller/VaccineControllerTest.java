@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = VaccineController.class)
 public class VaccineControllerTest {
 
-
     @Autowired
     private MockMvc mockMvc;
 
