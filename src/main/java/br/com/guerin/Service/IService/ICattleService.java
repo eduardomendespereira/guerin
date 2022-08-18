@@ -20,4 +20,7 @@ public interface ICattleService {
     ResultFindChildren findChildren(Long earring);
     ArrayList<Cattle> findBySpecie(Long specie_id);
     ArrayList<Cattle> findByFarm(Long farm_id);
+    void validateParents(Cattle cattle);
+    void validateFather(Cattle cattle);
+    void validateMother(Cattle cattle);
 }

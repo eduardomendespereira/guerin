@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Cattle;
 import br.com.guerin.Entity.Farm;
+import br.com.guerin.Entity.Gender;
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Payload.Cattle.ResultFindParents;
 import br.com.guerin.Payload.Cattle.ResultFindChildren;
@@ -27,6 +28,57 @@ public class CattleService implements ICattleService {
     private final ISpecieService specieService;
     private final IFarmService farmService;
 
+    public void validateParents(Cattle cattle) {
+        this.validateFather(cattle);
+        this.validateMother(cattle);
+    }
+
+    public void validateFather(Cattle cattle) {
+        // TODO: CHANGE IT'S DESCRIPTION
+        // TODO: MAKE A TEST FOR IT
+        Long fatherEarring = cattle.getFather();
+        if (fatherEarring != null) {
+            if (fatherEarring != cattle.getEarring()) {
+                Optional<Cattle> cattleFather = this.findByEarring(fatherEarring);
+                if (cattleFather.isPresent()) {
+                    Gender fatherGender = cattleFather.get().getGender();
+                    if (fatherGender != Gender.male) {
+                        throw new RuntimeException("Gado informado não pode ser pai");
+                    }
+                }
+                else {
+                    throw new RuntimeException("Nao existe no banco");
+                }
+            }
+            else {
+                throw new RuntimeException("Gado informado não pode ser pai de si mesmo");
+            }
+        }
+    }
+
+    public void validateMother(Cattle cattle) {
+        // TODO: CHANGE IT'S DESCRIPTION
+        // TODO: MAKE A TEST FOR IT
+        Long motherEarring = cattle.getMother();
+        if (motherEarring != null) {
+            if (motherEarring != cattle.getEarring()) {
+                Optional<Cattle> cattleMother = this.findByEarring(motherEarring);
+                if (cattleMother.isPresent()) {
+                    Gender motherGender = cattleMother.get().getGender();
+                    if (motherGender != Gender.female) {
+                        throw new RuntimeException("Gado informado não pode ser mãe");
+                    }
+                }
+                else {
+                    throw new RuntimeException("Nao existe no banco");
+                }
+            }
+            else {
+                throw new RuntimeException("Gado informado não pode ser mãe de si mesmo");
+            }
+        }
+    }
+
 
     public Optional<Cattle> findById(Long id) {
         Optional<Cattle> cattle = this.cattleRepository.findById(id);
@@ -49,6 +101,7 @@ public class CattleService implements ICattleService {
     @Transactional
     public Cattle update(Long id, Cattle cattle) {
         if (id == cattle.getId()) {
+            this.validateParents(cattle);
             return this.cattleRepository.save(cattle);
         }
         else {
@@ -62,6 +115,7 @@ public class CattleService implements ICattleService {
             throw new RuntimeException("Gado já está registrado");
         }
         else {
+            this.validateParents(cattle);
             return this.cattleRepository.save(cattle);
         }
     }
