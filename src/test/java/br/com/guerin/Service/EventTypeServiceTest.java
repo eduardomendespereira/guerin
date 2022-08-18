@@ -3,7 +3,6 @@ package br.com.guerin.Service;
 import br.com.guerin.Entity.EventType;
 import br.com.guerin.Repository.EventType.EventTypeRepository;
 import br.com.guerin.Service.IService.IEventTypeService;
-import br.com.guerin.Service.IService.IUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 public class EventTypeServiceTest {
