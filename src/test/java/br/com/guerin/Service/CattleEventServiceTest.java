@@ -179,7 +179,6 @@ public class CattleEventServiceTest {
         Assertions.assertEquals(getNameVaccineApp, "Aplicação de vacina para carbunculo");
     }
 
-    //com erro
     @Test
     @Transactional
     public void checkDisable(){
