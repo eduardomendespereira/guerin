@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @NoArgsConstructor
@@ -67,12 +69,16 @@ public class CattleEvent extends AbstractEntity{
         this.description = description;
     }
 
-    public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description, VaccineApplication vaccineApplication, Weighing weighing) {
-        this.cattle = cattle;
-        this.eventType = eventType;
-        this.date = date;
-        this.description = description;
-        this.vaccineApplication = vaccineApplication;
-        this.weighing = weighing;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CattleEvent that = (CattleEvent) o;
+        return Objects.equals(cattle, that.cattle) && Objects.equals(eventType, that.eventType) && Objects.equals(date, that.date) && Objects.equals(description, that.description) && Objects.equals(vaccineApplication, that.vaccineApplication) && Objects.equals(weighing, that.weighing);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cattle, eventType, date, description, vaccineApplication, weighing);
     }
 }

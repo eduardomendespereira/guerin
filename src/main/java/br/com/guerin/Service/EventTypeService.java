@@ -42,4 +42,12 @@ public class EventTypeService implements IEventTypeService {
             this.eventTypeRepository.desativar(eventType.getId());
         }
     }
+
+    public EventType findByName(String nameEvent){
+        if (nameEvent != null){
+            return this.eventTypeRepository.findByName(nameEvent);
+        }else {
+            throw new RuntimeException("Nome do evento não encontrado!");
+        }
+    }
 }
