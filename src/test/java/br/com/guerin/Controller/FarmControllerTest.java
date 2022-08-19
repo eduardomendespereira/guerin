@@ -18,14 +18,18 @@ import org.json.JSONObject;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 @SpringBootTest
+@AutoConfigureMockMvc
 public class FarmControllerTest {
 
-    MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     private IFarmService farmService;
@@ -56,12 +60,16 @@ public class FarmControllerTest {
     }
 
     @Test
-    public void findAll() throws JSONException {
-        Farm farm = this.farmFactory("Guerin1", "Estrada1");
+    public void findAllThrowsExceptionTest(){
         User user = this.userFactory();
-        String tk = this.gt.getToken(user, "123");
-//        this.mockMvc.perform(get("/api/cattle").header("Authorization", "Bearer ", token))
-//                .andExpect(status().isOk());
-    }
+        String token = this.gt.getToken(user, "123");
 
+        try {
+            this.mockMvc.perform(get("/api/cattle").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isBadRequest());
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
