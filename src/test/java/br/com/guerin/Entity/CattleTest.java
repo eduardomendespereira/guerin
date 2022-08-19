@@ -46,6 +46,14 @@ public class CattleTest {
     }
 
     @Test
+    public void testIfCattleFarmIsCorrect() {
+        Farm farm = new Farm();
+        farm.setName("Test Farm");
+        this.cattle.setFarm(farm);
+        Assertions.assertEquals(this.cattle.getFarm(), farm);
+    }
+
+    @Test
     public void testIfCattleMotherIdIsCorrect() {
         Assertions.assertEquals(this.cattle.getFather(), 100L);
     }
