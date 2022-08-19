@@ -11,8 +11,32 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import org.json.JSONObject;
+import org.json.JSONException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class GetToken {
+    private User user;
+    private String userPasswordStr;
+    private String accessToken;
+    private String refreshToken;
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getUserPasswordStr() {
+        return userPasswordStr;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
     private String getParamsString(Map<String, String> params)
             throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
@@ -30,7 +54,10 @@ public class GetToken {
                 : resultString;
     }
 
-    public StringBuffer getToken(User user, String userPasswordStr) {
+    private StringBuffer connectToApiAndGetResponse(User user, String userPasswordStr) {
+        this.user = user;
+        this.userPasswordStr = userPasswordStr;
+
         try {
             String urlString = "http://localhost:8080/api/login";
             String requestMethod = "POST";
@@ -64,4 +91,25 @@ public class GetToken {
             throw new RuntimeException(e);
         }
     }
+
+    public String setTokens(StringBuffer tokens)  {
+        String tokensStr = tokens.toString();
+
+        try {
+            JSONObject jsonObject = new JSONObject(tokensStr);
+            this.accessToken = jsonObject.getString("access_token");
+            this.refreshToken = jsonObject.getString("refresh_token");
+            return this.accessToken;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getToken(User user, String userPasswordStr) {
+        StringBuffer response = this.connectToApiAndGetResponse(user, userPasswordStr);
+        String accessToken = this.setTokens(response);
+        return accessToken;
+    }
+
 }

@@ -14,6 +14,8 @@ import br.com.guerin.Entity.Role;
 import br.com.guerin.Entity.User;
 import br.com.guerin.Service.IService.IFarmService;
 import br.com.guerin.Service.IService.IUserService;
+import org.json.JSONObject;
+import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -54,25 +56,12 @@ public class FarmControllerTest {
     }
 
     @Test
-    public void findAll() {
+    public void findAll() throws JSONException {
         Farm farm = this.farmFactory("Guerin1", "Estrada1");
         User user = this.userFactory();
-        StringBuffer response = this.gt.getToken(user, "123");
-        var a = "";
+        String tk = this.gt.getToken(user, "123");
 //        this.mockMvc.perform(get("/api/cattle").header("Authorization", "Bearer ", token))
 //                .andExpect(status().isOk());
     }
 
-//    @Test
-//    public void testGetToken() {
-//        User user =this.userFactory();
-//        GetToken gt = new GetToken();
-//        try {
-//            StringBuffer x = gt.getToken(user, "123");
-//            StringBuffer test_temp = null;
-//        }
-//        catch (Exception e) {
-//            String error = e.getMessage();
-//        }
-//    }
 }
