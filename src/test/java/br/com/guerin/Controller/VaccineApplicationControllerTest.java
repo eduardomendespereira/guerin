@@ -200,4 +200,31 @@ public class VaccineApplicationControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void update(){
+        try{
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            VaccineApplication vaccineApplication = this.vaccineAppFactory();
+            vaccineApplication.setNote("aplicacao de vacina para micose");
+            String postValue = objectMapper.writeValueAsString(vaccineApplication);
+
+            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
+                            .put("/api/vaccineApplications/" + vaccineApplication.getId())
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(postValue))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+
+            var updatedVaccineApp = objectMapper.readValue(storyResult.getResponse().getContentAsString(), VaccineApplication.class);
+            Assertions.assertEquals(vaccineApplication.getNote(), updatedVaccineApp.getNote());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }
