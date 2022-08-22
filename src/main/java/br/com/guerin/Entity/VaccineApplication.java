@@ -22,7 +22,7 @@ public class VaccineApplication extends AbstractEntity{
     @Getter @Setter
     @NotNull
     @JoinColumn(name = "vaccine_id")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Vaccine vaccine;
 
     @Getter @Setter
@@ -33,7 +33,7 @@ public class VaccineApplication extends AbstractEntity{
     @Getter @Setter
     @NotNull
     @JoinColumn(name = "cattle_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Cattle cattle;
 
     public boolean dateIsFuture(){

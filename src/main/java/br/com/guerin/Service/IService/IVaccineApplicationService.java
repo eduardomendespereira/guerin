@@ -16,5 +16,6 @@ public interface IVaccineApplicationService {
     VaccineApplication update(Long id, VaccineApplication vaccineApplication);
     VaccineApplication save(VaccineApplication vaccineApplication);
     Optional<ArrayList<VaccineApplication>> findByVaccine(Vaccine vaccine);
+    Optional<VaccineApplication> findByNote(String note);
     boolean validateSaveAndUpdate(VaccineApplication vaccineApplication);
 }

@@ -77,6 +77,8 @@ public class VaccineApplicationControllerTest {
     }
 
     private Vaccine vaccineFactory(){
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         Vaccine vaccine = new Vaccine();
         vaccine.setName("Carbunculo Vatec");
         vaccine.setDate(LocalDateTime.now());
@@ -88,6 +90,8 @@ public class VaccineApplicationControllerTest {
     }
 
     private VaccineApplication vaccineAppFactory(){
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         Cattle cattle = this.cattleFactory();
         Vaccine vaccine = this.vaccineFactory();
         VaccineApplication vaccineApplication = new VaccineApplication();
@@ -95,8 +99,8 @@ public class VaccineApplicationControllerTest {
         vaccineApplication.setDate(LocalDateTime.now());
         vaccineApplication.setVaccine(vaccine);
         vaccineApplication.setCattle(cattle);
-        if(vaccineApplicationService.findById(vaccine.getId()).isPresent()){
-            return vaccineApplicationService.findById(vaccine.getId()).get();
+        if(vaccineApplicationService.findByNote(vaccineApplication.getNote()).isPresent()){
+            return vaccineApplicationService.findByNote(vaccineApplication.getNote()).get();
         }
         return vaccineApplicationService.save(vaccineApplication);
     }
@@ -119,11 +123,13 @@ public class VaccineApplicationControllerTest {
     @Test
     @DisplayName("teste listAll")
     public void listAll(){
+        User user = this.userFactory();
+        String token = this.getToken.getToken(user, "123").access_token;
         try {
-            User user = this.userFactory();
-            String token = getToken.getToken(user, "123").access_token;
             this.mockMvc.perform(get("/api/vaccineApplications").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                    .andExpect(status().isOk());
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -148,6 +154,50 @@ public class VaccineApplicationControllerTest {
     @Test
     @DisplayName("Teste findById")
     public void findById(){
+        try {
+            VaccineApplication vaccineApplication = this.vaccineAppFactory();
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            mockMvc.perform(get("/api/vaccineApplications/" + vaccineApplication.getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    @Test
+    public void save(){
+        try {
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            Cattle cattle = this.cattleFactory();
+            Vaccine vaccine = this.vaccineFactory();
+            VaccineApplication vaccineApplication = new VaccineApplication();
+            vaccineApplication.setNote("Aplicacao de vacina para raiva");
+            vaccineApplication.setDate(LocalDateTime.now());
+            vaccineApplication.setVaccine(vaccine);
+            vaccineApplication.setCattle(cattle);
+
+            String postValue = objectMapper.writeValueAsString(vaccineApplication);
+
+            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
+                            .post("/api/vaccineApplications")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(postValue))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+
+            var createdVaccineApp = objectMapper.readValue(storyResult.getResponse().getContentAsString(), VaccineApplication.class);
+
+            Assertions.assertNotNull(createdVaccineApp);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
