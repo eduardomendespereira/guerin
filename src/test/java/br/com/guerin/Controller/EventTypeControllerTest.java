@@ -54,7 +54,7 @@ public class EventTypeControllerTest {
 
     public EventType eventTypeSaveFactory(){
         if(!eventTypeService.listAll(Pageable.unpaged()).isEmpty()){
-            return eventTypeService.findByName("Fidelao");
+            return eventTypeService.findByName("Fidelao").get();
         }
         return eventTypeService.save(new EventType("Fidelin"));
     }
@@ -159,9 +159,6 @@ public class EventTypeControllerTest {
             objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             User user = userFactory();
             EventType eventType = eventTypeSaveFactory();
-            if(eventType == null){
-                eventType = eventTypeService.save(new EventType("Jonas"));
-            }
             String post = objectMapper.writeValueAsString(eventType);
             String token = this.gtToken.getToken(user, "123").access_token;
             MvcResult result = mockMvc.perform(put("/api/event_type/disable/"+ eventType.getId().toString())
