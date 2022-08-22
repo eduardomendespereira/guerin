@@ -38,6 +38,10 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     public Optional<ArrayList<VaccineApplication>> findByVaccine(Vaccine vaccine){
         return this.vaccineApplicationRepository.findByVaccine(vaccine);
     }
+
+    public Optional<VaccineApplication> findByNote(String note){
+        return this.vaccineApplicationRepository.findByNote(note);
+    }
     public Page<VaccineApplication> findAll(Pageable pageable){
         return this.vaccineApplicationRepository.findAll(pageable);
     }

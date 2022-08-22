@@ -23,6 +23,9 @@ public interface VaccineApplicationRepository extends JpaRepository<VaccineAppli
     @Query("SELECT va FROM VaccineApplication va where va.vaccine = :vaccine")
     Optional<ArrayList<VaccineApplication>> findByVaccine(Vaccine vaccine);
 
+    @Query("SELECT va FROM VaccineApplication va where va.note = :note")
+    Optional<VaccineApplication> findByNote(String note);
+
     @Query("SELECT va FROM VaccineApplication va WHERE va.cattle = :cattle AND va.vaccine = :vaccine" +
             " AND va.date = :dataApp")
     List<VaccineApplication> findDuplicateApplication(@Param("cattle") Cattle cattle,

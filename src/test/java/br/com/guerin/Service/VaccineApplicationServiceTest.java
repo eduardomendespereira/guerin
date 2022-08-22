@@ -92,7 +92,6 @@ public class VaccineApplicationServiceTest {
     @Test
     @Transactional
     public void checkUpdate() {
-
         VaccineApplication vaccineApplication = this.generateVaccineApplication();
         vaccineApplicationService.save(vaccineApplication);
         vaccineApplication.setVaccine(vaccine2);

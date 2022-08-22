@@ -58,9 +58,9 @@ public class WeighingController {
     }
 
     @PutMapping("/disable/{idWeighing}")
-    public ResponseEntity<?> disable(@PathVariable Long idWeighing, @RequestBody Weighing weighing) {
+    public ResponseEntity<?> disable(@PathVariable Long idWeighing) {
         try {
-            this.weighingService.disable(idWeighing, weighing);
+            this.weighingService.disable(idWeighing);
             return ResponseEntity.ok().body("Pesagem Desativada com Sucesso.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

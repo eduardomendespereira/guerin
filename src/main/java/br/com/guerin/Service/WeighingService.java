@@ -52,12 +52,7 @@ public class WeighingService implements IWeighingService{
     }
 
     @Transactional
-    public void disable(Long id, Weighing weighing) {
-        if (id == weighing.getId()) {
-            this.weighingRepository.disable(weighing.getId());
-        }
-        else {
-            throw new RuntimeException("Error: Não foi possivel desativar a Pesagem.");
-        }
+    public void disable(Long id) {
+        this.weighingRepository.disable(id);
     }
 }

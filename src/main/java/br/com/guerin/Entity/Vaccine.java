@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class Vaccine extends AbstractEntity{
 
     @Getter @Setter
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JoinColumn(name = "date", nullable = false)
     private LocalDateTime date;
 
@@ -43,4 +44,16 @@ public class Vaccine extends AbstractEntity{
         return date.compareTo(LocalDateTime.now()) > 0;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vaccine vaccine = (Vaccine) o;
+        return Objects.equals(name, vaccine.name) && Objects.equals(date, vaccine.date) && Objects.equals(required, vaccine.required);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, date, required);
+    }
 }

@@ -84,7 +84,7 @@ public class WeighingServiceTest {
         Weighing weighing = this.weightFactory(cattle, 50f, LocalDateTime.now());
         var getId = this.weighingService.findById(weighing.getId()).getId();
         weighing.setInactive(true);
-        this.weighingService.disable(getId, weighing);
+        this.weighingService.disable(getId);
     }
 
     @Test
