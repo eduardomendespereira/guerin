@@ -187,4 +187,28 @@ public class VaccineControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    @DisplayName("Teste disable")
+    public void disable(){
+        try{
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            Vaccine vaccine = this.vaccineFactory();
+            String postValue = objectMapper.writeValueAsString(vaccine);
+
+            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
+                            .put("/api/vaccines/disable/" + vaccine.getId())
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(postValue))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }
