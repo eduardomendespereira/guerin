@@ -43,7 +43,7 @@ public class EventTypeService implements IEventTypeService {
         }
     }
 
-    public EventType findByName(String nameEvent){
+    public Optional<EventType> findByName(String nameEvent){
         if (nameEvent != null){
             return this.eventTypeRepository.findByName(nameEvent);
         }else {

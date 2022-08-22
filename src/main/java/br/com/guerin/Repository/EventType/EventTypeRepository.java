@@ -19,5 +19,5 @@ public interface EventTypeRepository extends JpaRepository<EventType, Long> {
     void desativar(@Param("idEventType") Long idEventType);
 
     @Query("SELECT et FROM EventType et where et.name = :nameEvent")
-    EventType findByName(String nameEvent);
+    Optional<EventType> findByName(String nameEvent);
 }
