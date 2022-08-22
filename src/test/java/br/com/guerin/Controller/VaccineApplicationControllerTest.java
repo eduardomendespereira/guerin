@@ -227,4 +227,25 @@ public class VaccineApplicationControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void disable(){
+        try{
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            VaccineApplication vaccineApplication = this.vaccineAppFactory();
+            String postValue = objectMapper.writeValueAsString(vaccineApplication);
+
+            mockMvc.perform(MockMvcRequestBuilders
+                            .put("/api/vaccineApplications/disable/" + vaccineApplication.getId())
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(postValue))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }
