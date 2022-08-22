@@ -26,13 +26,7 @@ public class FarmService implements IFarmService {
     }
 
     public Page<Farm> findAll(Pageable pageable) {
-        Page<Farm> farms = this.farmRepository.findAll(pageable);
-        if (! farms.isEmpty()) {
-            return farms;
-        }
-        else {
-            throw new RuntimeException("Não há Fazendas registradas!");
-        }
+        return this.farmRepository.findAll(pageable);
     }
 
     @Transactional

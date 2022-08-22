@@ -34,8 +34,6 @@ public class CattleService implements ICattleService {
     }
 
     public void validateFather(Cattle cattle) {
-        // TODO: CHANGE IT'S DESCRIPTION
-        // TODO: MAKE A TEST FOR IT
         Long fatherEarring = cattle.getFather();
         if (fatherEarring != null) {
             if (fatherEarring != cattle.getEarring()) {
@@ -57,8 +55,6 @@ public class CattleService implements ICattleService {
     }
 
     public void validateMother(Cattle cattle) {
-        // TODO: CHANGE IT'S DESCRIPTION
-        // TODO: MAKE A TEST FOR IT
         Long motherEarring = cattle.getMother();
         if (motherEarring != null) {
             if (motherEarring != cattle.getEarring()) {
@@ -90,12 +86,7 @@ public class CattleService implements ICattleService {
     }
 
     public Page<Cattle> findAll(Pageable pageable) {
-        Page<Cattle> cattles = this.cattleRepository.findAll(pageable);
-        if (!cattles.isEmpty()) {
-            return cattles;
-        } else {
-            throw new RuntimeException("Não há gados registrados!");
-        }
+        return this.cattleRepository.findAll(pageable);
     }
 
     @Transactional
