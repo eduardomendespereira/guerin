@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -128,7 +130,24 @@ public class VaccineApplicationControllerTest {
     }
 
     @Test
+    @DisplayName("Teste findByVaccine")
     public void findByVaccine(){
+        try {
+            VaccineApplication vaccineApplication = this.vaccineAppFactory();
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            mockMvc.perform(get("/api/vaccineApplications/" + vaccineApplication.getVaccine().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    @DisplayName("Teste findById")
+    public void findById(){
 
     }
 }
