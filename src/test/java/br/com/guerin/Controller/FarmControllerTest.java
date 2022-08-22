@@ -60,7 +60,7 @@ public class FarmControllerTest {
     }
 
     @Test
-    public void findAllThrowsExceptionTest(){
+    public void findAllTest(){
         User user = this.userFactory();
         String token = this.gt.getToken(user, "123").access_token;
 
