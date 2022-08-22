@@ -60,13 +60,12 @@ public class VaccineController {
         }
     }
 
-    @PutMapping("/{idVaccine}")
+    @PutMapping
     public ResponseEntity<?> update(
-            @RequestBody Vaccine vaccine,
-            @PathVariable Long idVaccine
+            @RequestBody Vaccine vaccine
     ) {
         try {
-            return ResponseEntity.ok().body(this.vaccineService.update(idVaccine, vaccine));
+            return ResponseEntity.ok().body(this.vaccineService.update(vaccine));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -68,7 +68,7 @@ public class VaccineServiceTest {
         Vaccine vaccine = this.vaccineFactory();
         vaccine.setName("carbunc b");
         vaccine = vaccineService.save(vaccine);
-        vaccineService.update(vaccine.getId(), vaccine);
+        vaccineService.update(vaccine);
         Optional<Vaccine> vaccineComparation = vaccineService.findById(vaccine.getId());
         Assertions.assertEquals(vaccineComparation.get().getName(), "carbunc b");
     }

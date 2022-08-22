@@ -33,7 +33,7 @@ public class VaccineService implements IVaccineService{
         return this.vaccineRepository.findAll(pageable);
     }
 
-    public Vaccine update(Long id, Vaccine vaccine){
+    public Vaccine update(Vaccine vaccine){
         return saveTransactional(vaccine);
     }
 
