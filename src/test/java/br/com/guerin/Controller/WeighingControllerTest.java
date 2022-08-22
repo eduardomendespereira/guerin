@@ -172,23 +172,16 @@ public class WeighingControllerTest {
             Cattle cattle = this.cattleFactory(12L, 200f, specie, farm, Gender.male, null, null);
             Weighing weighingDisable = this.weightFactory(cattle, 800f, LocalDateTime.now());
 
-            //var weighingDisable = weighing;
-            //weighingDisable.setInactive(true);
-
             String postValue = objectMapper.writeValueAsString(weighingDisable);
 
-            var idWeighing = this.weighingService.findById(weighingDisable.getId()).getId();
-
-            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/weighing/disable/" + idWeighing)
+            mockMvc.perform(MockMvcRequestBuilders
+                            .put("/api/weighing/disable/" + weighingDisable.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postValue))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-
-            objectMapper.readValue(storyResult.getResponse().getContentAsString(), User.class);
         }catch (Exception e){
             throw new RuntimeException(e);
         }
