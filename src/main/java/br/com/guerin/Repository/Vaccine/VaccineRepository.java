@@ -17,6 +17,7 @@ import java.util.Optional;
  */
 @Repository
 public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
+    @Query("SELECT va FROM Vaccine va where va.name = :name")
     Optional<Vaccine> findByName(String name);
     @Modifying
     @Query("UPDATE Vaccine vaccine SET vaccine.inactive = true WHERE vaccine.id = :idVaccine")

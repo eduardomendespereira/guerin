@@ -49,11 +49,13 @@ public class VaccineControllerTest {
     private final GetToken getToken = new GetToken();
 
     private Vaccine vaccineFactory(){
-        LocalDateTime dateTime = LocalDateTime.now();
         Vaccine vaccine = new Vaccine();
         vaccine.setName("Raiva vacitec");
-        vaccine.setDate(dateTime);
+        vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
+        if(this.vaccineService.findByName(vaccine.getName()).isPresent()){
+            return this.vaccineService.findByName(vaccine.getName()).get();
+        }
         return this.vaccineService.save(vaccine);
     }
 
@@ -100,7 +102,7 @@ public class VaccineControllerTest {
                     .andReturn();
 
             Vaccine vac = objectMapper.readValue(storyResult.getResponse().getContentAsString(), Vaccine.class);
-            Assertions.assertEquals(vaccine.getId(), vac.getId());
+            Assertions.assertEquals(vaccine.getName(), vac.getName());
         }catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -137,5 +139,52 @@ public class VaccineControllerTest {
         }
     }
 
+    @Test
+    @DisplayName("Teste Update")
+    public void update(){
+        try{
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            Vaccine vaccine = this.vaccineFactory();
+            vaccine.setName("vac carb");
+            String postValue = objectMapper.writeValueAsString(vaccine);
 
+            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
+                            .put("/api/vaccines")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(postValue))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+
+            var updatedVaccine = objectMapper.readValue(storyResult.getResponse().getContentAsString(), Vaccine.class);
+            Assertions.assertEquals(vaccine.getName(), updatedVaccine.getName());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    @DisplayName("Teste findByName")
+    public void findByName(){
+        try{
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            User user = this.userFactory();
+            Vaccine vaccine = this.vaccineFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            MvcResult storyResult = mockMvc.perform(get("/api/vaccines/get-by-name?" + "name=" + vaccine.getName()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+
+            Vaccine vac = objectMapper.readValue(storyResult.getResponse().getContentAsString(), Vaccine.class);
+            Assertions.assertEquals(vaccine.getName(), vac.getName());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }
