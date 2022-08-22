@@ -15,11 +15,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -84,6 +86,7 @@ public class VaccineControllerTest {
     }
 
     @Test
+    @DisplayName("Teste FindById")
     public void findById(){
         try{
             objectMapper.registerModule(new JavaTimeModule());
@@ -102,5 +105,37 @@ public class VaccineControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    @DisplayName("Teste save")
+    public void save(){
+        try{
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            Vaccine vaccine = new Vaccine();
+            vaccine.setName("carb vacin");
+            vaccine.setDate(LocalDateTime.now());
+            vaccine.setRequired(false);
+            String postValue = objectMapper.writeValueAsString(vaccine);
+
+            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
+                            .post("/api/vaccines")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(postValue))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+
+            var createdVaccine = objectMapper.readValue(storyResult.getResponse().getContentAsString(), Vaccine.class);
+
+            Assertions.assertEquals(vaccine.getName(), createdVaccine.getName());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
