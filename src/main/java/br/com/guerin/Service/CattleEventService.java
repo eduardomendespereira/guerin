@@ -86,4 +86,12 @@ public class CattleEventService implements ICattleEventService {
             return true;
         }
     }
+
+    public Optional<CattleEvent> findByName(String name){
+        if (name != null){
+            return this.cattleEventRepository.findByName(name);
+        }else {
+            throw new RuntimeException("Descrição do evento não encontrado!");
+        }
+    }
 }

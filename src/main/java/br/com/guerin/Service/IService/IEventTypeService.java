@@ -12,5 +12,5 @@ public interface IEventTypeService {
     Page<EventType> listAll(Pageable pageable);
     Optional<EventType> findById(Long id);
     void disable(Long id, EventType eventType);
-    EventType findByName(String nameEvent);
+   Optional<EventType> findByName(String nameEvent);
 }

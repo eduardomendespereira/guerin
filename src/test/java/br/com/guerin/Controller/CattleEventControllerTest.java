@@ -5,6 +5,7 @@ import br.com.guerin.Service.IService.*;
 import br.com.guerin.Utils.GetToken;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,12 @@ public class CattleEventControllerTest {
     @Autowired
     private ICattleService cattleService;
 
+    @Autowired
+    private IEventTypeService eventTypeService;
+
+    @Autowired
+    private ICattleEventService cattleEventService;
+
     private final GetToken getToken = new GetToken();
 
     public void generateSpecieAndFarm() {
@@ -70,6 +77,14 @@ public class CattleEventControllerTest {
         return cattleService.save(cattle);
     }
 
+    public EventType eventTypeFactory(){
+        EventType eventType = new EventType("Visita veterinaria");
+        if (eventTypeService.findByName(eventType.getName()).isPresent()){
+            eventTypeService.findByName(eventType.getName()).get();
+        }
+        return this.eventTypeService.save(eventType);
+    }
+
     private User userFactory(){
         User user = new User(
                 "falano",
@@ -83,6 +98,23 @@ public class CattleEventControllerTest {
             return this.userService.findByUsername(user.getUsername()).get();
         }
         return this.userService.save(user);
+    }
+
+    private CattleEvent cattleEventFactory(){
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        EventType eventType = this.eventTypeFactory();
+        Cattle cattle = this.cattleFactory();
+        CattleEvent cattleEvent = new CattleEvent(
+                cattle,
+                eventType,
+                LocalDateTime.now(),
+                "Aplicação de vacina contra carbunculo"
+        );
+        if (this.cattleEventService.findByName(cattleEvent.getDescription()).isPresent()){
+            return this.cattleEventService.findByName(cattleEvent.getDescription()).get();
+        }
+        return this.cattleEventService.save(cattleEvent);
     }
 
     @Test
@@ -99,4 +131,20 @@ public class CattleEventControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void findById(){
+        try {
+            CattleEvent cattleEvent = this.cattleEventFactory();
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            mockMvc.perform(get("/api/cattleEvent/" + cattleEvent.getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

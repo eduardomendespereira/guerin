@@ -91,13 +91,13 @@ public class VaccineApplicationService implements IVaccineApplicationService {
 
     public void generateCattleEventVaccination(VaccineApplication vaccineApplication) {
         EventType getEventTye = this.generateEventTypeVaccination();
-        EventType eventType = this.eventTypeService.findByName(generateEventTypeVaccination().getName());
+        EventType eventType = this.eventTypeService.findByName(generateEventTypeVaccination().getName()).get();
         if (eventType == null) {
             this.eventTypeService.save(generateEventTypeVaccination());
         }
         CattleEvent cattleEventVaccination = new CattleEvent(
                 vaccineApplication.getCattle(),
-                this.eventTypeService.findByName(getEventTye.getName()),
+                this.eventTypeService.findByName(getEventTye.getName()).get(),
                 vaccineApplication.getDate(),
                 "Aplicação de vacina {vaccineApplication.getVaccine().getName()}",
                 vaccineApplication
