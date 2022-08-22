@@ -18,13 +18,13 @@ public class CattleEvent extends AbstractEntity{
     @Getter @Setter
     @NotNull
     @JoinColumn(name = "cattle_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Cattle cattle;
 
     @Getter @Setter
     @NotNull
     @JoinColumn(name = "type_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private EventType eventType;
 
     @Getter @Setter
@@ -39,11 +39,11 @@ public class CattleEvent extends AbstractEntity{
 
     @Getter @Setter
     @JoinColumn(name = "vaccination_id", nullable = true, unique = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     private VaccineApplication vaccineApplication;
     @Getter @Setter
     @JoinColumn(name = "weighing_id", nullable = true, unique = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     private Weighing weighing;
 
     public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description, VaccineApplication vaccineApplication) {

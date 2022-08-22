@@ -132,5 +132,19 @@ public class CattleEventControllerTest {
         }
     }
 
+    @Test
+    public void findById(){
+        try {
+            CattleEvent cattleEvent = this.cattleEventFactory();
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            mockMvc.perform(get("/api/cattleEvent/" + cattleEvent.getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
