@@ -24,7 +24,7 @@ public class Vaccine extends AbstractEntity{
 
     @Getter @Setter
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JoinColumn(name = "date", nullable = false)
     private LocalDateTime date;
 
