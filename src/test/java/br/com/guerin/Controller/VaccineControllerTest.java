@@ -44,7 +44,7 @@ public class VaccineControllerTest {
     public void checkListAll(){
         User user = this.userFactory();
         System.out.println(user);
-        String token = this.getToken.getToken(user, "123");
+        String token = this.getToken.getToken(user, "123").access_token;
         try{
             this.mockMvc.perform(get("/api/vaccines").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk());

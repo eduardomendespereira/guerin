@@ -11,6 +11,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import br.com.guerin.Payload.User.ResultTokens;
 import org.json.JSONObject;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,24 +95,24 @@ public class GetToken {
         }
     }
 
-    public String setTokens(StringBuffer tokens)  {
+    public ResultTokens setTokens(StringBuffer tokens)  {
         String tokensStr = tokens.toString();
 
         try {
             JSONObject jsonObject = new JSONObject(tokensStr);
             this.accessToken = jsonObject.getString("access_token");
             this.refreshToken = jsonObject.getString("refresh_token");
-            return this.accessToken;
+            return new ResultTokens(this.refreshToken, this.accessToken);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String getToken(User user, String userPasswordStr) {
+    public ResultTokens getToken(User user, String userPasswordStr) {
         StringBuffer response = this.connectToApiAndGetResponse(user, userPasswordStr);
-        String accessToken = this.setTokens(response);
-        return accessToken;
+        ResultTokens tokens = this.setTokens(response);
+        return tokens;
     }
 
 }

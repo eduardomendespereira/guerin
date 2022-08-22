@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +50,8 @@ public class UserService implements IUserService, UserDetailsService {
     public User save(User user) {
         if (user.getId() == null && user.getUsername() != null && findByUsername(user.getUsername()).isPresent())
             return null;
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (!user.getPassword().startsWith("$2a$10"))
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -60,6 +62,7 @@ public class UserService implements IUserService, UserDetailsService {
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
     @Transactional
     public void disable(Long id) {
         if (!this.findById(id).get().isInactive()) {

@@ -62,7 +62,7 @@ public class FarmControllerTest {
     @Test
     public void findAllThrowsExceptionTest(){
         User user = this.userFactory();
-        String token = this.gt.getToken(user, "123");
+        String token = this.gt.getToken(user, "123").access_token;
 
         try {
             this.mockMvc.perform(get("/api/cattle").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
