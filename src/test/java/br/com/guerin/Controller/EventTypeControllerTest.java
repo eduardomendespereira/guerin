@@ -11,6 +11,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -158,7 +159,7 @@ public class EventTypeControllerTest {
             objectMapper.registerModule(new JavaTimeModule());
             objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             User user = userFactory();
-            EventType eventType = eventTypeSaveFactory();
+            EventType eventType = eventTypeService.save(new EventType("Jonas"));
             String post = objectMapper.writeValueAsString(eventType);
             String token = this.gtToken.getToken(user, "123").access_token;
             MvcResult result = mockMvc.perform(put("/api/event_type/disable/"+ eventType.getId().toString())
@@ -169,6 +170,28 @@ public class EventTypeControllerTest {
                     .andReturn();
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Inserindo Nome Existente")
+    public void insertAExistentNameForEventType(){
+        try {
+            User user = userFactory();
+            EventType eventType = new EventType();
+            if(eventTypeService.listAll(Pageable.unpaged()).isEmpty()){
+                eventType = eventTypeService.save(new EventType("Fidelito"));
+            }else{
+                eventType = eventTypeService.findById(2L).get();
+            }
+            String token = this.gtToken.getToken(user, "123").access_token;
+            EventType eventType1 = new EventType();
+            eventType1.setName(eventType.getName());
+            this.mockMvc.perform(post("/api/event_type").header(HttpHeaders.AUTHORIZATION, "Bearer" + token)
+                            .content(asJsonString(eventType1)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }catch (Exception e){
+            throw new RuntimeException();
         }
     }
 }

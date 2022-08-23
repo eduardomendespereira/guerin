@@ -24,7 +24,7 @@ public class SpecieController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<?> listByAllPage(Pageable pageable) {
         try {
             return ResponseEntity.ok().body(this.specieService.listAll(pageable));
