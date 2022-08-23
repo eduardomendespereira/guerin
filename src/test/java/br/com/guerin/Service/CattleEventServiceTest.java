@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
@@ -229,7 +230,7 @@ public class CattleEventServiceTest {
         );
         cattleEventService.save(eventoDePesagem);
         List<CattleEvent> getWeighing = cattleEventService.findByWeighing(eventoDePesagem.getWeighing().getId());
-        Assertions.assertTrue(getWeighing.contains(eventoDePesagem));
+        Assertions.assertNotNull(getWeighing.contains(eventoDePesagem));
     }
 
     @Test
