@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -23,6 +25,8 @@ public class ParameterService implements IParameterService {
 
     @Transactional
     public Parameter save(Parameter parameter) {
+        if (findById(parameter.getId()).isPresent() && parameter.getIncluded() == null)
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Parametro ja cadastrado!");
         if (parameter.getIncluded() == null)
             parameter.setIncluded(LocalDateTime.now());
         return parameterRepository.save(parameter);

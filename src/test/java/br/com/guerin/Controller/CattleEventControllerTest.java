@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -52,6 +53,15 @@ public class CattleEventControllerTest {
     @Autowired
     private ICattleEventService cattleEventService;
 
+    @Autowired
+    private IVaccineApplicationService vaccineApplicationService;
+
+    @Autowired
+    private IWeighingService weighingService;
+
+    @Autowired
+    private IVaccineService vaccineService;
+
     private final GetToken getToken = new GetToken();
 
     public void generateSpecieAndFarm() {
@@ -80,9 +90,47 @@ public class CattleEventControllerTest {
     public EventType eventTypeFactory(){
         EventType eventType = new EventType("Visita veterinaria");
         if (eventTypeService.findByName(eventType.getName()).isPresent()){
-            eventTypeService.findByName(eventType.getName()).get();
+            return eventTypeService.findByName(eventType.getName()).get();
         }
         return this.eventTypeService.save(eventType);
+    }
+
+    private Vaccine vaccineFactory(){
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        Vaccine vaccine = new Vaccine();
+        vaccine.setName("Micose vacitec");
+        vaccine.setDate(LocalDateTime.now());
+        vaccine.setRequired(false);
+        if(this.vaccineService.findByName(vaccine.getName()).isPresent()){
+            return this.vaccineService.findByName(vaccine.getName()).get();
+        }
+        return this.vaccineService.save(vaccine);
+    }
+    private VaccineApplication vaccineAppFactory(){
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        Cattle cattle = this.cattleFactory();
+        Vaccine vaccine = this.vaccineFactory();
+        VaccineApplication vaccineApplication = new VaccineApplication();
+        vaccineApplication.setNote("Aplicacao de vac micose");
+        vaccineApplication.setDate(LocalDateTime.now());
+        vaccineApplication.setVaccine(vaccine);
+        vaccineApplication.setCattle(cattle);
+        if(vaccineApplicationService.findByNote(vaccineApplication.getNote()).isPresent()){
+            return vaccineApplicationService.findByNote(vaccineApplication.getNote()).get();
+        }
+        return vaccineApplicationService.save(vaccineApplication);
+    }
+
+    private Weighing weighingFactory(){
+        Cattle cattle = this.cattleFactory();
+        Weighing weighing = new Weighing(
+            cattle,
+            LocalDateTime.now(),
+            150F
+        );
+        return weighingService.save(weighing);
     }
 
     private User userFactory(){
@@ -147,4 +195,149 @@ public class CattleEventControllerTest {
         }
     }
 
+    @Test
+    public void findByEventType(){
+        try {
+            CattleEvent cattleEvent = this.cattleEventFactory();
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            mockMvc.perform(get("/api/cattleEvent/eventType/" + cattleEvent.getEventType().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void disable(){
+        try{
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            CattleEvent cattleEvent = this.cattleEventFactory();
+            String postValue = objectMapper.writeValueAsString(cattleEvent);
+
+            mockMvc.perform(MockMvcRequestBuilders
+                            .put("/api/cattleEvent/disable/" + cattleEvent.getId())
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(postValue))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void findByWeighing(){
+        try {
+            CattleEvent cattleEvent = cattleEventFactory();
+            cattleEvent.setWeighing(weighingFactory());
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            mockMvc.perform(get("/api/cattleEvent/weighing/" + cattleEvent.getWeighing().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void findByVaccineApplication(){
+        try {
+            CattleEvent cattleEvent = cattleEventFactory();
+            cattleEvent.setVaccineApplication(vaccineAppFactory());
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            mockMvc.perform(get("/api/cattleEvent/vacineApp/" + cattleEvent.getVaccineApplication().getId())
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void findByCattle(){
+        try {
+            CattleEvent cattleEvent = cattleEventFactory();
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            mockMvc.perform(get("/api/cattleEvent/cattle/" + cattleEvent.getCattle().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void save(){
+        try {
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            Cattle cattle = this.cattleFactory();
+            EventType eventType = this.eventTypeFactory();
+            CattleEvent cattleEvent = new CattleEvent(
+                    cattle,
+                    eventType,
+                    LocalDateTime.now(),
+                    "Aplicação de vacina contra carbunculo"
+            );
+
+            String postValue = objectMapper.writeValueAsString(cattleEvent);
+
+            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
+                            .post("/api/cattleEvent")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(postValue))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+
+            var createdCattleEvent = objectMapper.readValue(storyResult.getResponse().getContentAsString(), CattleEvent.class);
+
+            Assertions.assertNotNull(createdCattleEvent);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void update(){
+        try{
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            User user = this.userFactory();
+            String token = getToken.getToken(user, "123").access_token;
+            CattleEvent cattleEvent = this.cattleEventFactory();
+            cattleEvent.setDescription("aplicacao de vacina para vermes");
+            String postValue = objectMapper.writeValueAsString(cattleEvent);
+
+            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
+                            .put("/api/cattleEvent/")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(postValue))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+
+            var updatedCattleEvent = objectMapper.readValue(storyResult.getResponse().getContentAsString(), CattleEvent.class);
+            Assertions.assertEquals(cattleEvent.getDescription(), updatedCattleEvent.getDescription());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }

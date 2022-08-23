@@ -7,12 +7,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class UserService implements IUserService, UserDetailsService {
     @Transactional
     public User save(User user) {
         if (user.getId() == null && user.getUsername() != null && findByUsername(user.getUsername()).isPresent())
-            return null;
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Username ja cadastrado!");
         if (!user.getPassword().startsWith("$2a$10"))
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);

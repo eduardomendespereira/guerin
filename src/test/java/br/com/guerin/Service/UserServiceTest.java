@@ -9,6 +9,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -21,20 +23,18 @@ public class UserServiceTest {
 
     @Test
     public void save() {
-        var obj = userService.save(user);
-        if (obj == null && userService.findByUsername(user.getUsername()) != null) {
-            Assertions.assertEquals(userService.findByUsername(user.getUsername()).get().getUsername(), user.getUsername());
-        } else {
-            Assertions.assertEquals(obj.getUsername(), user.getUsername());
-        }
+        User newUser = new User("lucas2", "hanke2", "lucas@hotmail.com", "lucas", "123", Role.admin);
+        var obj = userService.save(newUser);
+        Assertions.assertEquals(obj.getUsername(), newUser.getUsername());
     }
 
     @Test
     public void update() {
-        var usu = userService.save(user);
-        Optional<User> u = userService.findByUsername(user.getUsername());
-        if (u.isPresent()) {
-            User updated_user = new User(u.get().getId(), u.get().getRegistered(), u.get().isInactive(), "lucas",
+        Optional<User> us = userService.findByUsername(user.getUsername());
+        if (!us.isPresent())
+            us = Optional.of(userService.save(user));
+        if (us.isPresent()) {
+            User updated_user = new User(us.get().getId(), us.get().getRegistered(), us.get().isInactive(), "lucas",
                     "hanke12", "lucasghank@gmail.com", "bagrt", "123", Role.admin);
 
             var obj = userService.save(updated_user);
@@ -46,29 +46,42 @@ public class UserServiceTest {
 
     @Test
     public void findAll() {
-        var obj = userService.save(user);
+        if (!userService.findByUsername(user.getUsername()).isPresent())
+            userService.save(user);
         var users = userService.findAll(PageRequest.of(0, 100));
-        var exists = users != null;
-        Assertions.assertEquals(true, exists);
+        Assertions.assertEquals(1, users.get().count());
     }
 
     @Test
     public void findByUsername() {
-        var obj = userService.save(user);
+        if (!userService.findByUsername(user.getUsername()).isPresent())
+            userService.save(user);
         var u = userService.findByUsername(user.getUsername());
         Assertions.assertEquals(user.getUsername(), u.get().getUsername());
     }
-
+    @Test
+    public void testUsernameDuplicated() {
+        if (!userService.findByUsername(user.getUsername()).isPresent())
+            userService.save(user);
+        try {
+            var duplicatedUser = userService.save(user);
+        } catch (ResponseStatusException ex) {
+            Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, ex.getStatus());
+        }
+    }
     @Test
     public void findById() {
-        var obj = userService.save(user);
+        if (!userService.findByUsername(user.getUsername()).isPresent())
+            userService.save(user);
         var u = userService.findByUsername(user.getUsername());
         var uId = userService.findById(u.get().getId());
         Assertions.assertEquals(user.getUsername(), uId.get().getUsername());
     }
+
     @Test
     public void findByEmail() {
-        var obj = userService.save(user);
+        if (!userService.findByUsername(user.getUsername()).isPresent())
+            userService.save(user);
         var u = userService.findByUsername(user.getUsername());
         var u_email = userService.findByEmail(u.get().getEmail());
         Assertions.assertEquals(user.getUsername(), u_email.get().getUsername());
@@ -76,7 +89,8 @@ public class UserServiceTest {
 
     @Test
     public void loadUserByUsername() {
-        var obj = userService.save(user);
+        if (!userService.findByUsername(user.getUsername()).isPresent())
+            userService.save(user);
         var u = userService.loadUserByUsername(user.getUsername());
         Assertions.assertEquals(user.getUsername(), u.getUsername());
         Assertions.assertEquals(user.getRole().value, u.getAuthorities().stream().findFirst().get().toString());
@@ -84,7 +98,8 @@ public class UserServiceTest {
 
     @Test
     public void disable() {
-        var obj = userService.save(user);
+        if (!userService.findByUsername(user.getUsername()).isPresent())
+            userService.save(user);
         var u = userService.findByUsername(user.getUsername());
         userService.disable(u.get().getId());
         var inactive_user = userService.findById(u.get().getId());

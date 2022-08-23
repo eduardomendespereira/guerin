@@ -1,6 +1,7 @@
 package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.CattleEvent;
+import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Service.IService.ICattleEventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +24,7 @@ public class CattleEventController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @DeleteMapping("/disable/{id}")
+    @PutMapping("/disable/{id}")
     public void disable(@PathVariable("id") Long id) {
         cattleEventService.disable(id);
     }
@@ -77,6 +78,16 @@ public class CattleEventController {
             return ResponseEntity.ok().body(cattleEventService.findByCattle(id));
         }
         catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @PutMapping
+    public ResponseEntity<?> update(
+            @RequestBody CattleEvent cattleEvent
+    ) {
+        try {
+            return ResponseEntity.ok().body(this.cattleEventService.update(cattleEvent.getId(), cattleEvent));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

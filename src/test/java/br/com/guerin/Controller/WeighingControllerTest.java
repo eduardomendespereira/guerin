@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 
@@ -34,9 +34,6 @@ public class WeighingControllerTest {
 
     @Autowired
     private IWeighingService weighingService;
-
-    @Autowired
-    private WeighingController weighingController;
 
     @Autowired
     private ICattleService cattleService;
@@ -78,6 +75,7 @@ public class WeighingControllerTest {
         objectMapper.setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 
         Weighing weighing = new Weighing(cattle, date, weight);
+
         return this.weighingService.save(weighing);
     }
 
@@ -98,9 +96,9 @@ public class WeighingControllerTest {
     }
 
     @Test
+    @DisplayName("Teste de Insert")
     public void insertWeight() {
         User user = this.userFactory();
-        System.out.println(user);
         String token = this.getTk.getToken(user, "123").access_token;
 
         try{
@@ -109,27 +107,25 @@ public class WeighingControllerTest {
             Cattle cattle = this.cattleFactory(15L, 700f, specie, farm, Gender.male, null, null);
             Weighing weighing = this.weightFactory(cattle, 200f, LocalDateTime.now());
 
-            String postValue = objectMapper.writeValueAsString(weighing);
+            String object = objectMapper.writeValueAsString(weighing);
 
-            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
+            mockMvc.perform(MockMvcRequestBuilders
                             .post("/api/weighing")
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(postValue))
+                            .content(object))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-
-            objectMapper.readValue(storyResult.getResponse().getContentAsString(), User.class);
         }catch (Exception e){
             throw new RuntimeException(e);
         }
     }
 
     @Test
+    @DisplayName("Teste de Update")
     public void updateWeight() {
         User user = this.userFactory();
-        System.out.println(user);
         String token = this.getTk.getToken(user, "123").access_token;
 
         try{
@@ -141,29 +137,25 @@ public class WeighingControllerTest {
             var weighingUpdate = weighing;
             weighingUpdate.setWeight(900f);
 
-            String postValue = objectMapper.writeValueAsString(weighingUpdate);
+            String object = objectMapper.writeValueAsString(weighingUpdate);
 
-            var idWeighing = this.weighingService.findById(weighingUpdate.getId()).getId();
-
-            MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/weighing/" + idWeighing)
+            mockMvc.perform(MockMvcRequestBuilders
+                            .put("/api/weighing/" + weighingUpdate.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(postValue))
+                            .content(object))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-
-            objectMapper.readValue(storyResult.getResponse().getContentAsString(), User.class);
         }catch (Exception e){
             throw new RuntimeException(e);
         }
     }
 
     @Test
+    @DisplayName("Teste de Disable")
     public void disableWeight() {
         User user = this.userFactory();
-        System.out.println(user);
         String token = this.getTk.getToken(user, "123").access_token;
 
         try{
@@ -172,13 +164,13 @@ public class WeighingControllerTest {
             Cattle cattle = this.cattleFactory(12L, 200f, specie, farm, Gender.male, null, null);
             Weighing weighingDisable = this.weightFactory(cattle, 800f, LocalDateTime.now());
 
-            String postValue = objectMapper.writeValueAsString(weighingDisable);
+            String object = objectMapper.writeValueAsString(weighingDisable);
 
             mockMvc.perform(MockMvcRequestBuilders
                             .put("/api/weighing/disable/" + weighingDisable.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(postValue))
+                            .content(object))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
@@ -188,12 +180,32 @@ public class WeighingControllerTest {
     }
 
     @Test
+    @DisplayName("Teste de FindAll")
     public void findAllWeight(){
         User user = this.userFactory();
-        System.out.println(user);
         String token = this.getTk.getToken(user, "123").access_token;
+
         try{
             this.mockMvc.perform(get("/api/weighing").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk()).andDo(print());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    @DisplayName("Teste de FindById")
+    public void findByIdWeight(){
+        User user = this.userFactory();
+        String token = this.getTk.getToken(user, "123").access_token;
+
+        try{
+            Specie specie = this.specieFactory("findByIdController");
+            Farm farm = this.farmFactory("findByIdController", "findByIdController, 1234");
+            Cattle cattle = this.cattleFactory(20L, 550f, specie, farm, Gender.male, null, null);
+            Weighing weighing = this.weightFactory(cattle, 600f, LocalDateTime.now());
+
+            this.mockMvc.perform(get("/api/weighing/" + weighing.getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk()).andDo(print());
         }catch (Exception e){
             throw new RuntimeException(e);
