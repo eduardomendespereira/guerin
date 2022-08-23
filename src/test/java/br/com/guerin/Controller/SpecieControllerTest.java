@@ -91,6 +91,23 @@ public class SpecieControllerTest {
         }
     }
     @Test
+    public void insertAExistentSpecie(){
+        try {
+            User user = userFactory();
+            Specie specie = saveSpecieFactory();
+            String token = this.gtToken.getToken(user, "123").access_token;
+            Specie specie1 = new Specie();
+            specie1.setName(specie.getName());
+            this.mockMvc.perform(post("/api/species").header(HttpHeaders.AUTHORIZATION, "Bearer" + token)
+                            .content(asJsonString(specie1)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+
+        }
+    }
+
+    @Test
     public void findAllSpecie(){
         User user = userFactory();
         String token = this.gtToken.getToken(user, "123").access_token;

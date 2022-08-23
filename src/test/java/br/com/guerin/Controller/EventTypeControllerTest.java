@@ -49,13 +49,13 @@ public class EventTypeControllerTest {
     private final GetToken gtToken = new GetToken();
 
     public EventType eventTypeFactory(){
-        EventType eventType = new EventType("Fidelao");
+        EventType eventType = new EventType("Fidelin");
         return eventType;
     }
 
     public EventType eventTypeSaveFactory(){
         if(!eventTypeService.listAll(Pageable.unpaged()).isEmpty()){
-            return eventTypeService.findByName("Fidelao").get();
+            return eventTypeService.findByName("Fidelin").get();
         }
         return eventTypeService.save(new EventType("Fidelin"));
     }
@@ -178,12 +178,7 @@ public class EventTypeControllerTest {
     public void insertAExistentNameForEventType(){
         try {
             User user = userFactory();
-            EventType eventType = new EventType();
-            if(eventTypeService.listAll(Pageable.unpaged()).isEmpty()){
-                eventType = eventTypeService.save(new EventType("Fidelito"));
-            }else{
-                eventType = eventTypeService.findById(2L).get();
-            }
+            EventType eventType = eventTypeSaveFactory();
             String token = this.gtToken.getToken(user, "123").access_token;
             EventType eventType1 = new EventType();
             eventType1.setName(eventType.getName());
