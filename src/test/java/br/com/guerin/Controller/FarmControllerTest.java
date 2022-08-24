@@ -1,11 +1,7 @@
 package br.com.guerin.Controller;
 
-import br.com.guerin.Repository.Farm.FarmRepository;
 import br.com.guerin.Utils.GetToken;
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -17,8 +13,6 @@ import br.com.guerin.Service.IService.IUserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.json.JSONObject;
-import org.json.JSONException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import javax.print.attribute.standard.Media;
 
 
 @SpringBootTest
@@ -44,9 +36,6 @@ public class FarmControllerTest {
 
     @Autowired
     private IFarmService farmService;
-
-    @Autowired
-    private FarmController farmController;
 
     @Autowired
     private IUserService userService;
