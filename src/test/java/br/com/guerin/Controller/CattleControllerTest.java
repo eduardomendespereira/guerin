@@ -2,6 +2,7 @@ package br.com.guerin.Controller;
 
 
 import br.com.guerin.Entity.*;
+import br.com.guerin.Payload.Cattle.ResultFindParents;
 import br.com.guerin.Service.IService.IFarmService;
 import br.com.guerin.Service.IService.ISpecieService;
 import br.com.guerin.Utils.GetToken;
@@ -233,17 +234,17 @@ public class CattleControllerTest {
         cattle.setWeight(350f);
 
         try {
-            String postContent = this.objectMapper.writeValueAsString(farm);
+            String postContent = this.objectMapper.writeValueAsString(cattle);
             MvcResult storyResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/farm/" + farm.getId())
+                            .put("/api/cattle/" + cattle.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postContent))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-            Farm farm2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), Farm.class);
-            Assertions.assertEquals(farm, farm2);
+            Cattle cattle2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), Cattle.class);
+            Assertions.assertEquals(cattle, cattle2);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -259,19 +260,46 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_7");
         Farm farm = this.farmFactory("new_7", "new_7, 123");
+        Cattle cattle = this.cattleFactory(456L, 300f, specie, farm, Gender.male, null, null);
+
 
         try {
-            String postContent = this.objectMapper.writeValueAsString(farm);
+            String postContent = this.objectMapper.writeValueAsString(cattle);
             MvcResult storyResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/farm/disable/" + farm.getId())
+                            .put("/api/cattle/disable/" + cattle.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postContent))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-            Farm farm2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), Farm.class);
-            Assertions.assertTrue(farm2.isInactive());
+            Cattle cattle2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), Cattle.class);
+            Assertions.assertEquals(cattle, cattle2);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void findParentsTest(){
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        User user = this.userFactory();
+        String token = this.gt.getToken(user, "123").access_token;
+        Specie specie = this.specieFactory("new_8");
+        Farm farm = this.farmFactory("new_8", "new_8, 123");
+        Cattle cattleFather = this.cattleFactory(457L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattleSon = this.cattleFactory(458L, 300f, specie, farm, Gender.male, 457L, null);
+
+        try {
+            MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/parents/" + cattleSon.getFather()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+            ResultFindParents cattle2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), ResultFindParents.class);
+            Assertions.assertEquals(cattleFather, cattle2.getFather());
         }
         catch (Exception e) {
             throw new RuntimeException(e);
