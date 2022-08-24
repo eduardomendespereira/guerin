@@ -2,6 +2,7 @@ package br.com.guerin.Controller;
 
 
 import br.com.guerin.Entity.*;
+import br.com.guerin.Payload.Cattle.ResultFindChildren;
 import br.com.guerin.Payload.Cattle.ResultFindParents;
 import br.com.guerin.Service.IService.IFarmService;
 import br.com.guerin.Service.IService.ISpecieService;
@@ -145,7 +146,7 @@ public class CattleControllerTest {
     }
 
     @Test
-    public void findByFarmTest(){
+    public void findByFarmTest(){  // TODO: fix it
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
@@ -169,7 +170,7 @@ public class CattleControllerTest {
     }
 
     @Test
-    public void findBySpecieTest(){
+    public void findBySpecieTest(){  // TODO: fix it
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
@@ -282,7 +283,7 @@ public class CattleControllerTest {
     }
 
     @Test
-    public void findParentsTest(){
+    public void findParentsTest(){  // TODO: fix it
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
@@ -294,12 +295,37 @@ public class CattleControllerTest {
         Cattle cattleSon = this.cattleFactory(458L, 300f, specie, farm, Gender.male, 457L, null);
 
         try {
-            MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/parents/" + cattleSon.getFather()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/parents/" + cattleSon.getEarring()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-            ResultFindParents cattle2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), ResultFindParents.class);
-            Assertions.assertEquals(cattleFather, cattle2.getFather());
+            ResultFindParents cattles = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), ResultFindParents.class);
+            Assertions.assertEquals(cattleFather, cattles.getFather());
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void findChildrenTest(){  // TODO: fix it
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        User user = this.userFactory();
+        String token = this.gt.getToken(user, "123").access_token;
+        Specie specie = this.specieFactory("new_9");
+        Farm farm = this.farmFactory("new_9", "new_9, 123");
+        Cattle cattleFather = this.cattleFactory(459L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattleSon = this.cattleFactory(460L, 300f, specie, farm, Gender.male, 457L, null);
+
+        try {
+            MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/children/" + cattleFather.getEarring()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andReturn();
+            ResultFindChildren cattles = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), ResultFindChildren.class);
+            Assertions.assertEquals(cattleSon, cattles.getChildren().get(0));
         }
         catch (Exception e) {
             throw new RuntimeException(e);
