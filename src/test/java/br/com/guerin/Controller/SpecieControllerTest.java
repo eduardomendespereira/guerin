@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -90,22 +92,6 @@ public class SpecieControllerTest {
             throw  new RuntimeException(e.getMessage());
         }
     }
-    @Test
-    public void insertAExistentSpecie(){
-        try {
-            User user = userFactory();
-            Specie specie = saveSpecieFactory();
-            String token = this.gtToken.getToken(user, "123").access_token;
-            Specie specie1 = new Specie();
-            specie1.setName(specie.getName());
-            this.mockMvc.perform(post("/api/species").header(HttpHeaders.AUTHORIZATION, "Bearer" + token)
-                            .content(asJsonString(specie1)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isBadRequest());
-        }catch (Exception e){
-            throw new RuntimeException(e.getMessage());
-
-        }
-    }
 
     @Test
     public void findAllSpecie(){
@@ -159,6 +145,21 @@ public class SpecieControllerTest {
     }
 
     @Test
+    public void findSpecieByName(){
+        User user = userFactory();
+        Specie specie = saveSpecieFactory();
+        String token = this.gtToken.getToken(user, "123").access_token;
+        try {
+            MvcResult result = mockMvc.perform(get("/api/species/name/" + specie.getName()).
+                    header(HttpHeaders.AUTHORIZATION, "Bearer" + token)).andExpect(status().isOk()).andReturn();
+            Specie tempEvent = objectMapper.readValue(result.getResponse().getContentAsString(), Specie.class);
+            Assertions.assertEquals(specie, tempEvent);
+        }catch (Exception e){
+            throw  new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Test
     public void disableSpecie(){
         try {
             objectMapper.registerModule(new JavaTimeModule());
@@ -178,6 +179,94 @@ public class SpecieControllerTest {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+
+    @Test
+    @DisplayName("Tentando criar uma Specie com um nome já existente")
+    public void insertAExistentSpecie(){
+        try {
+            User user = userFactory();
+            Specie specie = saveSpecieFactory();
+            String token = this.gtToken.getToken(user, "123").access_token;
+            Specie specie1 = new Specie();
+            specie1.setName(specie.getName());
+            this.mockMvc.perform(post("/api/species").header(HttpHeaders.AUTHORIZATION, "Bearer" + token)
+                            .content(asJsonString(specie1)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+
+        }
+    }
+
+    @Test
+    @DisplayName("Inserindo Id Invalido no Update da Specie")
+    public void updateASpecieWithAInvalidId(){
+        try {
+            User user = userFactory();
+            Specie specie = saveSpecieFactory();
+            String token = this.gtToken.getToken(user, "123").access_token;
+            String postVal = objectMapper.writeValueAsString(specie);
+            this.mockMvc.perform(put("/api/species/240")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer" + token).content(postVal)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Atualizando a Specie com um Nome que pertence a outra")
+    public void updateASpecieWithANameThatExistInAnotherSpecie(){
+        try {
+            User user = userFactory();
+            Specie specie = saveSpecieFactory();
+            Specie specie1 = specieService.save(new Specie("Pipocas"));
+            Assertions.assertNotEquals(specie1, specie);
+            specie.setName(specie1.getName());
+            String token = this.gtToken.getToken(user,"123").access_token;
+            String postVal = objectMapper.writeValueAsString(specie);
+            this.mockMvc.perform(put("/api/species/" + specie.getId().toString())
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer" + token).content(postVal)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }catch (Exception e){
+            throw  new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Test
+    public void findByAInvalidId(){
+        try {
+            User user = userFactory();
+            Specie specie = saveSpecieFactory();
+            String token = this.gtToken.getToken(user, "123").access_token;
+            this.mockMvc.perform(get("/api/species/240").
+                            header(HttpHeaders.AUTHORIZATION, "Bearer" + token))
+                    .andExpect(status().isNotFound()).andDo(print()).andReturn();
+
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+    @Test
+    public void findSpecieByAInvalidName(){
+        User user = userFactory();
+        Specie specie = saveSpecieFactory();
+        specie.setName("Jaozito");
+        String token = this.gtToken.getToken(user, "123").access_token;
+        try {
+            MvcResult result = mockMvc.perform(get("/api/species/name/" + specie.getName()).
+                    header(HttpHeaders.AUTHORIZATION, "Bearer" + token)).andExpect(status().isNotFound()).andReturn();
+        }catch (Exception e){
+            throw  new RuntimeException(e.getMessage());
+        }
+    }
+
 
 
 

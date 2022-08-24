@@ -18,10 +18,24 @@ public class EventTypeController {
     @GetMapping("/{idEvent_type}")
     public ResponseEntity<?> findById(@PathVariable("idEvent_type") Long idEvent_type){
         try {
+            if(eventTypeService.findById(idEvent_type).isEmpty()){
+                return ResponseEntity.notFound().build();
+            }
             return ResponseEntity.ok().body(this.eventTypeService.findById(idEvent_type));
         }
         catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+    @GetMapping("/name/{nameEventType}")
+    public ResponseEntity<?> findByName(@PathVariable("nameEventType") String name){
+        try {
+            if(eventTypeService.findByName(name).isEmpty()){
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok().body(this.eventTypeService.findByName(name));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

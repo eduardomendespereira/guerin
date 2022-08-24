@@ -18,9 +18,23 @@ public class SpecieController {
     @GetMapping("/{idSpecie}")
     public ResponseEntity<?> findById(@PathVariable("idSpecie") Long idSpecie) {
         try {
+            if(specieService.findById(idSpecie).isEmpty()){
+                return ResponseEntity.notFound().build();
+            }
             return ResponseEntity.ok().body(this.specieService.findById(idSpecie));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+    @GetMapping("/name/{nameSpecie}")
+    public ResponseEntity<?> findByName(@PathVariable("nameSpecie") String name){
+        try {
+            if(specieService.findByName(name).isEmpty()){
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok().body(this.specieService.findByName(name));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

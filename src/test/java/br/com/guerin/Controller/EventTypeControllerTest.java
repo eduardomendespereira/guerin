@@ -2,6 +2,7 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.EventType;
 import br.com.guerin.Entity.Role;
+import br.com.guerin.Entity.Specie;
 import br.com.guerin.Entity.User;
 import br.com.guerin.Service.EventTypeService;
 import br.com.guerin.Service.UserService;
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -151,7 +153,20 @@ public class EventTypeControllerTest {
         }
 
     }
-
+    @Test
+    public void findEventTypeByName(){
+        User user = userFactory();
+        EventType eventType = eventTypeSaveFactory();
+        String token = this.gtToken.getToken(user, "123").access_token;
+        try {
+            MvcResult result = mockMvc.perform(get("/api/event_type/name/" + eventType.getName()).
+                    header(HttpHeaders.AUTHORIZATION, "Bearer" + token)).andExpect(status().isOk()).andReturn();
+            EventType tempEvent = objectMapper.readValue(result.getResponse().getContentAsString(), EventType.class);
+            Assertions.assertEquals(eventType, tempEvent);
+        }catch (Exception e){
+            throw  new RuntimeException(e.getMessage());
+        }
+    }
 
     @Test
     public void disableEventType(){
@@ -172,7 +187,6 @@ public class EventTypeControllerTest {
             throw new RuntimeException(e.getMessage());
         }
     }
-
     @Test
     @DisplayName("Inserindo Nome Existente")
     public void insertAExistentNameForEventType(){
@@ -189,4 +203,88 @@ public class EventTypeControllerTest {
             throw new RuntimeException();
         }
     }
+    @Test
+    @DisplayName("Tentando criar um EventType com um nome já existente")
+    public void insertAExistentEventType(){
+        try {
+            User user = userFactory();
+            EventType eventType = eventTypeSaveFactory();
+            String token = this.gtToken.getToken(user, "123").access_token;
+            EventType eventType1 = new EventType();
+            eventType1.setName(eventType.getName());
+            this.mockMvc.perform(post("/api/event_type").header(HttpHeaders.AUTHORIZATION, "Bearer" + token)
+                            .content(asJsonString(eventType1)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+
+        }
+    }
+
+    @Test
+    @DisplayName("Inserindo Id Invalido no Update do EventType")
+    public void updateAEventTypeWithAInvalidId(){
+        try {
+            User user = userFactory();
+            EventType eventType = eventTypeSaveFactory();
+            String token = this.gtToken.getToken(user, "123").access_token;
+            String postVal = objectMapper.writeValueAsString(eventType);
+            this.mockMvc.perform(put("/api/event_type/240")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer" + token).content(postVal)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Atualizando o EventType com um Nome que pertence a outro")
+    public void updateASpecieWithANameThatExistInAnotherSpecie(){
+        try {
+            User user = userFactory();
+            EventType eventType = eventTypeSaveFactory();
+            EventType eventType1 = eventTypeService.save(new EventType("Pipocas"));
+            Assertions.assertNotEquals(eventType1, eventType);
+            eventType.setName(eventType1.getName());
+            String token = this.gtToken.getToken(user,"123").access_token;
+            String postVal = objectMapper.writeValueAsString(eventType);
+            this.mockMvc.perform(put("/api/event_type/" + eventType.getId().toString())
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer" + token).content(postVal)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }catch (Exception e){
+            throw  new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Test
+    public void findByAInvalidId(){
+        try {
+            User user = userFactory();
+            String token = this.gtToken.getToken(user, "123").access_token;
+            this.mockMvc.perform(get("/api/event_type/240").
+                            header(HttpHeaders.AUTHORIZATION, "Bearer" + token))
+                    .andExpect(status().isNotFound()).andDo(print()).andReturn();
+
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+    @Test
+    public void findSpecieByAInvalidName(){
+        User user = userFactory();
+        EventType eventType = eventTypeService.save(new EventType("Pipogt"));
+        eventType.setName("Jaozito");
+        String token = this.gtToken.getToken(user, "123").access_token;
+        try {
+            MvcResult result = mockMvc.perform(get("/api/event_type/name/" + eventType.getName()).
+                    header(HttpHeaders.AUTHORIZATION, "Bearer" + token)).andExpect(status().isNotFound()).andReturn();
+        }catch (Exception e){
+            throw  new RuntimeException(e.getMessage());
+        }
+    }
+
 }
