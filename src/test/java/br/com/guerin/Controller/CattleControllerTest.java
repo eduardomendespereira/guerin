@@ -146,7 +146,7 @@ public class CattleControllerTest {
     }
 
     @Test
-    public void findByFarmTest(){  // TODO: fix it
+    public void findByFarmTest(){
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
@@ -161,7 +161,7 @@ public class CattleControllerTest {
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-            Cattle cattle2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), Cattle.class);
+            Cattle cattle2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), Cattle[].class)[0];
             Assertions.assertEquals(cattle, cattle2);
         }
         catch (Exception e) {
@@ -170,7 +170,7 @@ public class CattleControllerTest {
     }
 
     @Test
-    public void findBySpecieTest(){  // TODO: fix it
+    public void findBySpecieTest(){
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
@@ -179,13 +179,12 @@ public class CattleControllerTest {
         Specie specie = this.specieFactory("new_4");
         Farm farm = this.farmFactory("new_4", "new_4, 123");
         Cattle cattle = this.cattleFactory(453L, 300f, specie, farm, Gender.male, null, null);
-
         try {
             MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/specie/" + cattle.getSpecie().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-            Cattle cattle2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), Cattle.class);
+            Cattle cattle2 = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), Cattle[].class)[0];
             Assertions.assertEquals(cattle, cattle2);
         }
         catch (Exception e) {
@@ -283,7 +282,7 @@ public class CattleControllerTest {
     }
 
     @Test
-    public void findParentsTest(){  // TODO: fix it
+    public void findParentsTest(){
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
@@ -308,7 +307,7 @@ public class CattleControllerTest {
     }
 
     @Test
-    public void findChildrenTest(){  // TODO: fix it
+    public void findChildrenTest(){
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
@@ -317,7 +316,7 @@ public class CattleControllerTest {
         Specie specie = this.specieFactory("new_9");
         Farm farm = this.farmFactory("new_9", "new_9, 123");
         Cattle cattleFather = this.cattleFactory(459L, 300f, specie, farm, Gender.male, null, null);
-        Cattle cattleSon = this.cattleFactory(460L, 300f, specie, farm, Gender.male, 457L, null);
+        Cattle cattleSon = this.cattleFactory(460L, 300f, specie, farm, Gender.male, 459L, null);
 
         try {
             MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/children/" + cattleFather.getEarring()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))

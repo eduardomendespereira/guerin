@@ -17,6 +17,8 @@ public class ResultFindParents {
     @Setter
     public Cattle mother;
 
+    public ResultFindParents(){}
+
     public ResultFindParents(Cattle son, Cattle father, Cattle mother) {
         this.son = son;
         this.father = father;
