@@ -229,8 +229,8 @@ public class CattleEventServiceTest {
                 weighing
         );
         cattleEventService.save(eventoDePesagem);
-        List<CattleEvent> getWeighing = cattleEventService.findByWeighing(eventoDePesagem.getWeighing().getId());
-        Assertions.assertNotNull(getWeighing.contains(eventoDePesagem));
+        CattleEvent getEvWeighing = cattleEventService.findByWeighing(eventoDePesagem.getWeighing().getId()).get();
+        Assertions.assertEquals(getEvWeighing.getWeighing(), eventoDePesagem.getWeighing());
     }
 
     @Test

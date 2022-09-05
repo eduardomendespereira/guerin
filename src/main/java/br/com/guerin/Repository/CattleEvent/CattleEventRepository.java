@@ -20,7 +20,7 @@ public interface CattleEventRepository extends JpaRepository<CattleEvent, Long> 
     ArrayList<CattleEvent> findByEventType(EventType eventType);
 
     @Query("SELECT ce FROM CattleEvent ce where ce.weighing = :weighing")
-    ArrayList<CattleEvent> findByWeighing(Weighing weighing);
+    Optional<CattleEvent> findByWeighing(Weighing weighing);
 
     @Query("SELECT ce FROM CattleEvent ce where ce.vaccineApplication = :vaccination")
     Optional<CattleEvent> findByVaccineApp(VaccineApplication vaccination);

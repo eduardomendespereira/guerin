@@ -55,7 +55,7 @@ public class CattleEventService implements ICattleEventService {
         return cattleEventRepository.findByEventType(eventType);
     }
 
-    public ArrayList<CattleEvent> findByWeighing(Long weighingId) {
+    public Optional<CattleEvent> findByWeighing(Long weighingId) {
         var weighing = this.weighingService.findById(weighingId);
         return cattleEventRepository.findByWeighing(weighing);
     }

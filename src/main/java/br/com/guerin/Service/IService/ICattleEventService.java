@@ -20,7 +20,7 @@ public interface ICattleEventService {
 
     ArrayList<CattleEvent> findByEventType(Long eventTypeId);
 
-    ArrayList<CattleEvent> findByWeighing(Long weighing_id);
+    Optional<CattleEvent> findByWeighing(Long weighing_id);
 
     Optional<CattleEvent> findByVaccineApp(Long vaccination_id);
 
