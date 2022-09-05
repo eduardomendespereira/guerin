@@ -171,7 +171,8 @@ public class CattleEventControllerTest {
         User user = this.userFactory();
         String token = this.getToken.getToken(user, "123").access_token;
         try {
-            this.mockMvc.perform(get("/api/cattleEvent").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            this.mockMvc.perform(get("/api/cattleEvent").header(HttpHeaders.AUTHORIZATION, "Bearer "
+                            + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
@@ -186,7 +187,8 @@ public class CattleEventControllerTest {
             CattleEvent cattleEvent = this.cattleEventFactory();
             User user = this.userFactory();
             String token = getToken.getToken(user, "123").access_token;
-            mockMvc.perform(get("/api/cattleEvent/" + cattleEvent.getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            mockMvc.perform(get("/api/cattleEvent/" +
+                            cattleEvent.getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
@@ -197,16 +199,29 @@ public class CattleEventControllerTest {
 
     @Test
     public void findByEventType(){
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        Cattle cattle = cattleFactory();
+        EventType eventType = new EventType("vacinacao");
+        var newEventType = eventTypeService.save(eventType);
+        CattleEvent cattleEvent1 = new CattleEvent(
+                cattle,
+                newEventType,
+                LocalDateTime.now(),
+                "App de vacina"
+
+        );
+        var cattleEvent = cattleEventService.save(cattleEvent1);
         try {
-            CattleEvent cattleEvent = this.cattleEventFactory();
             User user = this.userFactory();
             String token = getToken.getToken(user, "123").access_token;
-            MvcResult storyResult = mockMvc.perform(get("/api/cattleEvent/eventType/" + cattleEvent.getEventType().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            MvcResult storyResult = mockMvc.perform(get("/api/cattleEvent/eventType/" +
+                            cattleEvent.getEventType().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-            CattleEvent cv = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), CattleEvent[].class)[0];
-            Assertions.assertEquals(cattleEvent.getEventType(), cv.getEventType());
+            CattleEvent ce = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), CattleEvent[].class)[0];
+            Assertions.assertEquals(cattleEvent.getEventType().getName(), ce.getEventType().getName());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -214,12 +229,23 @@ public class CattleEventControllerTest {
 
     @Test
     public void disable(){
-        try{
-            User user = this.userFactory();
-            String token = getToken.getToken(user, "123").access_token;
-            CattleEvent cattleEvent = this.cattleEventFactory();
-            String postValue = objectMapper.writeValueAsString(cattleEvent);
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        User user = this.userFactory();
+        String token = getToken.getToken(user, "123").access_token;
+        Cattle cattle = cattleFactory();
+        EventType eventType = new EventType("Visita Veterinario");
+        var newEventType = eventTypeService.save(eventType);
+        CattleEvent cattleEvent1 = new CattleEvent(
+                cattle,
+                newEventType,
+                LocalDateTime.now(),
+                "Vist. Veterin."
 
+        );
+        var cattleEvent = cattleEventService.save(cattleEvent1);
+        try{
+            String postValue = objectMapper.writeValueAsString(cattleEvent);
             mockMvc.perform(MockMvcRequestBuilders
                             .put("/api/cattleEvent/disable/" + cattleEvent.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
@@ -235,15 +261,31 @@ public class CattleEventControllerTest {
 
     @Test
     public void findByWeighing(){
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        Cattle cattle = cattleFactory();
+        EventType eventType = new EventType("pesagem");
+        var newEventType = eventTypeService.save(eventType);
+        var newWeigh = weighingFactory();
+        CattleEvent cattleEvent1 = new CattleEvent(
+                cattle,
+                newEventType,
+                LocalDateTime.now(),
+                "Evento de pesagem",
+                newWeigh
+
+        );
+        var cattleEvent = cattleEventService.save(cattleEvent1);
+        User user = this.userFactory();
+        String token = this.getToken.getToken(user, "123").access_token;
         try {
-            CattleEvent cattleEvent = cattleEventFactory();
-            cattleEvent.setWeighing(weighingFactory());
-            User user = this.userFactory();
-            String token = getToken.getToken(user, "123").access_token;
-            mockMvc.perform(get("/api/cattleEvent/weighing/" + cattleEvent.getWeighing().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            MvcResult storyResult =  mockMvc.perform(get("/api/cattleEvent/weighing/"
+                            + cattleEvent.getWeighing().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
+            CattleEvent ce = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), CattleEvent[].class)[0];
+            Assertions.assertEquals(cattleEvent.getWeighing(), ce.getWeighing());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -268,14 +310,28 @@ public class CattleEventControllerTest {
 
     @Test
     public void findByCattle(){
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        Cattle cattle = cattleFactory();
+        EventType eventType = new EventType("Visit Veterinario");
+        var newEventType = eventTypeService.save(eventType);
+        CattleEvent cattleEvent1 = new CattleEvent(
+                cattle,
+                newEventType,
+                LocalDateTime.now(),
+                "Vis. Veter."
+
+        );
+        var cattleEvent = cattleEventService.save(cattleEvent1);
+        User user = this.userFactory();
+        String token = getToken.getToken(user, "123").access_token;
         try {
-            CattleEvent cattleEvent = cattleEventFactory();
-            User user = this.userFactory();
-            String token = getToken.getToken(user, "123").access_token;
-            mockMvc.perform(get("/api/cattleEvent/cattle/" + cattleEvent.getCattle().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            MvcResult storyResult = mockMvc.perform(get("/api/cattleEvent/cattle/" + cattleEvent.getCattle().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
+            CattleEvent ce = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), CattleEvent[].class)[0];
+            Assertions.assertEquals(cattleEvent.getCattle(), ce.getCattle());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
