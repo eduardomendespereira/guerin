@@ -274,13 +274,8 @@ public class CattleEventControllerTest {
                 LocalDateTime.now(),
                 "Evento de pesagem",
                 newWeigh
-
         );
         var cattleEvent = cattleEventService.save(cattleEvent1);
-//        CattleEvent cattleEvent = cattleEventFactory();
-//        Weighing weighing = weighingFactory();
-//        cattleEvent.setWeighing(weighing);
-//        cattleEventService.save(cattleEvent);
         try {
             MvcResult storyResult =  this.mockMvc.perform(get("/api/cattleEvent/weighing/" + cattleEvent
                             .getWeighing().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
@@ -289,28 +284,11 @@ public class CattleEventControllerTest {
                     .andReturn();
             CattleEvent ce = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(),
                     CattleEvent.class);
-            Assertions.assertEquals(cattleEvent.getWeighing(), ce.getWeighing());
+            Assertions.assertEquals(cattleEvent.getWeighing().getId(), ce.getWeighing().getId());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
-//    @Test
-//    public void findByWeighing(){
-//        try {
-//            CattleEvent cattleEvent = cattleEventFactory();
-//            cattleEvent.setWeighing(weighingFactory());
-//            cattleEventService.save(cattleEvent);
-//            User user = this.userFactory();
-//            String token = getToken.getToken(user, "123").access_token;
-//            mockMvc.perform(get("/api/cattleEvent/weighing/" + cattleEvent.getWeighing().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-//                    .andExpect(status().isOk())
-//                    .andDo(print())
-//                    .andReturn();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     @Test
     public void findByVaccineApplication(){

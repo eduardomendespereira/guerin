@@ -1,5 +1,7 @@
 package br.com.guerin.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,6 +21,7 @@ public class CattleEvent extends AbstractEntity{
     @NotNull
     @JoinColumn(name = "cattle_id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Cattle cattle;
 
     @Getter @Setter
