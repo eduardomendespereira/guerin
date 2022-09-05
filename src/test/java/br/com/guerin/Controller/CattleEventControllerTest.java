@@ -201,10 +201,12 @@ public class CattleEventControllerTest {
             CattleEvent cattleEvent = this.cattleEventFactory();
             User user = this.userFactory();
             String token = getToken.getToken(user, "123").access_token;
-            mockMvc.perform(get("/api/cattleEvent/eventType/" + cattleEvent.getEventType().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            MvcResult storyResult = mockMvc.perform(get("/api/cattleEvent/eventType/" + cattleEvent.getEventType().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
+            CattleEvent cv = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), CattleEvent[].class)[0];
+            Assertions.assertEquals(cattleEvent.getEventType(), cv.getEventType());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
