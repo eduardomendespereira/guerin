@@ -263,6 +263,8 @@ public class CattleEventControllerTest {
     public void findByWeighing(){
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        User user = this.userFactory();
+        String token = this.getToken.getToken(user, "123").access_token;
         Cattle cattle = cattleFactory();
         EventType eventType = new EventType("pesagem");
         var newEventType = eventTypeService.save(eventType);
@@ -276,15 +278,14 @@ public class CattleEventControllerTest {
 
         );
         var cattleEvent = cattleEventService.save(cattleEvent1);
-        User user = this.userFactory();
-        String token = this.getToken.getToken(user, "123").access_token;
         try {
-            MvcResult storyResult =  mockMvc.perform(get("/api/cattleEvent/weighing/"
-                            + cattleEvent.getWeighing().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            MvcResult storyResult =  this.mockMvc.perform(get("/api/cattleEvent/weighing/" + cattleEvent
+                            .getWeighing().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-            CattleEvent ce = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), CattleEvent[].class)[0];
+            CattleEvent ce = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(),
+                    CattleEvent[].class)[0];
             Assertions.assertEquals(cattleEvent.getWeighing(), ce.getWeighing());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -326,11 +327,13 @@ public class CattleEventControllerTest {
         User user = this.userFactory();
         String token = getToken.getToken(user, "123").access_token;
         try {
-            MvcResult storyResult = mockMvc.perform(get("/api/cattleEvent/cattle/" + cattleEvent.getCattle().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            MvcResult storyResult = mockMvc.perform(get("/api/cattleEvent/cattle/" + cattleEvent.getCattle()
+                            .getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-            CattleEvent ce = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(), CattleEvent[].class)[0];
+            CattleEvent ce = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(),
+                    CattleEvent[].class)[0];
             Assertions.assertEquals(cattleEvent.getCattle(), ce.getCattle());
         } catch (Exception e) {
             throw new RuntimeException(e);
