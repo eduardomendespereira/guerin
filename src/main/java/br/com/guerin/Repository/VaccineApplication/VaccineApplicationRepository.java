@@ -1,4 +1,4 @@
-package br.com.guerin.Repository.Vaccine;
+package br.com.guerin.Repository.VaccineApplication;
 
 import br.com.guerin.Entity.Cattle;
 import br.com.guerin.Entity.Vaccine;

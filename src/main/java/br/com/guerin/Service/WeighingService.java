@@ -1,6 +1,5 @@
 package br.com.guerin.Service;
 
-import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Repository.Weighing.WeighingRepository;
 import br.com.guerin.Service.IService.IWeighingService;

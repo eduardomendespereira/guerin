@@ -2,7 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
-import br.com.guerin.Repository.Vaccine.VaccineApplicationRepository;
+import br.com.guerin.Repository.VaccineApplication.VaccineApplicationRepository;
 import br.com.guerin.Service.IService.IGenerateAutomaticEvent;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
 import com.sun.jdi.request.DuplicateRequestException;
@@ -52,6 +52,7 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public VaccineApplication update(Long id, VaccineApplication vaccineApplication){
+//        generateAutomaticEvent.generateCattleEventVaccination(vaccineApplication);
         return saveTransactional(vaccineApplication);
     }
 
