@@ -59,7 +59,7 @@ public class CattleEventService implements ICattleEventService {
         return cattleEventRepository.findByWeighing(weighing);
     }
 
-    public Optional<CattleEvent> findByVaccineApp(Long vaccinationId) {
+    public ArrayList<CattleEvent> findByVaccineApp(Long vaccinationId) {
         VaccineApplication vaccination = this.vaccineApplicationService.findById(vaccinationId).get();
         return cattleEventRepository.findByVaccineApp(vaccination);
     }

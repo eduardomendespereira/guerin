@@ -249,9 +249,9 @@ public class CattleEventServiceTest {
                 vaccineApplication
         );
         cattleEventService.save(eventoDeVacinacao);
-        Optional<CattleEvent> cattleEvent = this.cattleEventService.findByVaccineApp(eventoDeVacinacao
+        var cattleEvent = this.cattleEventService.findByVaccineApp(eventoDeVacinacao
                 .getVaccineApplication().getId());
-        Assertions.assertEquals(cattleEvent.get().getDescription(), eventoDeVacinacao.getDescription());
+        Assertions.assertTrue(cattleEvent.contains(eventoDeVacinacao));
     }
 
     @Test
