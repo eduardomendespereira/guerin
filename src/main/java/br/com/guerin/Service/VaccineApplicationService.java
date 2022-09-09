@@ -87,30 +87,7 @@ public class VaccineApplicationService implements IVaccineApplicationService {
                 vaccineApplication.getVaccine(), vaccineApplication.getDate()).size() == 0){
             return true;
         }else{
-            throw new RuntimeException("Erro: Vacina {vaccineApplication.getVaccine().getName()} já aplicada nessa nada");
+            throw new RuntimeException("Erro: Vacina já aplicada nessa nada");
         }
     }
-
-//    private EventType generateEventTypeVaccination(){
-//        EventType eventTypeVaccination = new EventType(
-//                "Aplicação de Vacina"
-//        );
-//        if (!eventTypeService.findByName(eventTypeVaccination.getName()).isPresent()){
-//            eventTypeService.save(eventTypeVaccination);
-//        }
-//        return eventTypeService.findByName(eventTypeVaccination.getName()).get();
-//    }
-//
-//    public void generateCattleEventVaccination(VaccineApplication vaccineApplication) {
-//        EventType getEventType = this.generateEventTypeVaccination();
-//        CattleEvent cattleEventVaccination = new CattleEvent(
-//                vaccineApplication.getCattle(),
-//                getEventType,
-//                vaccineApplication.getDate(),
-//                "Aplicação de vacina {vaccineApplication.getVaccine().getName()}",
-//                vaccineApplication
-//        );
-////        this.cattleEventService.save(cattleEventVaccination);
-//        cattleEventService.save(cattleEventVaccination);
-//    }
 }

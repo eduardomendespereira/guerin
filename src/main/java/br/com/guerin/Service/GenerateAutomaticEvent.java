@@ -61,7 +61,7 @@ public class GenerateAutomaticEvent implements IGenerateAutomaticEvent {
                 vaccineApplication.getCattle(),
                 getEventType,
                 vaccineApplication.getDate(),
-                "Aplicação de vacina {vaccineApplication.getVaccine().getName()}",
+                "Aplicação de vacina " + vaccineApplication.getVaccine().getName(),
                 vaccineApplication
         );
 
