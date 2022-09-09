@@ -23,7 +23,6 @@ import java.util.Optional;
 @Slf4j
 public class CattleEventService implements ICattleEventService {
     private final CattleEventRepository cattleEventRepository;
-
     private final IEventTypeService eventTypeService;
     private final IWeighingService weighingService;
     private final IVaccineApplicationService vaccineApplicationService;

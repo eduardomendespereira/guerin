@@ -7,8 +7,11 @@ import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Repository.Vaccine.VaccineApplicationRepository;
 import br.com.guerin.Service.IService.ICattleEventService;
 import br.com.guerin.Service.IService.IEventTypeService;
+import br.com.guerin.Service.IService.IGenerateAutomaticEvent;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
 import com.sun.jdi.request.DuplicateRequestException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -25,21 +28,18 @@ import java.util.Optional;
  * @version 1.0.0
  */
 @Service
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class VaccineApplicationService implements IVaccineApplicationService {
 
-    @Autowired
-    private VaccineApplicationRepository vaccineApplicationRepository;
+    private final VaccineApplicationRepository vaccineApplicationRepository;
 
-    private IEventTypeService eventTypeS;
+    private final IGenerateAutomaticEvent generateAutomaticEvent;
 
-    public IEventTypeService eventTypeService(final IEventTypeService service){
-       return this.eventTypeS = service;
-    }
-    private ICattleEventService cattleEventS;
-
-    public ICattleEventService cattleEventService(ICattleEventService cattleEventS){
-        return this.cattleEventS = cattleEventS;
-    }
+//    private final ICattleEventService cattleEventService;
+//
+//    private final IEventTypeService eventTypeService;
 
     public Optional<VaccineApplication> findById(Long id){
         return this.vaccineApplicationRepository.findById(id);
@@ -65,12 +65,12 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public VaccineApplication save(VaccineApplication vaccineApplication){
-       // if(validateSaveAndUpdate(vaccineApplication)){
-            //generateCattleEventVaccination(vaccineApplication);
+        if(validateSaveAndUpdate(vaccineApplication)){
+            generateAutomaticEvent.generateCattleEventVaccination(vaccineApplication);
             return saveTransactional(vaccineApplication);
-        //}else {
-         //   throw new DuplicateRequestException();
-        //}
+        }else {
+            throw new DuplicateRequestException();
+        }
     }
 
     @Transactional
@@ -91,30 +91,26 @@ public class VaccineApplicationService implements IVaccineApplicationService {
         }
     }
 
-    private EventType generateEventTypeVaccination(){
-        EventType eventTypeVaccination = new EventType(
-                "Aplicação de Vacina"
-        );
-//        if(!eventTypeService.findByName(eventTypeVaccination.getName()).isPresent()){
+//    private EventType generateEventTypeVaccination(){
+//        EventType eventTypeVaccination = new EventType(
+//                "Aplicação de Vacina"
+//        );
+//        if (!eventTypeService.findByName(eventTypeVaccination.getName()).isPresent()){
 //            eventTypeService.save(eventTypeVaccination);
 //        }
 //        return eventTypeService.findByName(eventTypeVaccination.getName()).get();
-        if (!eventTypeService(eventTypeS).findByName(eventTypeVaccination.getName()).isPresent()){
-            eventTypeService(eventTypeS).save(eventTypeVaccination);
-        }
-        return eventTypeService(eventTypeS).findByName(eventTypeVaccination.getName()).get();
-    }
-
-    public void generateCattleEventVaccination(VaccineApplication vaccineApplication) {
-        EventType getEventType = this.generateEventTypeVaccination();
-        CattleEvent cattleEventVaccination = new CattleEvent(
-                vaccineApplication.getCattle(),
-                getEventType,
-                vaccineApplication.getDate(),
-                "Aplicação de vacina {vaccineApplication.getVaccine().getName()}",
-                vaccineApplication
-        );
-//        this.cattleEventService.save(cattleEventVaccination);
-        cattleEventService(cattleEventS).save(cattleEventVaccination);
-    }
+//    }
+//
+//    public void generateCattleEventVaccination(VaccineApplication vaccineApplication) {
+//        EventType getEventType = this.generateEventTypeVaccination();
+//        CattleEvent cattleEventVaccination = new CattleEvent(
+//                vaccineApplication.getCattle(),
+//                getEventType,
+//                vaccineApplication.getDate(),
+//                "Aplicação de vacina {vaccineApplication.getVaccine().getName()}",
+//                vaccineApplication
+//        );
+////        this.cattleEventService.save(cattleEventVaccination);
+//        cattleEventService.save(cattleEventVaccination);
+//    }
 }
