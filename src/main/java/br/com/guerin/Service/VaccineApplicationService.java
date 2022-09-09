@@ -1,18 +1,13 @@
 package br.com.guerin.Service;
 
-import br.com.guerin.Entity.CattleEvent;
-import br.com.guerin.Entity.EventType;
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.VaccineApplication;
 import br.com.guerin.Repository.Vaccine.VaccineApplicationRepository;
-import br.com.guerin.Service.IService.ICattleEventService;
-import br.com.guerin.Service.IService.IEventTypeService;
 import br.com.guerin.Service.IService.IGenerateAutomaticEvent;
 import br.com.guerin.Service.IService.IVaccineApplicationService;
 import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
@@ -36,10 +31,6 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     private final VaccineApplicationRepository vaccineApplicationRepository;
 
     private final IGenerateAutomaticEvent generateAutomaticEvent;
-
-//    private final ICattleEventService cattleEventService;
-//
-//    private final IEventTypeService eventTypeService;
 
     public Optional<VaccineApplication> findById(Long id){
         return this.vaccineApplicationRepository.findById(id);
@@ -87,7 +78,7 @@ public class VaccineApplicationService implements IVaccineApplicationService {
                 vaccineApplication.getVaccine(), vaccineApplication.getDate()).size() == 0){
             return true;
         }else{
-            throw new RuntimeException("Erro: Vacina já aplicada nessa nada");
+            throw new RuntimeException("Erro: Vacina " + vaccineApplication.getVaccine().getName() + "já aplicada nessa nada");
         }
     }
 }
