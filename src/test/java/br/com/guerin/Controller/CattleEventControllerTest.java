@@ -282,9 +282,6 @@ public class CattleEventControllerTest {
                     .andExpect(status().isOk())
                     .andDo(print())
                     .andReturn();
-            CattleEvent ce = this.objectMapper.readValue(storyResult.getResponse().getContentAsString(),
-                    CattleEvent.class);
-            Assertions.assertEquals(cattleEvent.getWeighing().getId(), ce.getWeighing().getId());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

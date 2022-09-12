@@ -38,7 +38,6 @@ public class Weighing extends AbstractEntity {
         this.weight = weight;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

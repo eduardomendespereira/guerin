@@ -3,6 +3,7 @@ package br.com.guerin.Service;
 import br.com.guerin.Entity.CattleEvent;
 import br.com.guerin.Entity.EventType;
 import br.com.guerin.Entity.VaccineApplication;
+import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Repository.CattleEvent.CattleEventRepository;
 import br.com.guerin.Repository.EventType.EventTypeRepository;
 import br.com.guerin.Service.IService.IGenerateAutomaticEvent;
@@ -69,6 +70,32 @@ public class GenerateAutomaticEvent implements IGenerateAutomaticEvent {
             throw new RuntimeException("O evento possui 2 tipos de evento (vacinação e pesagem)");
         }else{
             return cattleEventRepository.save(cattleEventVaccination);
+        }
+    }
+
+    private EventType generayeEventTypeWeighing(){
+        EventType eventTypeWeighing = new EventType(
+                "Pesagem do gado"
+        );
+        if(!findByNameEventType(eventTypeWeighing.getName()).isPresent()){
+            saveEventType(eventTypeWeighing);
+        }
+        return findByNameEventType(eventTypeWeighing.getName()).get();
+    }
+
+    public CattleEvent generateCattleEventWeighing(Weighing weighing){
+        EventType getEventType = this.generayeEventTypeWeighing();
+        CattleEvent cattleEventWeighing = new CattleEvent(
+                weighing.getCattle(),
+                getEventType,
+                weighing.getDate(),
+                "Pesagem do gado " + weighing.getCattle().getEarring(),
+                weighing
+        );
+        if(!validateTypeEvent(cattleEventWeighing)){
+            throw new RuntimeException("O evento possui 2 tipos de evento (vacinação e pesagem)");
+        }else {
+            return cattleEventRepository.save(cattleEventWeighing);
         }
     }
 }

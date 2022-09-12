@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Repository.Weighing.WeighingRepository;
+import br.com.guerin.Service.IService.IGenerateAutomaticEvent;
 import br.com.guerin.Service.IService.IWeighingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,8 @@ import javax.transaction.Transactional;
 public class WeighingService implements IWeighingService{
     private final WeighingRepository weighingRepository;
 
+    private final IGenerateAutomaticEvent generateAutomaticEvent;
+
     public Weighing findById(Long id) {
         return this.weighingRepository.findById(id).orElse(new Weighing());
     }
@@ -33,6 +36,7 @@ public class WeighingService implements IWeighingService{
     }
 
     public Weighing save(Weighing weighing) {
+        generateAutomaticEvent.generateCattleEventWeighing(weighing);
         return saveTransactional(weighing);
     }
 
