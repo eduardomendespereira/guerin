@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
@@ -228,8 +229,8 @@ public class CattleEventServiceTest {
                 weighing
         );
         cattleEventService.save(eventoDePesagem);
-        List<CattleEvent> getWeighing = cattleEventService.findByWeighing(eventoDePesagem.getWeighing().getId());
-        Assertions.assertTrue(getWeighing.contains(eventoDePesagem));
+        var getEvWeighing = cattleEventService.findByWeighing(eventoDePesagem.getWeighing().getId());
+        Assertions.assertTrue(getEvWeighing.contains(eventoDePesagem));
     }
 
     @Test
@@ -248,9 +249,9 @@ public class CattleEventServiceTest {
                 vaccineApplication
         );
         cattleEventService.save(eventoDeVacinacao);
-        Optional<CattleEvent> cattleEvent = this.cattleEventService.findByVaccineApp(eventoDeVacinacao
+        var cattleEvent = this.cattleEventService.findByVaccineApp(eventoDeVacinacao
                 .getVaccineApplication().getId());
-        Assertions.assertEquals(cattleEvent.get().getDescription(), eventoDeVacinacao.getDescription());
+        Assertions.assertTrue(cattleEvent.contains(eventoDeVacinacao));
     }
 
     @Test

@@ -36,10 +36,10 @@ public class FarmController {
         }
     }
 
-    @GetMapping("/address/{farmName}")
+    @GetMapping("/address/{farmAddress}")
     public ResponseEntity<?> findByAddress(@PathVariable("farmAddress") String farmAddress) {
         try {
-            return ResponseEntity.ok().body(this.farmService.findByName(farmAddress));
+            return ResponseEntity.ok().body(this.farmService.findByAddress(farmAddress));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -77,10 +77,9 @@ public class FarmController {
     }
 
     @PutMapping("/disable/{farmId}")
-    public ResponseEntity<?> disable(@PathVariable Long farmId) {
+    public ResponseEntity<?> disable(@RequestBody Farm farm, @PathVariable Long farmId) {
         try {
-            this.farmService.disable(farmId);
-            return ResponseEntity.ok().body("Fazenda inativada com sucesso!");
+            return ResponseEntity.ok().body(this.farmService.disable(farmId, farm));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

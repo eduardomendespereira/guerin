@@ -1,7 +1,6 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Parameter;
-import br.com.guerin.Entity.User;
 import br.com.guerin.Repository.Parameter.ParameterRepository;
 import br.com.guerin.Service.IService.IParameterService;
 import lombok.RequiredArgsConstructor;

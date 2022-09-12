@@ -50,7 +50,7 @@ public class FarmServiceTest {
         this.farm.setName("disable_name");
         this.farm.setAddress("disable_address");
         Farm farm = this.farmService.save(this.farm);
-        this.farmService.disable(farm.getId());
+        this.farmService.disable(farm.getId(), farm);
         farm = this.farmService.findByName("disable_name").get();
         Assertions.assertTrue(farm.isInactive());
     }

@@ -69,4 +69,6 @@ public class User extends AbstractEntity{
         this.role = role;
     }
 
+    public User(String user, String test, String s, String us3r, Role admin) {
+    }
 }

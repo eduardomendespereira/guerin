@@ -18,11 +18,11 @@ public interface ICattleEventService {
 
     void disable(Long id);
 
-    List<CattleEvent> findByEventType(Long eventTypeId);
+    ArrayList<CattleEvent> findByEventType(Long eventTypeId);
 
-    List<CattleEvent> findByWeighing(Long weighing_id);
+    ArrayList<CattleEvent> findByWeighing(Long weighing_id);
 
-    Optional<CattleEvent> findByVaccineApp(Long vaccination_id);
+    ArrayList<CattleEvent> findByVaccineApp(Long vaccination_id);
 
     ArrayList<CattleEvent> findByCattle(Long cattle_id);
 

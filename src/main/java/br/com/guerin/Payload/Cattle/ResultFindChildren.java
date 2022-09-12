@@ -14,6 +14,8 @@ public class ResultFindChildren {
     @Setter
     public ArrayList<Cattle> children;
 
+    public ResultFindChildren() {}
+
     public ResultFindChildren(Cattle cattle, ArrayList<Cattle> children) {
         this.cattle = cattle;
         this.children = children;

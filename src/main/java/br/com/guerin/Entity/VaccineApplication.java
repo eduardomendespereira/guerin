@@ -1,5 +1,6 @@
 package br.com.guerin.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -21,6 +22,7 @@ public class VaccineApplication extends AbstractEntity{
 
     @Getter @Setter
     @NotNull
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "vaccine_id")
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Vaccine vaccine;

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,7 +22,6 @@ import java.util.Optional;
 @Slf4j
 public class CattleEventService implements ICattleEventService {
     private final CattleEventRepository cattleEventRepository;
-
     private final IEventTypeService eventTypeService;
     private final IWeighingService weighingService;
     private final IVaccineApplicationService vaccineApplicationService;
@@ -50,17 +48,17 @@ public class CattleEventService implements ICattleEventService {
         }
     }
 
-    public List<CattleEvent> findByEventType(Long eventTypeId) {
+    public ArrayList<CattleEvent> findByEventType(Long eventTypeId) {
         EventType eventType = this.eventTypeService.findById(eventTypeId).get();
         return cattleEventRepository.findByEventType(eventType);
     }
 
-    public List<CattleEvent> findByWeighing(Long weighingId) {
+    public ArrayList<CattleEvent> findByWeighing(Long weighingId) {
         var weighing = this.weighingService.findById(weighingId);
         return cattleEventRepository.findByWeighing(weighing);
     }
 
-    public Optional<CattleEvent> findByVaccineApp(Long vaccinationId) {
+    public ArrayList<CattleEvent> findByVaccineApp(Long vaccinationId) {
         VaccineApplication vaccination = this.vaccineApplicationService.findById(vaccinationId).get();
         return cattleEventRepository.findByVaccineApp(vaccination);
     }

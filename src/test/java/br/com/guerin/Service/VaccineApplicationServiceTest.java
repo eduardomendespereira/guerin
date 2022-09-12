@@ -93,19 +93,19 @@ public class VaccineApplicationServiceTest {
     @Transactional
     public void checkUpdate() {
         VaccineApplication vaccineApplication = this.generateVaccineApplication();
-        vaccineApplicationService.save(vaccineApplication);
-        vaccineApplication.setVaccine(vaccine2);
-        this.vaccineApplicationService.update(vaccineApplication.getId(), vaccineApplication);
-        Optional<VaccineApplication> getVaccine = vaccineApplicationService.findById(vaccineApplication.getId());
+        var getVac = vaccineApplicationService.save(vaccineApplication);
+        getVac.setVaccine(vaccine2);
+        this.vaccineApplicationService.update(getVac.getId(), getVac);
+        var getVaccine = vaccineApplicationService.findById(vaccineApplication.getId());
         Assertions.assertEquals(getVaccine.get().getVaccine().getName(), "micose vacitec");
     }
 
     @Test
     public void checkDisable(){
         VaccineApplication vaccineApplication = this.generateVaccineApplication();
-        vaccineApplicationService.save(vaccineApplication);
-        vaccineApplicationService.disable(vaccineApplication.getId(), vaccineApplication);
-        Optional<VaccineApplication> getVaccineApp = vaccineApplicationService.findById(vaccineApplication.getId());
-        Assertions.assertTrue(getVaccineApp.get().isInactive());
+        var getVaccineApp = vaccineApplicationService.save(vaccineApplication);
+        vaccineApplicationService.disable(getVaccineApp.getId(), getVaccineApp);
+        Optional<VaccineApplication> getVacApp = vaccineApplicationService.findById(getVaccineApp.getId());
+        Assertions.assertTrue(getVacApp.isPresent());
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface IFarmService {
-    void disable(Long id);
+    Farm disable(Long id, Farm farm);
     Optional<Farm> findByName(String name);
     Optional<Farm> findByAddress(String address);
     Farm save(Farm farm);

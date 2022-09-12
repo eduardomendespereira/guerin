@@ -41,12 +41,18 @@ public class FarmService implements IFarmService {
 
     @Transactional
     public Farm save(Farm farm) {
-       return this.farmRepository.save(farm);
+        return this.farmRepository.save(farm);
     }
 
     @Transactional
-    public void disable(Long id) {
-        this.farmRepository.disable(id);
+    public Farm disable(Long id, Farm farm) {
+        if (id == farm.getId()) {
+            this.farmRepository.disable(id);
+            return this.findById(id).get();
+        }
+        else {
+            throw new RuntimeException("Fazenda não encontrada!");
+        }
     }
 
     public Optional<Farm> findByName(String name) {

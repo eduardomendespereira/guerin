@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -33,5 +34,10 @@ public class EventType extends AbstractEntity{
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public EventType(Long id, LocalDateTime registered, boolean inactive, String name) {
+        super(id, registered, inactive);
+        this.name = name;
     }
 }
