@@ -2,6 +2,8 @@ package br.com.guerin.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
@@ -20,11 +22,10 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("br.com.guerin.Controller"))
-                .paths(PathSelectors.ant("/foos/*"))
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
                 .build();
     }
-
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Guerin")
