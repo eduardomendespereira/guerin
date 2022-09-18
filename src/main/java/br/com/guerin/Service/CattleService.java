@@ -90,8 +90,8 @@ public class CattleService implements ICattleService {
     }
 
     @Transactional
-    public Cattle update(Long id, Cattle cattle) {
-        if (id == cattle.getId()) {
+    public Cattle update(Long earring, Cattle cattle) {
+        if (earring == cattle.getEarring()) {
             this.validateParents(cattle);
             return this.cattleRepository.save(cattle);
         }
@@ -112,11 +112,11 @@ public class CattleService implements ICattleService {
     }
 
     @Transactional
-    public Cattle disable(Long id, Cattle cattle) {
-        if (id == cattle.getId()) {
-            if (!this.findById(id).get().isInactive()) {
-                this.cattleRepository.disable(cattle.getId());
-                return this.findById(id).get();
+    public Cattle disable(Long earring, Cattle cattle) {
+        if (earring == cattle.getEarring()) {
+            if (!this.findByEarring(earring).get().isInactive()) {
+                this.cattleRepository.disable(cattle.getEarring());
+                return this.findByEarring(earring).get();
             }
             else {
                 throw new RuntimeException("Gado já está inativo!");

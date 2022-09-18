@@ -55,7 +55,7 @@ public class CattleServiceTest {
         Farm farm = this.farmFactory("update", "update, 123");
         Cattle cattle = this.cattleFactory(101L, 300f, specie, farm, Gender.female, null, null);
         cattle.setWeight(400f);
-        this.cattleService.update(cattle.getId(), cattle);
+        this.cattleService.update(cattle.getEarring(), cattle);
         Float weight = this.cattleService.findById(cattle.getId()).get().getWeight();
 
         Assertions.assertEquals(weight, 400f);
@@ -86,7 +86,7 @@ public class CattleServiceTest {
         Specie specie = this.specieFactory("disable");
         Farm farm = this.farmFactory("disable", "disable, 123");
         Cattle cattle = this.cattleFactory(104L, 300f, specie, farm, Gender.male, null, null);
-        this.cattleService.disable(cattle.getId(), cattle);
+        this.cattleService.disable(cattle.getEarring(), cattle);
         cattle = this.cattleService.findById(cattle.getId()).get();
 
         Assertions.assertTrue(cattle.isInactive());

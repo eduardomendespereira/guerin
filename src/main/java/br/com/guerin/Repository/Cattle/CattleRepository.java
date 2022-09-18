@@ -16,8 +16,8 @@ import java.util.Optional;
 @Repository
 public interface CattleRepository extends JpaRepository<Cattle, Long> {
     @Modifying
-    @Query("UPDATE Cattle cattle SET cattle.inactive = true WHERE cattle.id = :cattleId")
-    void disable(@Param("cattleId") Long cattleId);
+    @Query("UPDATE Cattle cattle SET cattle.inactive = true WHERE cattle.earring = :earring")
+    void disable(Long earring);
 
     @Query("SELECT cattle FROM Cattle cattle where cattle.earring = :earring")
     Optional<Cattle> findByEarring(Long earring);

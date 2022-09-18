@@ -236,7 +236,7 @@ public class CattleControllerTest {
         try {
             String postContent = this.objectMapper.writeValueAsString(cattle);
             MvcResult storyResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/cattle/" + cattle.getId())
+                            .put("/api/cattle/" + cattle.getEarring())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postContent))
@@ -266,7 +266,7 @@ public class CattleControllerTest {
         try {
             String postContent = this.objectMapper.writeValueAsString(cattle);
             MvcResult storyResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/cattle/disable/" + cattle.getId())
+                            .put("/api/cattle/disable/" + cattle.getEarring())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postContent))

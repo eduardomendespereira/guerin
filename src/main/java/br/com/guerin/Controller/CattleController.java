@@ -94,20 +94,20 @@ public class CattleController {
         }
     }
 
-    @PutMapping("/disable/{cattleId}")
-    public ResponseEntity<?> disable(@RequestBody Cattle cattle, @PathVariable Long cattleId) {
+    @PutMapping("/disable/{earring}")
+    public ResponseEntity<?> disable(@RequestBody Cattle cattle, @PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body( this.cattleService.disable(cattleId, cattle));
+            return ResponseEntity.ok().body( this.cattleService.disable(earring, cattle));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PutMapping("/{cattleId}")
-    public ResponseEntity<?> update(@RequestBody Cattle cattle, @PathVariable Long cattleId) {
+    @PutMapping("/{earring}")
+    public ResponseEntity<?> update(@RequestBody Cattle cattle, @PathVariable Long earring) {
         try {
-            return ResponseEntity.ok().body(this.cattleService.update(cattleId, cattle));
+            return ResponseEntity.ok().body(this.cattleService.update(earring, cattle));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
