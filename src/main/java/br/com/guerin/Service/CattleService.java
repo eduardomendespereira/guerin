@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -91,7 +92,7 @@ public class CattleService implements ICattleService {
 
     @Transactional
     public Cattle update(Long earring, Cattle cattle) {
-        if (earring == cattle.getEarring()) {
+        if (Objects.equals(earring, cattle.getEarring())) {
             this.validateParents(cattle);
             return this.cattleRepository.save(cattle);
         }
@@ -113,7 +114,7 @@ public class CattleService implements ICattleService {
 
     @Transactional
     public Cattle disable(Long earring, Cattle cattle) {
-        if (earring == cattle.getEarring()) {
+        if (Objects.equals(earring, cattle.getEarring())) {
             if (!this.findByEarring(earring).get().isInactive()) {
                 this.cattleRepository.disable(cattle.getEarring());
                 return this.findByEarring(earring).get();
