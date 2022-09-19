@@ -1,8 +1,10 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Menu;
+import br.com.guerin.Entity.RoleMenu;
 import br.com.guerin.Entity.User;
 import br.com.guerin.Repository.Menu.MenuRepository;
+import br.com.guerin.Repository.RoleMenu.RoleMenuRepository;
 import br.com.guerin.Service.IService.IMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import java.util.Optional;
 @Slf4j
 public class MenuService implements IMenuService {
     private final MenuRepository menuRepository;
+    private final RoleMenuRepository roleMenuRepository;
 
     public Optional<Menu> findById(Long id) {
         return menuRepository.findById(id);
@@ -44,6 +47,12 @@ public class MenuService implements IMenuService {
     @Transactional
     public void delete(Long id) {
         if (this.findById(id).isPresent()) {
+            var roleMenus = roleMenuRepository.findByMenu(this.findById(id).get());
+            if (!roleMenus.isEmpty()) {
+                for (RoleMenu r : roleMenus) {
+                    roleMenuRepository.deleteById(r.getId());
+                }
+            }
             menuRepository.deleteById(id);
         }
     }

@@ -25,11 +25,11 @@ public class Menu extends AbstractEntity {
 
     @Getter
     @Setter
-    @Column(name = "path", nullable = false, length = 50)
+    @Column(name = "path", nullable = true, length = 50)
     private String path;
 
     @Getter
     @Setter
-    @Column(name = "icon", nullable = false, length = 20)
+    @Column(name = "icon", nullable = true, length = 20)
     private String icon;
 }
