@@ -23,7 +23,7 @@ public class VaccineApplicationTest {
         );
         Vaccine vaccine = new Vaccine();
         vaccine.setName("Raiva");
-        vaccine.setDate(LocalDateTime.now());
+
         vaccine.setRequired(true);
         VaccineApplication vaccineApplication = new VaccineApplication();
         vaccineApplication.setNote("Aplicação de vacina para raiva");

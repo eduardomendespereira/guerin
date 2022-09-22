@@ -78,7 +78,7 @@ public class VaccineApplicationControllerTest {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         Vaccine vaccine = new Vaccine();
         vaccine.setName("Carbunculo Vatec");
-        vaccine.setDate(LocalDateTime.now());
+
         vaccine.setRequired(false);
         if(this.vaccineService.findByName(vaccine.getName()).isPresent()){
             return this.vaccineService.findByName(vaccine.getName()).get();

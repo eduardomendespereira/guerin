@@ -25,35 +25,25 @@ public class Vaccine extends AbstractEntity{
 
     @Getter @Setter
     @NotNull
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JoinColumn(name = "date", nullable = false)
-    private LocalDateTime date;
-
-    @Getter @Setter
-    @NotNull
     @JoinColumn(name = "required", nullable = false)
     private Boolean required;
 
     public Vaccine(String name, LocalDateTime date, Boolean required) {
         this.name = name;
-        this.date = date;
         this.required = required;
     }
 
-    public boolean dateIsFuture(){
-        return date.compareTo(LocalDateTime.now()) > 0;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vaccine vaccine = (Vaccine) o;
-        return Objects.equals(name, vaccine.name) && Objects.equals(date, vaccine.date) && Objects.equals(required, vaccine.required);
+        return Objects.equals(name, vaccine.name) && Objects.equals(required, vaccine.required);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, date, required);
+        return Objects.hash(name, required);
     }
 }

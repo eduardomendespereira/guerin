@@ -100,7 +100,6 @@ public class CattleEventControllerTest {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         Vaccine vaccine = new Vaccine();
         vaccine.setName("Micose vacitec");
-        vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(false);
         if(this.vaccineService.findByName(vaccine.getName()).isPresent()){
             return this.vaccineService.findByName(vaccine.getName()).get();

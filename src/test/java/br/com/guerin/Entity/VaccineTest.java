@@ -9,7 +9,6 @@ public class VaccineTest {
     private Vaccine vaccineFactory() {
         Vaccine vaccine = new Vaccine();
         vaccine.setName("Raiva");
-        vaccine.setDate(LocalDateTime.now());
         vaccine.setRequired(true);
         return vaccine;
     }
@@ -21,8 +20,4 @@ public class VaccineTest {
         Assertions.assertFalse(this.vaccine.isInactive());
     }
 
-    @Test
-    public void testIfDateIsNotFuture(){
-        Assertions.assertFalse(vaccine.dateIsFuture());
-    }
 }

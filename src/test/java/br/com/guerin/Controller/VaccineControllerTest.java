@@ -44,7 +44,7 @@ public class VaccineControllerTest {
     private Vaccine vaccineFactory(){
         Vaccine vaccine = new Vaccine();
         vaccine.setName("Raiva vacitec");
-        vaccine.setDate(LocalDateTime.now());
+
         vaccine.setRequired(true);
         if(this.vaccineService.findByName(vaccine.getName()).isPresent()){
             return this.vaccineService.findByName(vaccine.getName()).get();
@@ -111,7 +111,6 @@ public class VaccineControllerTest {
             String token = getToken.getToken(user, "123").access_token;
             Vaccine vaccine = new Vaccine();
             vaccine.setName("carb vacin");
-            vaccine.setDate(LocalDateTime.now());
             vaccine.setRequired(false);
             String postValue = objectMapper.writeValueAsString(vaccine);
 
