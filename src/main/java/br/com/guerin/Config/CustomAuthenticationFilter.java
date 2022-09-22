@@ -43,14 +43,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Algorithm algorithm = Algorithm.HMAC256(JwtConstants.SECRET.getBytes());
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 120 * 60 * 1000)) //2 hrs
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1440 * 60 * 1000)) //24 hrs
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
 
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 2880 * 60 * 1000)) //48 hrs
+                .withExpiresAt(new Date(System.currentTimeMillis() + 5760 * 60 * 1000)) //4 dias
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
 
