@@ -20,6 +20,11 @@ public class Menu extends AbstractEntity {
 
     @Getter
     @Setter
+    @Column(name = "order_num", nullable = true)
+    private Integer order;
+
+    @Getter
+    @Setter
     @Column(name = "description", nullable = true, length = 100)
     private String description;
 
@@ -33,8 +38,4 @@ public class Menu extends AbstractEntity {
     @Column(name = "icon", nullable = true, length = 20)
     private String icon;
 
-    @Getter
-    @Setter
-    @Column(name = "order", nullable = false)
-    private Long order;
 }
