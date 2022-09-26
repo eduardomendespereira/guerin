@@ -32,4 +32,9 @@ public class Menu extends AbstractEntity {
     @Setter
     @Column(name = "icon", nullable = true, length = 20)
     private String icon;
+
+    @Getter
+    @Setter
+    @Column(name = "order", nullable = false)
+    private Long order;
 }

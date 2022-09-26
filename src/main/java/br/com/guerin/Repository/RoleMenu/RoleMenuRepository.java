@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public interface RoleMenuRepository  extends JpaRepository<RoleMenu, Long> {
-    @Query("SELECT p FROM RoleMenu p where p.role = :role")
+    @Query("SELECT p FROM RoleMenu p where p.role = :role order by p.menu.order")
     ArrayList<RoleMenu> findByRole(Role role);
 
     @Query("SELECT p FROM RoleMenu p where p.menu = :menu")

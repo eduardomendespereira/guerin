@@ -23,6 +23,7 @@ public class MenuServiceTest {
         menu.setPath("/usuarios");
         menu.setDescription("Cadastro de Usuarios");
         menu.setIcon("fa fa-user fa-2x");
+        menu.setOrder(1L);
         return menu;
     }
 
