@@ -52,5 +52,14 @@ public class SpecieService implements ISpecieService {
         return true;
     }
 
+    public Integer count(){
+        Integer count = 0;
+        for(Specie specie : specieRepository.findAll()){
+            if(!specie.isInactive()){
+                count++;
+            }
+        }
+        return count;
+    }
 
 }
