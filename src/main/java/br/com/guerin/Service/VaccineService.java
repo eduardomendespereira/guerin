@@ -1,6 +1,7 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Vaccine;
+import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Repository.Vaccine.VaccineRepository;
 import br.com.guerin.Service.IService.IVaccineService;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +56,15 @@ public class VaccineService implements IVaccineService{
         if(!this.vaccineRepository.findById(id).get().isInactive()){
             this.vaccineRepository.disable(id);
         }
+    }
+
+    public Integer count(){
+        Integer count = 0;
+        for(Vaccine vaccine : vaccineRepository.findAll()){
+            if(!vaccine.isInactive()){
+                count++;
+            }
+        }
+        return count;
     }
 }

@@ -18,4 +18,5 @@ public interface IVaccineApplicationService {
     Optional<ArrayList<VaccineApplication>> findByVaccine(Vaccine vaccine);
     Optional<VaccineApplication> findByNote(String note);
     boolean validateSaveAndUpdate(VaccineApplication vaccineApplication);
+    public Integer count();
 }

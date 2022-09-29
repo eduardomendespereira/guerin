@@ -82,4 +82,14 @@ public class VaccineApplicationService implements IVaccineApplicationService {
             throw new RuntimeException("Erro: Vacina " + vaccineApplication.getVaccine().getName() + "já aplicada nessa nada");
         }
     }
+
+    public Integer count(){
+        Integer count = 0;
+        for(VaccineApplication vaccineApplication : vaccineApplicationRepository.findAll()){
+            if(!vaccineApplication.isInactive()){
+                count++;
+            }
+        }
+        return count;
+    }
 }

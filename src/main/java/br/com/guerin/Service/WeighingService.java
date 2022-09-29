@@ -58,4 +58,14 @@ public class WeighingService implements IWeighingService{
     public void disable(Long id) {
         this.weighingRepository.disable(id);
     }
+
+    public Integer count(){
+        Integer count = 0;
+        for(Weighing weighing : weighingRepository.findAll()){
+            if(!weighing.isInactive()){
+                count++;
+            }
+        }
+        return count;
+    }
 }
