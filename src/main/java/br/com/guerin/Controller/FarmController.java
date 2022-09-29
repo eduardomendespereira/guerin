@@ -85,4 +85,13 @@ public class FarmController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> count(){
+        try {
+            return ResponseEntity.ok().body(this.farmService.count());
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
 }

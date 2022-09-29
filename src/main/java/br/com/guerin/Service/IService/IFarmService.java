@@ -14,4 +14,5 @@ public interface IFarmService {
     Farm update(Long id, Farm farm);
     Page<Farm> findAll(Pageable pageable);
     Optional<Farm> findById(Long id);
+    public Integer count();
 }
