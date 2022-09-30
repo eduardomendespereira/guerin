@@ -92,4 +92,14 @@ public class CattleEventService implements ICattleEventService {
             throw new RuntimeException("Descrição do evento não encontrado!");
         }
     }
+
+    public Integer count(){
+        Integer count = 0;
+        for(CattleEvent cattleEvent : cattleEventRepository.findAll()){
+            if(!cattleEvent.isInactive()){
+                count++;
+            }
+        }
+        return count;
+    }
 }
