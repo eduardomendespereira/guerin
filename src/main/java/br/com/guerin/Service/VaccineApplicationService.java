@@ -52,7 +52,7 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public VaccineApplication update(Long id, VaccineApplication vaccineApplication){
-//        generateAutomaticEvent.generateCattleEventVaccination(vaccineApplication);
+        generateAutomaticEvent.generateCattleEventVaccination(vaccineApplication);
         return saveTransactional(vaccineApplication);
     }
 

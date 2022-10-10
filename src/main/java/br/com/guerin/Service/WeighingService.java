@@ -47,6 +47,7 @@ public class WeighingService implements IWeighingService{
 
     public Weighing update(Long id, Weighing weighing) {
         if (id == weighing.getId()) {
+            generateAutomaticEvent.generateCattleEventWeighing(weighing);
             return saveTransactional(weighing);
         }
         else {
