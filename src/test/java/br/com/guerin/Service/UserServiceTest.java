@@ -48,8 +48,8 @@ public class UserServiceTest {
     public void findAll() {
         if (!userService.findByUsername(user.getUsername()).isPresent())
             userService.save(user);
-        var users = userService.findAll(PageRequest.of(0, 100));
-        Assertions.assertEquals(1, users.get().count());
+        var users = userService.findAll();
+        Assertions.assertEquals(1, users.stream().count());
     }
 
     @Test

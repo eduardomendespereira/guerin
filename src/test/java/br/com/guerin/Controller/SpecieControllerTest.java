@@ -52,7 +52,7 @@ public class SpecieControllerTest {
                 "123",
                 Role.admin
         );
-        if(!userService.findAll(Pageable.unpaged()).isEmpty()){
+        if(!userService.findAll().isEmpty()){
             return userService.findByUsername("Us3r").get();
         }else {
             return userService.save(user);

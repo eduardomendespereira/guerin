@@ -5,7 +5,6 @@ import br.com.guerin.Repository.EventType.EventTypeRepository;
 import br.com.guerin.Service.IService.IEventTypeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;

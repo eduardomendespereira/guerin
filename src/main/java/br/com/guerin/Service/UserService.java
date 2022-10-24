@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -44,8 +45,8 @@ public class UserService implements IUserService, UserDetailsService {
         return userRepository.findById(id);
     }
 
-    public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public ArrayList<User> findAll() {
+        return (ArrayList<User>) userRepository.findAll();
     }
 
     @Transactional
@@ -69,6 +70,12 @@ public class UserService implements IUserService, UserDetailsService {
     public void disable(Long id) {
         if (!this.findById(id).get().isInactive()) {
             userRepository.disable(id);
+        }
+    }
+    @Transactional
+    public void enable(Long id) {
+        if (this.findById(id).get().isInactive()) {
+            userRepository.enable(id);
         }
     }
 }

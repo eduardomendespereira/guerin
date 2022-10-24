@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u SET u.inactive = true WHERE u.id = :id")
     void disable(Long id);
+    @Modifying
+    @Query("UPDATE User u SET u.inactive = false WHERE u.id = :id")
+    void enable(Long id);
 }

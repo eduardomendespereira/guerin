@@ -9,6 +9,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import br.com.guerin.Entity.User;
@@ -23,7 +25,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
-@CrossOrigin(origins = "http://localhost", maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -38,7 +40,6 @@ public class UserController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
-
     @PutMapping("/user/update")
     public ResponseEntity<?> update(@RequestBody User user) {
         try {
@@ -67,17 +68,22 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<?> findAll(Pageable pageable) {
+    public ResponseEntity<?> findAll() {
         try {
-            return ResponseEntity.ok().body(userService.findAll(pageable));
+            return ResponseEntity.ok().body(userService.findAll());
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
-    @DeleteMapping("/user/disable/{id}")
+    @GetMapping("/user/disable/{id}")
     public void disable(@PathVariable("id") Long id) {
         userService.disable(id);
+    }
+
+    @GetMapping("/user/enable/{id}")
+    public void enable(@PathVariable("id") Long id) {
+        userService.enable(id);
     }
 
     @GetMapping("/user/{id}")
@@ -87,6 +93,10 @@ public class UserController {
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
+    }
+    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handle() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/refresh-token")
