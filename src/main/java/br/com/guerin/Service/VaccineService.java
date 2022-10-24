@@ -1,5 +1,6 @@
 package br.com.guerin.Service;
 
+import br.com.guerin.Entity.User;
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Repository.Vaccine.VaccineRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -30,8 +32,8 @@ public class VaccineService implements IVaccineService{
         return this.vaccineRepository.findById(id);
     }
 
-    public Page<Vaccine> findAll(Pageable pageable){
-        return this.vaccineRepository.findAll(pageable);
+    public ArrayList<Vaccine> findAll() {
+        return (ArrayList<Vaccine>) vaccineRepository.findAll();
     }
 
     public Vaccine update(Vaccine vaccine){

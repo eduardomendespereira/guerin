@@ -33,10 +33,9 @@ public class VaccineController {
 
     @GetMapping
     public ResponseEntity<?> findAll(
-            Pageable pageable
     ) {
         try {
-            return ResponseEntity.ok().body(this.vaccineService.findAll(pageable));
+            return ResponseEntity.ok().body(this.vaccineService.findAll());
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
