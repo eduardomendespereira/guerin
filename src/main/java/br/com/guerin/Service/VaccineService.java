@@ -58,6 +58,13 @@ public class VaccineService implements IVaccineService{
         }
     }
 
+    @Transactional
+    public void enable(Long id){
+        if(this.vaccineRepository.findById(id).get().isInactive()){
+            this.vaccineRepository.enbale(id);
+        }
+    }
+
     public Integer count(){
         Integer count = 0;
         for(Vaccine vaccine : vaccineRepository.findAll()){

@@ -22,4 +22,8 @@ public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
     @Modifying
     @Query("UPDATE Vaccine vaccine SET vaccine.inactive = true WHERE vaccine.id = :idVaccine")
     void disable(@Param("idVaccine") Long idVaccine);
+
+    @Modifying
+    @Query("UPDATE Vaccine vaccine SET vaccine.inactive = false WHERE vaccine.id = :idVaccine")
+    void enbale(@Param("idVaccine") Long idVaccine);
 }

@@ -66,9 +66,18 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     @Transactional
-    public void disable(Long id, VaccineApplication vaccineApplication){
-        if(id == vaccineApplication.getId()) {
-            this.vaccineApplicationRepository.disable(vaccineApplication.getId());
+    public void disable(Long id){
+        if(!this.vaccineApplicationRepository.findById(id).get().isInactive()) {
+            this.vaccineApplicationRepository.disable(id);
+        }else {
+            throw new RuntimeException();
+        }
+    }
+
+    @Transactional
+    public void enable(Long id){
+        if(this.vaccineApplicationRepository.findById(id).get().isInactive()) {
+            this.vaccineApplicationRepository.enable(id);
         }else {
             throw new RuntimeException();
         }

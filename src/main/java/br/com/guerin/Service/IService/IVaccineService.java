@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface IVaccineService{
     void disable(Long id);
+    void enable(Long id);
     Optional<Vaccine> findById(Long id);
     Page<Vaccine> findAll(Pageable pageable);
     Vaccine update(Vaccine vaccine);

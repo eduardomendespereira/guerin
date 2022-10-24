@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 1.0.0, 08/08/2022
  */
 @Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/vaccines")
 @RequiredArgsConstructor
 public class VaccineController {
@@ -71,17 +72,14 @@ public class VaccineController {
         }
     }
 
-    @PutMapping("/disable/{idVaccine}")
-    public ResponseEntity<?> disable(
-            @RequestBody Vaccine vaccine,
-            @PathVariable Long idVaccine
-    ) {
-        try {
-            this.vaccineService.disable(idVaccine);
-            return ResponseEntity.ok().body("Vacina desativada com sucesso!");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @GetMapping("/disable/{id}")
+    public void disable(@PathVariable("id") Long id) {
+        vaccineService.disable(id);
+    }
+
+    @GetMapping("/enable/{id}")
+    public void enable(@PathVariable("id") Long id) {
+        vaccineService.enable(id);
     }
 
     @GetMapping("/count")

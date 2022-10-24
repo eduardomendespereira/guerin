@@ -16,6 +16,10 @@ public interface CattleEventRepository extends JpaRepository<CattleEvent, Long> 
     @Query("UPDATE CattleEvent ce SET ce.inactive = true WHERE ce.id = :id")
     void disable(@Param("id") Long cattleId);
 
+    @Modifying
+    @Query("UPDATE CattleEvent ce SET ce.inactive = false WHERE ce.id = :id")
+    void enable(@Param("id") Long cattleId);
+
     @Query("SELECT ce FROM CattleEvent ce where ce.eventType = :eventType")
     ArrayList<CattleEvent> findByEventType(EventType eventType);
 

@@ -15,7 +15,7 @@ public interface ICattleEventService {
     Optional<CattleEvent> findById(Long id);
 
     CattleEvent save(CattleEvent cattle);
-
+    void enable(Long id);
     void disable(Long id);
 
     ArrayList<CattleEvent> findByEventType(Long eventTypeId);
