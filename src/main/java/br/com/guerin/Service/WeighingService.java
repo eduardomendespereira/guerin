@@ -47,6 +47,7 @@ public class WeighingService implements IWeighingService{
 
     public Weighing update(Long id, Weighing weighing) {
         if (id == weighing.getId()) {
+            generateAutomaticEvent.generateCattleEventWeighing(weighing);
             return saveTransactional(weighing);
         }
         else {
@@ -57,5 +58,15 @@ public class WeighingService implements IWeighingService{
     @Transactional
     public void disable(Long id) {
         this.weighingRepository.disable(id);
+    }
+
+    public Integer count(){
+        Integer count = 0;
+        for(Weighing weighing : weighingRepository.findAll()){
+            if(!weighing.isInactive()){
+                count++;
+            }
+        }
+        return count;
     }
 }

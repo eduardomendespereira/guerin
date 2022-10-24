@@ -10,4 +10,5 @@ public interface IWeighingService {
     Page<Weighing> listAll(Pageable pageable);
     Weighing save(Weighing weighing);
     Weighing update(Long id, Weighing weighing);
+    public Integer count();
 }

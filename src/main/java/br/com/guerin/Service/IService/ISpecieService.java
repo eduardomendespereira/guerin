@@ -13,4 +13,5 @@ public interface ISpecieService {
     Optional<Specie> findById(Long id);
     void disable(Long id, Specie specie);
     Optional<Specie> findByName(String name);
+    public Integer count();
 }

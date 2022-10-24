@@ -74,5 +74,13 @@ public class SpecieController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+    @GetMapping("/count")
+    public ResponseEntity<?> count(){
+        try {
+            return ResponseEntity.ok().body(this.specieService.count());
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
 
 }

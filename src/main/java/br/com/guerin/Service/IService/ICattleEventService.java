@@ -29,4 +29,6 @@ public interface ICattleEventService {
     CattleEvent update(Long id, CattleEvent cattleEvent);
 
     Optional<CattleEvent> findByName(String name);
+
+    public Integer count();
 }

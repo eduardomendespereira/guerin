@@ -1,6 +1,7 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Farm;
+import br.com.guerin.Entity.Weighing;
 import br.com.guerin.Repository.Farm.FarmRepository;
 import br.com.guerin.Service.IService.IFarmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,4 +63,13 @@ public class FarmService implements IFarmService {
         return this.farmRepository.findByAddress(address);
     }
 
+    public Integer count(){
+        Integer count = 0;
+        for(Farm farm : farmRepository.findAll()){
+            if(!farm.isInactive()){
+                count++;
+            }
+        }
+        return count;
+    }
 }

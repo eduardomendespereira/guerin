@@ -114,5 +114,31 @@ public class CattleController {
         }
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<?> count(){
+        try {
+            return ResponseEntity.ok().body(this.cattleService.count());
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/count/male")
+    public ResponseEntity<?> countMale(){
+        try {
+            return ResponseEntity.ok().body(this.cattleService.countMale());
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/count/female")
+    public ResponseEntity<?> countFemale(){
+        try {
+            return ResponseEntity.ok().body(this.cattleService.countFemale());
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
 
 }

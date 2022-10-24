@@ -1,9 +1,6 @@
 package br.com.guerin.Service;
 
-import br.com.guerin.Entity.Cattle;
-import br.com.guerin.Entity.Farm;
-import br.com.guerin.Entity.Gender;
-import br.com.guerin.Entity.Specie;
+import br.com.guerin.Entity.*;
 import br.com.guerin.Payload.Cattle.ResultFindParents;
 import br.com.guerin.Payload.Cattle.ResultFindChildren;
 import br.com.guerin.Repository.Cattle.CattleRepository;
@@ -195,5 +192,35 @@ public class CattleService implements ICattleService {
         else {
             throw new RuntimeException("Gado não encontrado");
         }
+    }
+
+    public Integer count(){
+        Integer count = 0;
+        for(Cattle cattle : cattleRepository.findAll()){
+            if(!cattle.isInactive()){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public Integer countMale(){
+        Integer countMale = 0;
+        for(Cattle cattle : cattleRepository.findAll()){
+            if(cattle.getGender() == Gender.male){
+                countMale++;
+            }
+        }
+        return countMale;
+    }
+
+    public Integer countFemale(){
+        Integer countFemale = 0;
+        for(Cattle cattle : cattleRepository.findAll()){
+            if(cattle.getGender() == Gender.female){
+                countFemale++;
+            }
+        }
+        return countFemale;
     }
 }

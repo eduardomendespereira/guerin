@@ -52,7 +52,7 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public VaccineApplication update(Long id, VaccineApplication vaccineApplication){
-//        generateAutomaticEvent.generateCattleEventVaccination(vaccineApplication);
+        generateAutomaticEvent.generateCattleEventVaccination(vaccineApplication);
         return saveTransactional(vaccineApplication);
     }
 
@@ -81,5 +81,15 @@ public class VaccineApplicationService implements IVaccineApplicationService {
         }else{
             throw new RuntimeException("Erro: Vacina " + vaccineApplication.getVaccine().getName() + "já aplicada nessa nada");
         }
+    }
+
+    public Integer count(){
+        Integer count = 0;
+        for(VaccineApplication vaccineApplication : vaccineApplicationRepository.findAll()){
+            if(!vaccineApplication.isInactive()){
+                count++;
+            }
+        }
+        return count;
     }
 }

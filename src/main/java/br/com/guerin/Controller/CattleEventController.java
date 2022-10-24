@@ -1,7 +1,6 @@
 package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.CattleEvent;
-import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Service.IService.ICattleEventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -89,6 +88,15 @@ public class CattleEventController {
             return ResponseEntity.ok().body(this.cattleEventService.update(cattleEvent.getId(), cattleEvent));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> count(){
+        try {
+            return ResponseEntity.ok().body(this.cattleEventService.count());
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 }
