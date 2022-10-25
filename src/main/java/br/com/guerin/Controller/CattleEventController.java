@@ -23,10 +23,6 @@ public class CattleEventController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @PutMapping("/disable/{id}")
-    public void disable(@PathVariable("id") Long id) {
-        cattleEventService.disable(id);
-    }
     @PostMapping
     public ResponseEntity<?> save(@RequestBody CattleEvent cattleEvent){
         try {
@@ -98,5 +94,15 @@ public class CattleEventController {
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
+    }
+
+    @GetMapping("/disable/{id}")
+    public void disable(@PathVariable("id") Long id) {
+        cattleEventService.disable(id);
+    }
+
+    @GetMapping("/enable/{id}")
+    public void enable(@PathVariable("id") Long id) {
+        cattleEventService.enable(id);
     }
 }

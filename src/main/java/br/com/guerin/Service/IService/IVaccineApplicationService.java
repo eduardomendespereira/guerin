@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public interface IVaccineApplicationService {
-    void disable(Long id, VaccineApplication vaccineApplication);
+    void disable(Long id);
+    void enable(Long id);
     Optional<VaccineApplication> findById(Long id);
     Page<VaccineApplication> findAll(Pageable pageable);
     VaccineApplication saveTransactional(VaccineApplication vaccineApplication);

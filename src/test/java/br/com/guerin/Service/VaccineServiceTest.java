@@ -40,7 +40,7 @@ public class VaccineServiceTest {
     @Test
     @DisplayName("teste de listagem das vacinas")
     public void checkListAll(){
-        Assertions.assertNotNull(vaccineService.findAll(Pageable.unpaged()));
+        Assertions.assertNotNull(vaccineService.findAll());
     }
 
     @Test

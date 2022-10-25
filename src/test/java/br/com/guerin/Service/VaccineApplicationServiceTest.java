@@ -104,7 +104,7 @@ public class VaccineApplicationServiceTest {
     public void checkDisable(){
         VaccineApplication vaccineApplication = this.generateVaccineApplication();
         var getVaccineApp = vaccineApplicationService.save(vaccineApplication);
-        vaccineApplicationService.disable(getVaccineApp.getId(), getVaccineApp);
+        vaccineApplicationService.disable(getVaccineApp.getId());
         Optional<VaccineApplication> getVacApp = vaccineApplicationService.findById(getVaccineApp.getId());
         Assertions.assertTrue(getVacApp.isPresent());
     }

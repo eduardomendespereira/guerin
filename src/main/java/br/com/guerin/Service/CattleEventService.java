@@ -48,6 +48,13 @@ public class CattleEventService implements ICattleEventService {
         }
     }
 
+    @Transactional
+    public void enable(Long id) {
+        if (this.findById(id).get().isInactive()) {
+            cattleEventRepository.enable(id);
+        }
+    }
+
     public ArrayList<CattleEvent> findByEventType(Long eventTypeId) {
         EventType eventType = this.eventTypeService.findById(eventTypeId).get();
         return cattleEventRepository.findByEventType(eventType);

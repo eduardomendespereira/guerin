@@ -71,17 +71,14 @@ public class VaccineApplicationController {
         }
     }
 
-    @PutMapping("/disable/{idVaccineApplication}")
-    public ResponseEntity<?> disable(
-            @RequestBody VaccineApplication vaccineApplication,
-            @PathVariable Long idVaccineApplication
-    ) {
-        try {
-            this.vaccineApplicationService.disable(idVaccineApplication, vaccineApplication);
-            return ResponseEntity.ok().body("Aplicação de vacina desativada com sucesso!");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @GetMapping("/disable/{id}")
+    public void disable(@PathVariable("id") Long id) {
+        vaccineApplicationService.disable(id);
+    }
+
+    @GetMapping("/enable/{id}")
+    public void enable(@PathVariable("id") Long id) {
+        vaccineApplicationService.enable(id);
     }
 
     @GetMapping("/count")

@@ -66,7 +66,7 @@ public class FarmController {
         }
     }
 
-    @PutMapping("/{farmId}")
+    @PostMapping("/{farmId}")
     public ResponseEntity<?> update(@RequestBody Farm farm, @PathVariable Long farmId) {
         try {
             return ResponseEntity.ok().body(this.farmService.update(farmId, farm));
@@ -76,7 +76,7 @@ public class FarmController {
         }
     }
 
-    @PutMapping("/disable/{farmId}")
+    @PostMapping("/disable/{farmId}")
     public ResponseEntity<?> disable(@RequestBody Farm farm, @PathVariable Long farmId) {
         try {
             return ResponseEntity.ok().body(this.farmService.disable(farmId, farm));
