@@ -76,7 +76,7 @@ public class CattleServiceTest {
         Specie specie = this.specieFactory("findall");
         Farm farm = this.farmFactory("findall", "findall, 123");
         Cattle cattle = this.cattleFactory(103L, 300f, specie, farm, Gender.female, null, null);
-        Integer count = this.cattleService.findAll(Pageable.unpaged()).getSize();
+        Integer count = this.cattleService.findAll().size();
 
         Assertions.assertTrue(count >= 1);
     }

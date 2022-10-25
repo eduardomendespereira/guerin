@@ -15,9 +15,9 @@ public class CattleController {
     private final ICattleService cattleService;
 
     @GetMapping
-    public ResponseEntity<?> findAll(Pageable pageable) {
+    public ResponseEntity<?> findAll() {
         try {
-            return ResponseEntity.ok().body(this.cattleService.findAll(pageable));
+            return ResponseEntity.ok().body(this.cattleService.findAll());
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ICattleService {
     Cattle update(Long id, Cattle cattle);
-    Page<Cattle> findAll(Pageable pageable);
+    ArrayList<Cattle> findAll();
     Optional<Cattle> findById(Long id);
     Cattle save(Cattle cattle);
     Cattle disable(Long id, Cattle cattle);

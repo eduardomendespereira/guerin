@@ -83,8 +83,8 @@ public class CattleService implements ICattleService {
         }
     }
 
-    public Page<Cattle> findAll(Pageable pageable) {
-        return this.cattleRepository.findAll(pageable);
+    public ArrayList<Cattle> findAll() {
+        return (ArrayList<Cattle>) this.cattleRepository.findAll();
     }
 
     @Transactional
