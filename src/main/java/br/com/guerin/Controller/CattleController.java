@@ -94,7 +94,7 @@ public class CattleController {
         }
     }
 
-    @PostMapping("/disable/{earring}")
+    @PutMapping("/disable/{earring}")
     public ResponseEntity<?> disable(@RequestBody Cattle cattle, @PathVariable Long earring) {
         try {
             return ResponseEntity.ok().body( this.cattleService.disable(earring, cattle));
@@ -104,7 +104,7 @@ public class CattleController {
         }
     }
 
-    @PostMapping("/{earring}")
+    @PutMapping("/{earring}")
     public ResponseEntity<?> update(@RequestBody Cattle cattle, @PathVariable Long earring) {
         try {
             return ResponseEntity.ok().body(this.cattleService.update(earring, cattle));
