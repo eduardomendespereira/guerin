@@ -125,6 +125,22 @@ public class CattleService implements ICattleService {
         }
     }
 
+    @Transactional
+    public Cattle enable(Long earring, Cattle cattle) {
+        if (Objects.equals(earring, cattle.getEarring())) {
+            if (this.findByEarring(earring).get().isInactive()) {
+                this.cattleRepository.enable(cattle.getEarring());
+                return this.findByEarring(earring).get();
+            }
+            else {
+                throw new RuntimeException("Gado já está ativo!");
+            }
+        }
+        else {
+            throw new RuntimeException("Gado não encontrado");
+        }
+    }
+
     public Optional<Cattle> findByEarring(Long earring) {
         if (earring != null) {
             return this.cattleRepository.findByEarring(earring);

@@ -14,6 +14,7 @@ public interface ICattleService {
     Optional<Cattle> findById(Long id);
     Cattle save(Cattle cattle);
     Cattle disable(Long id, Cattle cattle);
+    Cattle enable(Long id, Cattle cattle);
     Optional<Cattle> findByEarring(Long earring);
     Cattle findByEarringOrNew(Long earring);
     ResultFindParents findParents(Long earring);

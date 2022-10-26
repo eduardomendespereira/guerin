@@ -19,6 +19,10 @@ public interface CattleRepository extends JpaRepository<Cattle, Long> {
     @Query("UPDATE Cattle cattle SET cattle.inactive = true WHERE cattle.earring = :earring")
     void disable(Long earring);
 
+    @Modifying
+    @Query("UPDATE Cattle cattle SET cattle.inactive = false WHERE cattle.earring = :earring")
+    void enable(Long earring);
+
     @Query("SELECT cattle FROM Cattle cattle where cattle.earring = :earring")
     Optional<Cattle> findByEarring(Long earring);
 

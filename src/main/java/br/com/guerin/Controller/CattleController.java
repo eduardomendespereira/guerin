@@ -104,6 +104,16 @@ public class CattleController {
         }
     }
 
+    @PutMapping("/enable/{earring}")
+    public ResponseEntity<?> enable(@RequestBody Cattle cattle, @PathVariable Long earring) {
+        try {
+            return ResponseEntity.ok().body( this.cattleService.enable(earring, cattle));
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PutMapping("/{earring}")
     public ResponseEntity<?> update(@RequestBody Cattle cattle, @PathVariable Long earring) {
         try {
