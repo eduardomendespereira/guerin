@@ -43,11 +43,9 @@ public class VaccineApplicationController {
         }
     }
     @GetMapping
-    public ResponseEntity<?> findAll(
-            Pageable pageable
-    ) {
+    public ResponseEntity<?> findAll() {
         try {
-            return ResponseEntity.ok().body(this.vaccineApplicationService.findAll(pageable));
+            return ResponseEntity.ok().body(this.vaccineApplicationService.findAll());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

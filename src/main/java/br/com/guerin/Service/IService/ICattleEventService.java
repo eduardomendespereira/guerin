@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ICattleEventService {
 
-    Page<CattleEvent> findAll(Pageable pageable);
+    ArrayList<CattleEvent> findAll();
 
     Optional<CattleEvent> findById(Long id);
 

@@ -12,7 +12,8 @@ public interface IVaccineApplicationService {
     void disable(Long id);
     void enable(Long id);
     Optional<VaccineApplication> findById(Long id);
-    Page<VaccineApplication> findAll(Pageable pageable);
+
+    ArrayList<VaccineApplication> findAll();
     VaccineApplication saveTransactional(VaccineApplication vaccineApplication);
     VaccineApplication update(Long id, VaccineApplication vaccineApplication);
     VaccineApplication save(VaccineApplication vaccineApplication);

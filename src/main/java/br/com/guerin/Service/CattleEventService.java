@@ -26,8 +26,8 @@ public class CattleEventService implements ICattleEventService {
     private final IWeighingService weighingService;
     private final IVaccineApplicationService vaccineApplicationService;
     private final ICattleService cattleService;
-    public Page<CattleEvent> findAll(Pageable pageable) {
-        return cattleEventRepository.findAll(pageable);
+    public ArrayList<CattleEvent> findAll() {
+        return (ArrayList<CattleEvent>) cattleEventRepository.findAll();
     }
 
     public Optional<CattleEvent> findById(Long id) {

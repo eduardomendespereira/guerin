@@ -35,7 +35,7 @@ public class CattleEventController {
     @GetMapping
     public ResponseEntity<?> findAll() {
         try {
-            return ResponseEntity.ok().body(cattleEventService.findAll(PageRequest.of(0, 100)));
+            return ResponseEntity.ok().body(cattleEventService.findAll());
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

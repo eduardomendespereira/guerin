@@ -42,8 +42,8 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     public Optional<VaccineApplication> findByNote(String note){
         return this.vaccineApplicationRepository.findByNote(note);
     }
-    public Page<VaccineApplication> findAll(Pageable pageable){
-        return this.vaccineApplicationRepository.findAll(pageable);
+    public ArrayList<VaccineApplication> findAll(){
+        return (ArrayList<VaccineApplication>) vaccineApplicationRepository.findAll();
     }
 
     @Transactional
