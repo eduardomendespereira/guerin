@@ -4,6 +4,7 @@ import br.com.guerin.Entity.Farm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public interface IFarmService {
@@ -12,7 +13,7 @@ public interface IFarmService {
     Optional<Farm> findByAddress(String address);
     Farm save(Farm farm);
     Farm update(Long id, Farm farm);
-    Page<Farm> findAll(Pageable pageable);
+    ArrayList<Farm> findAll();
     Optional<Farm> findById(Long id);
     public Integer count();
 }

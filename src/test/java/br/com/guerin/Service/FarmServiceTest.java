@@ -87,7 +87,7 @@ public class FarmServiceTest {
         this.farm.setName("findall_name");
         this.farm.setAddress("findall_address");
         this.farmService.save(this.farm);
-        Integer count = this.farmService.findAll(Pageable.unpaged()).getSize();
+        Integer count = this.farmService.findAll().size();
         Assertions.assertTrue(count >= 1);
     }
 }

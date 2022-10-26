@@ -86,7 +86,7 @@ public class VaccineApplicationServiceTest {
 
     @Test
     public void checkFindByAll(){
-        Assertions.assertNotNull(vaccineApplicationService.findAll(Pageable.unpaged()));
+        Assertions.assertNotNull(vaccineApplicationService.findAll());
     }
 
     @Test

@@ -47,9 +47,9 @@ public class FarmController {
     }
 
     @GetMapping
-    public ResponseEntity<?> findAll(Pageable pageable) {
+    public ResponseEntity<?> findAll() {
         try {
-            return ResponseEntity.ok().body(this.farmService.findAll(pageable));
+            return ResponseEntity.ok().body(this.farmService.findAll());
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

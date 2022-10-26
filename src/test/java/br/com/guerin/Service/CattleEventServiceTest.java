@@ -153,7 +153,7 @@ public class CattleEventServiceTest {
 
     @Test
     public void checkFindByAll(){
-        Assertions.assertNotNull(cattleEventService.findAll(Pageable.unpaged()));
+        Assertions.assertNotNull(cattleEventService.findAll());
     }
 
     @Test

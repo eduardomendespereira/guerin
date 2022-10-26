@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -26,8 +27,8 @@ public class FarmService implements IFarmService {
         }
     }
 
-    public Page<Farm> findAll(Pageable pageable) {
-        return this.farmRepository.findAll(pageable);
+    public ArrayList<Farm> findAll() {
+        return (ArrayList<Farm>) this.farmRepository.findAll();
     }
 
     @Transactional
