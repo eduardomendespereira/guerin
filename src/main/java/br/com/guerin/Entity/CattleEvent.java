@@ -1,5 +1,6 @@
 package br.com.guerin.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -29,6 +30,7 @@ public class CattleEvent extends AbstractEntity{
 
     @Getter @Setter
     @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
