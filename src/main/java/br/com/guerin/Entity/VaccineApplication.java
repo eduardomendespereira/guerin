@@ -18,7 +18,7 @@ public class VaccineApplication extends AbstractEntity{
     @Getter @Setter
     @NotNull
     @Length(min = 3, max = 255, message = "A descrição deverá ter no máximo {max} caracteres")
-    @Column(name = "note", nullable = false)
+    @Column(name = "note", nullable = true)
     private String note;
 
     @Getter @Setter
