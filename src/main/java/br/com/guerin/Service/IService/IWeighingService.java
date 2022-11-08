@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IWeighingService {
     void disable(Long idWeighing);
+    void enable(Long idWeighing);
     Weighing findById(Long id);
     Page<Weighing> listAll(Pageable pageable);
     Weighing save(Weighing weighing);

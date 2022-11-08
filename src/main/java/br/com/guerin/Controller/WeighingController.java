@@ -67,6 +67,16 @@ public class WeighingController {
         }
     }
 
+    @GetMapping("/enable/{idWeighing}")
+    public ResponseEntity<?> enable(@PathVariable Long idWeighing) {
+        try {
+            this.weighingService.enable(idWeighing);
+            return ResponseEntity.ok().body("Pesagem Ativada com Sucesso.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/count")
     public ResponseEntity<?> count(){
         try {

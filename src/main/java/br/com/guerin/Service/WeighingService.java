@@ -60,6 +60,11 @@ public class WeighingService implements IWeighingService{
         this.weighingRepository.disable(id);
     }
 
+    public void enable(Long id) {
+        this.weighingRepository.enable(id);
+    }
+
+
     public Integer count(){
         Integer count = 0;
         for(Weighing weighing : weighingRepository.findAll()){
