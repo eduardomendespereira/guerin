@@ -67,7 +67,7 @@ public class WeighingController {
         }
     }
 
-    @GetMapping("/enable/{idWeighing}")
+    @PutMapping("/enable/{idWeighing}")
     public ResponseEntity<?> enable(@PathVariable Long idWeighing) {
         try {
             this.weighingService.enable(idWeighing);
