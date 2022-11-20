@@ -53,6 +53,10 @@ public class SpecieService implements ISpecieService {
         return true;
     }
 
+    public void enable(Long id){
+        this.specieRepository.enable(id);
+    }
+
     public Integer count(){
         Integer count = 0;
         for(Specie specie : specieRepository.findAll()){

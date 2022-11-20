@@ -56,20 +56,28 @@ public class SpecieController {
         }
     }
 
-    @PutMapping("/{idSpecie}")
-    public ResponseEntity<?> update(@PathVariable Long idSpecie, @RequestBody Specie specie) {
+    @PutMapping("/enable/{idSpecie}")
+    public ResponseEntity<?> enable(@PathVariable Long idSpecie) {
         try {
-            return ResponseEntity.ok().body(specieService.update(idSpecie, specie));
+            this.specieService.enable(idSpecie);
+            return ResponseEntity.ok().body("Especie ativada com sucesso");
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
-
     @PutMapping("/disable/{idSpecie}")
     public ResponseEntity<?> disable(@PathVariable Long idSpecie, @RequestBody Specie specie) {
         try {
             this.specieService.disable(idSpecie, specie);
             return ResponseEntity.ok().body("Especie desativada com sucesso");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+    @PutMapping("/{idSpecie}")
+    public ResponseEntity<?> update(@PathVariable Long idSpecie, @RequestBody Specie specie) {
+        try {
+            return ResponseEntity.ok().body(specieService.update(idSpecie, specie));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

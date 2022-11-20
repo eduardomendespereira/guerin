@@ -11,6 +11,7 @@ public interface ISpecieService {
     Specie save(Specie specie);
     Specie update(Long id, Specie specie);
     ArrayList<Specie> listAll();
+    void enable(Long id);
     Optional<Specie> findById(Long id);
     void disable(Long id, Specie specie);
     Optional<Specie> findByName(String name);

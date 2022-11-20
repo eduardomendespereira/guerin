@@ -18,4 +18,8 @@ public interface SpecieRepository extends JpaRepository<Specie, Long> {
 
     @Query("SELECT s FROM Specie s where s.name = :name")
     Optional<Specie> findByName(String name);
+
+    @Modifying
+    @Query("UPDATE Specie  specie SET specie.inactive = false WHERE specie.id = :idSpecie")
+    void enable(@Param("idSpecie") Long idSpecie);
 }
