@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface IEventTypeService {
     EventType save(EventType eventType);
     EventType update(Long id, EventType eventType);
+    void enable(Long id);
     ArrayList<EventType> listAll();
     Optional<EventType> findById(Long id);
     void disable(Long id, EventType eventType);

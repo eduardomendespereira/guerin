@@ -76,4 +76,13 @@ public class EventTypeController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+    @PutMapping("/enable/{idEvent_type}")
+    public ResponseEntity<?> enable(@PathVariable Long idEvent_type){
+        try {
+            this.eventTypeService.enable(idEvent_type);
+            return ResponseEntity.ok().body("Tipo de Evento ativado com sucesso");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
 }

@@ -44,6 +44,10 @@ public class EventTypeService implements IEventTypeService {
             this.eventTypeRepository.desativar(eventType.getId());
         }
     }
+    @Transactional
+    public void enable(Long id){
+        this.eventTypeRepository.enable(id);
+    }
 
     public Optional<EventType> findByName(String nameEvent){
         return this.eventTypeRepository.findByName(nameEvent);
