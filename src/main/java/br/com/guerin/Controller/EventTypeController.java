@@ -58,14 +58,7 @@ public class EventTypeController {
         }
     }
 
-    @PutMapping("/{idEvent_type}")
-    public ResponseEntity<?> update(@PathVariable Long idEvent_type, @RequestBody EventType eventType){
-        try {
-            return ResponseEntity.ok().body(this.eventTypeService.update(idEvent_type, eventType));
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
-    }
+
 
     @PutMapping("/disable/{idEvent_type}")
     public ResponseEntity<?> disable(@PathVariable Long idEvent_type, @RequestBody EventType eventType){
@@ -81,6 +74,14 @@ public class EventTypeController {
         try {
             this.eventTypeService.enable(idEvent_type);
             return ResponseEntity.ok().body("Tipo de Evento ativado com sucesso");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+    @PutMapping("/{idEvent_type}")
+    public ResponseEntity<?> update(@PathVariable Long idEvent_type, @RequestBody EventType eventType){
+        try {
+            return ResponseEntity.ok().body(this.eventTypeService.update(idEvent_type, eventType));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
