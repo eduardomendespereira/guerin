@@ -1,6 +1,7 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.Weighing;
+import br.com.guerin.Repository.Cattle.CattleRepository;
 import br.com.guerin.Repository.Weighing.WeighingRepository;
 import br.com.guerin.Service.IService.IGenerateAutomaticEvent;
 import br.com.guerin.Service.IService.IWeighingService;
@@ -26,7 +27,7 @@ public class WeighingService implements IWeighingService{
     private final WeighingRepository weighingRepository;
 
     private final IGenerateAutomaticEvent generateAutomaticEvent;
-
+    private final CattleRepository cattleRepository;
     public Weighing findById(Long id) {
         return this.weighingRepository.findById(id).orElse(new Weighing());
     }
@@ -36,12 +37,14 @@ public class WeighingService implements IWeighingService{
     }
 
     public Weighing save(Weighing weighing) {
+        weighing.setCattle(cattleRepository.findByEarring(weighing.getCattle().getEarring()).get());
         generateAutomaticEvent.generateCattleEventWeighing(weighing);
         return saveTransactional(weighing);
     }
 
     @Transactional
     public Weighing saveTransactional(Weighing weighing){
+
         return this.weighingRepository.save(weighing);
     }
 

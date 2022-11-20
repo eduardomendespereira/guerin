@@ -42,9 +42,9 @@ public class CattleService implements ICattleService {
                         throw new RuntimeException("Gado informado não pode ser pai");
                     }
                 }
-                else {
-                    throw new RuntimeException("Nao existe no banco");
-                }
+//                else {
+//                    throw new RuntimeException("Nao existe no banco");
+//                }
             }
             else {
                 throw new RuntimeException("Gado informado não pode ser pai de si mesmo");
@@ -63,9 +63,9 @@ public class CattleService implements ICattleService {
                         throw new RuntimeException("Gado informado não pode ser mãe");
                     }
                 }
-                else {
-                    throw new RuntimeException("Nao existe no banco");
-                }
+//                else {
+//                    throw new RuntimeException("Nao existe no banco");
+//                }
             }
             else {
                 throw new RuntimeException("Gado informado não pode ser mãe de si mesmo");
