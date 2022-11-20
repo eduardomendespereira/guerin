@@ -40,9 +40,9 @@ public class EventTypeController {
     }
 
     @GetMapping
-    public ResponseEntity<?> listByAllPage(Pageable pageable){
+    public ResponseEntity<?> listByAllPage(){
         try {
-            return ResponseEntity.ok().body(this.eventTypeService.listAll(pageable));
+            return ResponseEntity.ok().body(this.eventTypeService.listAll());
         }
         catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());

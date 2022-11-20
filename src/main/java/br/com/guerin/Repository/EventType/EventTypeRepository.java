@@ -17,4 +17,9 @@ public interface EventTypeRepository extends JpaRepository<EventType, Long> {
 
     @Query("SELECT et FROM EventType et where et.name = :nameEvent")
     Optional<EventType> findByName(@Param("nameEvent") String nameEvent);
+
+
+    @Modifying
+    @Query("UPDATE EventType  eventType SET eventType.inactive = false WHERE eventType.id = :idEventType")
+    void enable(@Param("idEventType") Long idEventType);
 }

@@ -25,7 +25,7 @@ public class EventTypeServiceTest {
         EventType eventType = new EventType("1g2g");
         eventTypeService.save(eventType);
         List<EventType> eventTypeList = new ArrayList<EventType>();
-        for(EventType eventType1 : eventTypeService.listAll(Pageable.unpaged())){
+        for(EventType eventType1 : eventTypeService.listAll()){
             if(eventType1.getName().contains("1g2g")){
                 eventTypeList.add(eventType);
             }
@@ -60,9 +60,9 @@ public class EventTypeServiceTest {
     }
     @Test
     public void listAllEventType(){
-        if(eventTypeService.listAll(Pageable.unpaged()).isEmpty()){
+        if(eventTypeService.listAll().isEmpty()){
             eventTypeService.save(new EventType("Fidelis"));
         }
-        Assertions.assertNotNull(eventTypeService.listAll(Pageable.unpaged()));
+        Assertions.assertNotNull(eventTypeService.listAll());
     }
 }

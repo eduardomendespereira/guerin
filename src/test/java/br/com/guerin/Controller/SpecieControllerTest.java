@@ -59,7 +59,7 @@ public class SpecieControllerTest {
         }
     }
     public Specie saveSpecieFactory(){
-        if(specieService.listAll(Pageable.unpaged()).isEmpty()){
+        if(specieService.listAll().isEmpty()){
             return specieService.save(new Specie("Pimposa"));
 
         }else{

@@ -1,6 +1,7 @@
 package br.com.guerin.Service;
 
 import br.com.guerin.Entity.EventType;
+import br.com.guerin.Entity.Specie;
 import br.com.guerin.Repository.EventType.EventTypeRepository;
 import br.com.guerin.Service.IService.IEventTypeService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -25,8 +27,8 @@ public class EventTypeService implements IEventTypeService {
     public Optional<EventType> findById(Long id){
         return this.eventTypeRepository.findById(id);
     }
-    public Page<EventType> listAll(Pageable pageable){
-        return this.eventTypeRepository.findAll(pageable);
+    public ArrayList<EventType> listAll(){
+        return  (ArrayList<EventType>) this.eventTypeRepository.findAll();
     }
     @Transactional
     public EventType update(Long id, EventType eventType){

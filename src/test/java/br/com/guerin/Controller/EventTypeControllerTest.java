@@ -56,7 +56,7 @@ public class EventTypeControllerTest {
     }
 
     public EventType eventTypeSaveFactory(){
-        if(!eventTypeService.listAll(Pageable.unpaged()).isEmpty()){
+        if(!eventTypeService.listAll().isEmpty()){
             return eventTypeService.findByName("Fidelin").get();
         }
         return eventTypeService.save(new EventType("Fidelin"));

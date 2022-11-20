@@ -25,7 +25,7 @@ public class SpecieServiceTest {
         Specie specie = new Specie("Test1");
         specieService.save(specie);
         List<Specie> specieList = new ArrayList<Specie>();
-        for(Specie specie1 : specieService.listAll(Pageable.unpaged())){
+        for(Specie specie1 : specieService.listAll()){
             if(specie.getName().contains("Test1")){
                 specieList.add(specie);
             }
@@ -34,7 +34,7 @@ public class SpecieServiceTest {
     }
     @Test
     public  void update(){
-        if(specieService.listAll(Pageable.unpaged()).isEmpty()){
+        if(specieService.listAll().isEmpty()){
             specieService.save(new Specie("Fidelis"));
         }
         Specie specie = specieService.findById(1L).get();
@@ -48,7 +48,7 @@ public class SpecieServiceTest {
 
     @Test
     public void inactivateSpecie(){
-        if(specieService.listAll(Pageable.unpaged()).isEmpty()){
+        if(specieService.listAll().isEmpty()){
             specieService.save(new Specie("Jk4"));
         }
         Specie specie =specieService.findById(1L).get();
@@ -59,14 +59,14 @@ public class SpecieServiceTest {
     }
     @Test
     public void listAllSpecie(){
-        if(specieService.listAll(Pageable.unpaged()).isEmpty()){
+        if(specieService.listAll().isEmpty()){
             specieService.save(new Specie("Fidelao"));
         }
-        Assertions.assertNotNull(specieService.listAll(Pageable.unpaged()));
+        Assertions.assertNotNull(specieService.listAll());
     }
     @Test
     public void findSpecieById(){
-        if(specieService.listAll(Pageable.unpaged()).isEmpty()){
+        if(specieService.listAll().isEmpty()){
             specieService.save(new Specie("Fidelao"));
         }
         Specie specie = specieService.findById(1L).get();

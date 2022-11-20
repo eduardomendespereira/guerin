@@ -39,9 +39,9 @@ public class SpecieController {
     }
 
     @GetMapping
-    public ResponseEntity<?> listByAllPage(Pageable pageable) {
+    public ResponseEntity<?> listByAllPage() {
         try {
-            return ResponseEntity.ok().body(this.specieService.listAll(pageable));
+            return ResponseEntity.ok().body(this.specieService.listAll());
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

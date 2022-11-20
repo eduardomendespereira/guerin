@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -28,8 +29,8 @@ public class SpecieService implements ISpecieService {
     public Optional<Specie> findByName(String name) {
         return this.specieRepository.findByName(name);
     }
-    public Page<Specie> listAll(Pageable pageable){
-        return this.specieRepository.findAll(pageable);
+    public ArrayList<Specie> listAll(){
+        return (ArrayList<Specie>) specieRepository.findAll();
     }
     @Transactional
     public Specie update(Long id, Specie specie){
