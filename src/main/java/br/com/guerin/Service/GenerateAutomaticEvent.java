@@ -57,18 +57,17 @@ public class GenerateAutomaticEvent implements IGenerateAutomaticEvent {
     }
 
     public CattleEvent generateCattleEventVaccination(VaccineApplication vaccineApplication) {
+        CattleEvent cattleEventVaccination = new CattleEvent();
+        EventType getEventType = this.generateEventTypeVaccination();
         if (!cattleEventRepository.findByVaccineApplication(vaccineApplication.getId()).isPresent()){
-            EventType getEventType = this.generateEventTypeVaccination();
-            CattleEvent cattleEventVaccination = new CattleEvent(
-                    vaccineApplication.getCattle(),
-                    getEventType,
-                    vaccineApplication.getDate(),
-                    "Aplicação de vacina " + vaccineApplication.getVaccine().getName(),
-                    vaccineApplication
-            );
+            cattleEventVaccination.setCattle(vaccineApplication.getCattle());
+            cattleEventVaccination.setEventType(getEventType);
+            cattleEventVaccination.setVaccineApplication(vaccineApplication);
+            cattleEventVaccination.setDate(vaccineApplication.getDate());
+            cattleEventVaccination.setDescription("Aplicação de vacina " + vaccineApplication.getVaccine().getName());
             return cattleEventRepository.save(cattleEventVaccination);
         }else {
-            CattleEvent event = cattleEventRepository.findByVaccineApplication(vaccineApplication.getId()).get();
+            var event = cattleEventRepository.findByVaccineApplication(vaccineApplication.getId()).get();
             event.setVaccineApplication(vaccineApplication);
             return cattleEventRepository.save(event);
         }
