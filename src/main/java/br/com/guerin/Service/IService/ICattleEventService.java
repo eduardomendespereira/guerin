@@ -2,6 +2,7 @@ package br.com.guerin.Service.IService;
 
 import br.com.guerin.Entity.CattleEvent;
 import br.com.guerin.Entity.EventType;
+import br.com.guerin.Entity.VaccineApplication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public interface ICattleEventService {
     ArrayList<CattleEvent> findByWeighing(Long weighing_id);
 
     ArrayList<CattleEvent> findByVaccineApp(Long vaccination_id);
+
+    Optional<CattleEvent> findByVaccineApplication(Long vaccineApplicationId);
 
     ArrayList<CattleEvent> findByCattle(Long cattle_id);
 
