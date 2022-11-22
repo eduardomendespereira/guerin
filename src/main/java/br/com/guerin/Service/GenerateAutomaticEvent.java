@@ -68,6 +68,8 @@ public class GenerateAutomaticEvent implements IGenerateAutomaticEvent {
             return cattleEventRepository.save(cattleEventVaccination);
         }else {
             var event = cattleEventRepository.findByVaccineApplication(vaccineApplication.getId()).get();
+            event.setCattle(vaccineApplication.getCattle());
+            event.setDate(vaccineApplication.getDate());
             event.setVaccineApplication(vaccineApplication);
             return cattleEventRepository.save(event);
         }
