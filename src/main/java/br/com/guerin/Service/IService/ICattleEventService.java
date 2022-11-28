@@ -27,6 +27,8 @@ public interface ICattleEventService {
 
     Optional<CattleEvent> findByVaccineApplication(Long vaccineApplicationId);
 
+    Optional<CattleEvent> findByWeighingById(Long weighingId);
+
     ArrayList<CattleEvent> findByCattle(Long cattle_id);
 
     CattleEvent update(Long id, CattleEvent cattleEvent);
