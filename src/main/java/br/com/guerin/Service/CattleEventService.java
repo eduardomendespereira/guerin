@@ -1,9 +1,6 @@
 package br.com.guerin.Service;
 
-import br.com.guerin.Entity.Cattle;
-import br.com.guerin.Entity.CattleEvent;
-import br.com.guerin.Entity.EventType;
-import br.com.guerin.Entity.VaccineApplication;
+import br.com.guerin.Entity.*;
 import br.com.guerin.Repository.CattleEvent.CattleEventRepository;
 import br.com.guerin.Service.IService.*;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -107,7 +108,19 @@ public class CattleEventService implements ICattleEventService {
             throw new RuntimeException("Descrição do evento não encontrado!");
         }
     }
-
+    public ArrayList<CattleEventAgrouped> findAllAgrouped(){
+        var obj = cattleEventRepository.findAllAgrouped();
+        var result = new ArrayList<CattleEventAgrouped>();
+        for (Long id : obj) {
+            var cattle = cattleService.findById(id);
+            if (!cattle.isPresent())
+                continue;
+            var events = cattleEventRepository.findByCattle(cattle.get());
+            var res = new CattleEventAgrouped("span", "Brinco: " + cattle.get().getEarring().toString(), true, events.stream().count(), events);
+            result.add(res);
+        }
+        return result;
+    }
     public Integer count(){
         Integer count = 0;
         for(CattleEvent cattleEvent : cattleEventRepository.findAll()){

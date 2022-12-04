@@ -40,4 +40,7 @@ public interface CattleEventRepository extends JpaRepository<CattleEvent, Long> 
 
     @Query("SELECT ce FROM CattleEvent ce where ce.description = :descCattleEvent")
     Optional<CattleEvent> findByName(String descCattleEvent);
+
+    @Query("select ce.cattle.id as cattleId from CattleEvent ce group by ce.cattle")
+    ArrayList<Long> findAllAgrouped();
 }

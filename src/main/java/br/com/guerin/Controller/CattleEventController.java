@@ -1,12 +1,15 @@
 package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.CattleEvent;
+import br.com.guerin.Entity.CattleEventAgrouped;
 import br.com.guerin.Service.IService.ICattleEventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/api/cattleEvent")
@@ -104,5 +107,14 @@ public class CattleEventController {
     @GetMapping("/enable/{id}")
     public void enable(@PathVariable("id") Long id) {
         cattleEventService.enable(id);
+    }
+
+    @GetMapping("/agrouped")
+    public ResponseEntity<?> findAllAgrouped() {
+        try {
+            return ResponseEntity.ok().body(cattleEventService.findAllAgrouped());
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 }

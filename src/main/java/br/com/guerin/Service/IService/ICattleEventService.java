@@ -1,6 +1,7 @@
 package br.com.guerin.Service.IService;
 
 import br.com.guerin.Entity.CattleEvent;
+import br.com.guerin.Entity.CattleEventAgrouped;
 import br.com.guerin.Entity.EventType;
 import br.com.guerin.Entity.VaccineApplication;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,7 @@ public interface ICattleEventService {
     Optional<CattleEvent> findByWeighingById(Long weighingId);
 
     ArrayList<CattleEvent> findByCattle(Long cattle_id);
-
+    ArrayList<CattleEventAgrouped> findAllAgrouped();
     CattleEvent update(Long id, CattleEvent cattleEvent);
 
     Optional<CattleEvent> findByName(String name);

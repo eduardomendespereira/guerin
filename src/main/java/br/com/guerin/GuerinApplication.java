@@ -1,7 +1,9 @@
 package br.com.guerin;
 
 import br.com.guerin.Entity.*;
+import br.com.guerin.Repository.CattleEvent.CattleEventRepository;
 import br.com.guerin.Service.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,11 +15,18 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
+@RequiredArgsConstructor
 public class GuerinApplication {
+
+    private final CattleEventService cattleEventService;
 
     public static void main(String[] args) {
 
         SpringApplication.run(GuerinApplication.class, args);
+    }
+
+    public void returnFindAllGrouped(){
+        this.cattleEventService.findAllAgrouped();
     }
 
 //    @Bean
@@ -35,11 +44,10 @@ public class GuerinApplication {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    CommandLineRunner run (UserService userService, CattleService cattleService, FarmService farmService, SpecieService specieService, MenuService menuService, RoleMenuService roleMenuService) {
-//        return args -> {
-//            userService.save(new User("lucas", "hanke", "lucasghank@hotmail.com", "bagrt", "123", Role.admin));
-//
-//        };
-//    }
+    @Bean
+    CommandLineRunner run (UserService userService, CattleService cattleService, FarmService farmService, SpecieService specieService, MenuService menuService, RoleMenuService roleMenuService) {
+        return args -> {
+        returnFindAllGrouped();
+        };
+    }
 }
