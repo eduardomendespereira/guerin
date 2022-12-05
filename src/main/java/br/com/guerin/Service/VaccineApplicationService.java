@@ -52,8 +52,13 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public VaccineApplication update(Long id, VaccineApplication vaccineApplication){
-        generateAutomaticEvent.generateCattleEventVaccination(vaccineApplication);
-        return saveTransactional(vaccineApplication);
+        System.out.println(vaccineApplication);
+        if(id.longValue() == vaccineApplication.getId()){
+            System.out.println(vaccineApplication);
+            return saveTransactional(vaccineApplication);
+        }else{
+            throw new RuntimeException("Aplicação de Vacina não encontrado");
+        }
     }
 
     public VaccineApplication save(VaccineApplication vaccineApplication){

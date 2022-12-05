@@ -44,10 +44,10 @@ public class GuerinApplication {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    CommandLineRunner run (UserService userService, CattleService cattleService, FarmService farmService, SpecieService specieService, MenuService menuService, RoleMenuService roleMenuService) {
-        return args -> {
-        returnFindAllGrouped();
-        };
-    }
+//    @Bean
+//    CommandLineRunner run (UserService userService, CattleService cattleService, FarmService farmService, SpecieService specieService, MenuService menuService, RoleMenuService roleMenuService) {
+//        return args -> {
+//        returnFindAllGrouped();
+//        };
+//    }
 }
