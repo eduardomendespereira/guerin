@@ -1,10 +1,16 @@
 package br.com.guerin.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -48,6 +54,17 @@ public class Cattle extends AbstractEntity{
     @Column(name = "mother", nullable = true)
     private Long mother;
 
+    @Getter @Setter
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Column(name = "bornAt", nullable = false)
+    private LocalDateTime bornAt;
+
+    @Getter @Setter
+    @Column(name = "breastFeeding", nullable = false)
+    private Boolean breastFeeding;
+
     public Cattle(Long earring) {
         this.earring = earring;
     }
@@ -74,6 +91,20 @@ public class Cattle extends AbstractEntity{
 
     }
 
+    public Cattle(Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
+                  LocalDateTime bornAt, Boolean breastFeeding)
+    {
+        this.earring = earring;
+        this.weight = weight;
+        this.specie = specie;
+        this.farm = farm;
+        this.gender = gender;
+        this.father = father;
+        this.mother = mother;
+        this.bornAt = bornAt;
+        this.breastFeeding = breastFeeding;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,6 +115,6 @@ public class Cattle extends AbstractEntity{
 
     @Override
     public int hashCode() {
-        return Objects.hash(earring, weight, specie, farm, gender, father, mother);
+        return Objects.hash(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding);
     }
 }

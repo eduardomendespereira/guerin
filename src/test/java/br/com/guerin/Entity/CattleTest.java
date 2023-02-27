@@ -1,5 +1,6 @@
 package br.com.guerin.Entity;
 
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -12,6 +13,8 @@ public class CattleTest {
         cattle.setWeight(300.0f);
         cattle.setFather(100L);
         cattle.setMother(101L);
+        cattle.setBornAt(LocalDateTime.now());
+        cattle.setBreastFeeding(false);
         return cattle;
     }
 
