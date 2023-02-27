@@ -63,7 +63,7 @@ public class VaccineService implements IVaccineService{
     @Transactional
     public void enable(Long id){
         if(this.vaccineRepository.findById(id).get().isInactive()){
-            this.vaccineRepository.enbale(id);
+            this.vaccineRepository.enable(id);
         }
     }
 

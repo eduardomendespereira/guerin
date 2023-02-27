@@ -42,5 +42,28 @@ public class InseminationService implements IInseminationService {
         return saveTransactional(insemination);
     }
 
+    @Transactional
+    public void disable(Long id){
+        if(!this.inseminationRepository.findById(id).get().isInactive()){
+            this.inseminationRepository.disable(id);
+        }
+    }
+
+    @Transactional
+    public void enable(Long id){
+        if(this.inseminationRepository.findById(id).get().isInactive()){
+            this.inseminationRepository.enable(id);
+        }
+    }
+
+    public Integer count(){
+        Integer count = 0;
+        for(Insemination insemination : inseminationRepository.findAll()){
+            if(!insemination.isInactive()){
+                count++;
+            }
+        }
+        return count;
+    }
 
 }
