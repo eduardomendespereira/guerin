@@ -10,6 +10,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -55,11 +56,9 @@ public class Cattle extends AbstractEntity{
     private Long mother;
 
     @Getter @Setter
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "bornAt", nullable = false)
-    private LocalDateTime bornAt;
+    private LocalDate bornAt;
 
     @Getter @Setter
     @Column(name = "breastFeeding", nullable = false)
@@ -92,7 +91,7 @@ public class Cattle extends AbstractEntity{
     }
 
     public Cattle(Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
-                  LocalDateTime bornAt, Boolean breastFeeding)
+                  LocalDate bornAt, Boolean breastFeeding)
     {
         this.earring = earring;
         this.weight = weight;
