@@ -24,7 +24,8 @@ public interface ICattleService {
     void validateParents(Cattle cattle);
     void validateFather(Cattle cattle);
     void validateMother(Cattle cattle);
-    public Integer count();
-    public Integer countMale();
-    public Integer countFemale();
+    Integer count();
+    Integer countMale();
+    Integer countFemale();
+    Cattle validateBreastFeeding(Cattle cattle);
 }

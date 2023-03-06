@@ -13,9 +13,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -91,6 +93,7 @@ public class CattleService implements ICattleService {
     public Cattle update(Long earring, Cattle cattle) {
         if (Objects.equals(earring, cattle.getEarring())) {
             this.validateParents(cattle);
+            cattle = this.validateBreastFeeding(cattle);
             return this.cattleRepository.save(cattle);
         }
         else {
@@ -105,6 +108,7 @@ public class CattleService implements ICattleService {
         }
         else {
             this.validateParents(cattle);
+            cattle = this.validateBreastFeeding(cattle);
             return this.cattleRepository.save(cattle);
         }
     }
@@ -238,5 +242,12 @@ public class CattleService implements ICattleService {
             }
         }
         return countFemale;
+    }
+
+    public Cattle validateBreastFeeding(Cattle cattle) {
+        if (ChronoUnit.DAYS.between(cattle.getBornAt(), LocalDate.now()) <= 40) {
+            cattle.setBreastFeeding(true);
+        }
+        return cattle;
     }
 }
