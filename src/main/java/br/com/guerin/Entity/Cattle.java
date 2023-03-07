@@ -48,6 +48,11 @@ public class Cattle extends AbstractEntity{
     private Gender gender;
 
     @Getter @Setter
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private CattleStatus status;
+
+    @Getter @Setter
     @Column(name = "father", nullable = true)
     private Long father;
 
@@ -91,7 +96,7 @@ public class Cattle extends AbstractEntity{
     }
 
     public Cattle(Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
-                  LocalDate bornAt, Boolean breastFeeding)
+                  LocalDate bornAt, Boolean breastFeeding, CattleStatus status)
     {
         this.earring = earring;
         this.weight = weight;
@@ -102,6 +107,7 @@ public class Cattle extends AbstractEntity{
         this.mother = mother;
         this.bornAt = bornAt;
         this.breastFeeding = breastFeeding;
+        this.status = status;
     }
 
     @Override
@@ -114,6 +120,6 @@ public class Cattle extends AbstractEntity{
 
     @Override
     public int hashCode() {
-        return Objects.hash(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding);
+        return Objects.hash(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding, status);
     }
 }
