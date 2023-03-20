@@ -11,7 +11,7 @@
 	<groupId>br.com.guerin</groupId>
 	<artifactId>guerin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>guerin</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -121,6 +121,11 @@
 			<artifactId>json-schema-validator</artifactId>
 			<version>5.1.1</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 
