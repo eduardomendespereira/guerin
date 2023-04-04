@@ -1,22 +1,26 @@
-version: '2'
+version: '3.1'
 
 services:
-  app:
-    image: 'docker-spring-boot-postgres:latest'
-    build:
-      context: .
-    container_name: app
-    depends_on:
-      - db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=admin
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-          
+
   db:
-    image: 'postgres:13.1-alpine'
-    container_name: db
+    image: postgres
+    container_name: guerin-db
+    restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: postgres
+
+  tomcat:
+    image: tomcat:latest
+    container_name: guerin-app
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./target/guerin-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/guerin.war
+      - ./tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+    environment:
+      JAVA_VERSION: jdk-18.0.2
+      CATALINA_BASE: /usr/local/tomcat
+      CATALINA_HOME: /usr/local/tomcat
+      CATALINA_TMPDIR: /usr/local/tomcat/temp
