@@ -1,6 +1,6 @@
 package br.com.guerin.Utils;
 
-import br.com.guerin.Repository.User.UserRepository;
+import br.com.guerin.Service.IService.IUserService;
 import br.com.guerin.Entity.User;
 import br.com.guerin.Entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +9,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
+
     @Autowired
-    private UserRepository userRepository;
+    private IUserService userService;
 
     @Override
     public void run(String... args) {
         try {
-            userRepository.save(
+            this.userService.save(
                     new User(
                             "admin",
                             "admin",
@@ -27,7 +28,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             );
         }
         catch (Exception e) {
-
+            throw new RuntimeException(e);
         }
     }
 }
