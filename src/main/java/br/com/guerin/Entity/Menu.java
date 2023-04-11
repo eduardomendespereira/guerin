@@ -38,4 +38,12 @@ public class Menu extends AbstractEntity {
     @Column(name = "icon", nullable = true, length = 20)
     private String icon;
 
+
+    public Menu(String name, Integer order, String description, String path, String icon) {
+        this.name = name;
+        this.order = order;
+        this.description = description;
+        this.path = path;
+        this.icon = icon;
+    }
 }
