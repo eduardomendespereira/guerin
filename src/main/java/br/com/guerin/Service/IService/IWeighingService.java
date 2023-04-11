@@ -4,6 +4,8 @@ import br.com.guerin.Entity.Weighing;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface IWeighingService {
     void disable(Long idWeighing);
     void enable(Long idWeighing);
@@ -12,4 +14,5 @@ public interface IWeighingService {
     Weighing save(Weighing weighing);
     Weighing update(Long id, Weighing weighing);
     public Integer count();
+    Float weighingEarnByDay(Long id);
 }

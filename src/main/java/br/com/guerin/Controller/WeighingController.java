@@ -21,6 +21,15 @@ public class WeighingController {
 
     private final IWeighingService weighingService;
 
+
+    @GetMapping("/media/{idWeighing}")
+    public  ResponseEntity<?> weighingEarnByDay(@PathVariable("idWeighing") Long idWeighing) {
+        try {
+            return ResponseEntity.ok().body(this.weighingService.weighingEarnByDay(idWeighing));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @GetMapping("/{idWeighing}")
     public ResponseEntity<?> findById(@PathVariable("idWeighing") Long idWeighing) {
         try {

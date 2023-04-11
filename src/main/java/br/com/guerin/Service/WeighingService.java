@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @author Gabriel Luiz C
@@ -76,5 +77,19 @@ public class WeighingService implements IWeighingService{
             }
         }
         return count;
+    }
+    @Override
+    public Float weighingEarnByDay(Long id) {
+        Float media = null;
+        List<Weighing> weighings = this.weighingRepository.getmediaOfWeight(id);
+        Weighing w1 = weighings.get(0);
+        Weighing w2 = weighings.get(1);
+        Integer space  = w1.getDate().getDayOfMonth() - w2.getDate().getDayOfMonth();
+        if(w2.getWeight() > w1.getWeight()){
+            media = (w2.getWeight() / space) * -1;
+        }else {
+            media = w1.getWeight() / space;
+        }
+        return media;
     }
 }

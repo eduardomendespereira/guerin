@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+
+import java.time.Clock;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @SpringBootTest
@@ -39,9 +42,10 @@ public class WeighingServiceTest {
     }
 
     private Cattle cattleFactory(
-            Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother
+            Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
+            LocalDate bornAt, Boolean breastFeeding, CattleStatus status
     ) {
-        Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother);
+        Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding, status);
         return this.cattleService.save(cattle);
     }
 
@@ -55,10 +59,11 @@ public class WeighingServiceTest {
     @Test
     @DisplayName("Teste de Insert")
     public void insertWeight(){
+
         Specie specie = this.specieFactory("insert");
         Farm farm = this.farmFactory("insert", "insert, 123");
-        Cattle cattle = this.cattleFactory(50L, 250f, specie, farm, Gender.male, null, null);
-        Weighing weighing = this.weightFactory(cattle, 500f, LocalDateTime.now());
+        Cattle cattle = this.cattleFactory(256L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
+        Weighing weighing = this.weightFactory(cattle, 500f, LocalDateTime.now(Clock.systemUTC()));
         this.weighingService.save(weighing);
     }
 
@@ -67,7 +72,7 @@ public class WeighingServiceTest {
     public void updateWeight(){
         Specie specie = this.specieFactory("updatesd");
         Farm farm = this.farmFactory("updates", "updatess, 123");
-        Cattle cattle = this.cattleFactory(200L, 400f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(257L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
         Weighing weighing = this.weightFactory(cattle, 50f, LocalDateTime.now());
         var getId = this.weighingService.findById(weighing.getId()).getId();
         weighing.setWeight(115f);
@@ -80,7 +85,7 @@ public class WeighingServiceTest {
     public void disableWeight(){
         Specie specie = this.specieFactory("delete");
         Farm farm = this.farmFactory("delete", "delete, 123");
-        Cattle cattle = this.cattleFactory(300L, 500f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(360L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
         Weighing weighing = this.weightFactory(cattle, 50f, LocalDateTime.now());
         var getId = this.weighingService.findById(weighing.getId()).getId();
         weighing.setInactive(true);
@@ -92,7 +97,7 @@ public class WeighingServiceTest {
     public void findByIdWeight(){
         Specie specie = this.specieFactory("Fid");
         Farm farm = this.farmFactory("Fid", "Fid, 123");
-        Cattle cattle = this.cattleFactory(400L, 600f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(222L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
         Weighing weighing = this.weightFactory(cattle, 50f, LocalDateTime.now());
         var getId = this.weighingService.findById(weighing.getId()).getId();
         Assertions.assertEquals(getId, weighing.getId());
@@ -103,7 +108,7 @@ public class WeighingServiceTest {
     public void findByAllWeight(){
         Specie specie = this.specieFactory("Fall");
         Farm farm = this.farmFactory("Fall", "Fall, 123");
-        Cattle cattle = this.cattleFactory(500L, 700f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(223L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
         Weighing weighing = this.weightFactory(cattle, 50f, LocalDateTime.now());
         var getAll = this.weighingService.listAll(PageRequest.of(0,50));
         var checkList = getAll != null;

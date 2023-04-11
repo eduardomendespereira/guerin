@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author Gabriel Luiz C
  *
@@ -31,4 +33,8 @@ public interface WeighingRepository extends JpaRepository<Weighing, Long> {
             "SET weighing.inactive = false " +
             "WHERE weighing.id = :idWeighing")
     void enable( @Param("idWeighing") Long idWeighing);
+
+
+    @Query(value = "SELECT * FROM weighings as w WHERE w.cattle_id = :idWeighing ORDER BY w.date desc limit 2 ", nativeQuery = true)
+    List<Weighing> getmediaOfWeight(@Param("idWeighing") Long idWeighing);
 }
