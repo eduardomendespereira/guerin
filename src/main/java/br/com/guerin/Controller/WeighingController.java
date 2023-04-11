@@ -21,6 +21,14 @@ public class WeighingController {
 
     private final IWeighingService weighingService;
 
+    @GetMapping("/media/{idWeighing}")
+    public  ResponseEntity<?> weighingEarnByDay(@PathVariable("idWeighing") Long idWeighing) {
+        try {
+            return ResponseEntity.ok().body(this.weighingService.weighingEarnByDay(idWeighing));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @GetMapping("/{idWeighing}")
     public ResponseEntity<?> findById(@PathVariable("idWeighing") Long idWeighing) {
         try {
@@ -66,4 +74,28 @@ public class WeighingController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+<<<<<<< Updated upstream
+=======
+
+    @PutMapping("/enable/{idWeighing}")
+    public ResponseEntity<?> enable(@PathVariable Long idWeighing) {
+        try {
+            this.weighingService.enable(idWeighing);
+            return ResponseEntity.ok().body("Pesagem Ativada com Sucesso.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> count(){
+        try {
+            return ResponseEntity.ok().body(this.weighingService.count());
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+
+>>>>>>> Stashed changes
 }
