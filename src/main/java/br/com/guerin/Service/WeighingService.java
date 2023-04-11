@@ -80,16 +80,24 @@ public class WeighingService implements IWeighingService{
     }
     @Override
     public Float weighingEarnByDay(Long id) {
-        Float media = null;
-        List<Weighing> weighings = this.weighingRepository.getmediaOfWeight(id);
-        Weighing w1 = weighings.get(0);
-        Weighing w2 = weighings.get(1);
-        Integer space  = w1.getDate().getDayOfMonth() - w2.getDate().getDayOfMonth();
-        if(w2.getWeight() > w1.getWeight()){
-            media = (w2.getWeight() / space) * -1;
-        }else {
-            media = w1.getWeight() / space;
+        try {
+            Float media = null;
+            List<Weighing> weighings = this.weighingRepository.getmediaOfWeight(id);
+            Weighing w1 = weighings.get(0);
+            if(weighings.size() >= 1){
+                Weighing w2 = weighings.get(1);
+                Integer space  = w1.getDate().getDayOfMonth() - w2.getDate().getDayOfMonth();
+                if(w2.getWeight() > w1.getWeight()){
+                    media = (w2.getWeight() / space) * -1;
+                }else {
+                    media = w1.getWeight() / space;
+                }
+            }else{
+                return w1.getWeight();
+            }
+            return media;
+        }catch (Exception e){
+            return this.weighingRepository.getweight(id);
         }
-        return media;
     }
 }

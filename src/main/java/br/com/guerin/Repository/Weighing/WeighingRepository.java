@@ -34,7 +34,10 @@ public interface WeighingRepository extends JpaRepository<Weighing, Long> {
             "WHERE weighing.id = :idWeighing")
     void enable( @Param("idWeighing") Long idWeighing);
 
-
-    @Query(value = "SELECT * FROM weighings as w WHERE w.cattle_id = :idWeighing ORDER BY w.date desc limit 2 ", nativeQuery = true)
+    @Query(value = "SELECT w.weight FROM weighings as w WHERE w.cattle_id = :idWeighing", nativeQuery = true)
+    Float getweight(@Param("idWeighing") Long idWeighing);
+    @Query(value = "SELECT * FROM weighings as w WHERE w.cattle_id = :idWeighing ORDER BY w.date desc ", nativeQuery = true)
     List<Weighing> getmediaOfWeight(@Param("idWeighing") Long idWeighing);
+
+
 }
