@@ -62,7 +62,7 @@ public class GetToken {
         this.userPasswordStr = userPasswordStr;
 
         try {
-            String urlString = "http://localhost:8085/api/login";
+            String urlString = "http://localhost:8080/api/login";
             String requestMethod = "POST";
             URL url = new URL(urlString);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
