@@ -254,7 +254,7 @@ public class CattleService implements ICattleService {
     }
 
     public Boolean canBreed(Cattle cattle) {
-        return cattle.getStatus() == CattleStatus.cria && ChronoUnit.DAYS.between(cattle.getLastBreeding(), LocalDate.now()) <= 45;
+        return cattle.getStatus() == CattleStatus.cria || ChronoUnit.DAYS.between(cattle.getLastBreeding(), LocalDate.now()) <= 45;
     }
 
     public void validateBreed(Cattle cattle) {
