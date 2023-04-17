@@ -93,6 +93,7 @@ public class CattleService implements ICattleService {
     public Cattle update(Long earring, Cattle cattle) {
         if (Objects.equals(earring, cattle.getEarring())) {
             this.validateParents(cattle);
+            this.validateBreed(cattle);
             cattle = this.validateBreastFeeding(cattle);
             return this.cattleRepository.save(cattle);
         }
@@ -108,6 +109,7 @@ public class CattleService implements ICattleService {
         }
         else {
             this.validateParents(cattle);
+            this.validateBreed(cattle);
             cattle = this.validateBreastFeeding(cattle);
             return this.cattleRepository.save(cattle);
         }
@@ -249,5 +251,14 @@ public class CattleService implements ICattleService {
             cattle.setBreastFeeding(true);
         }
         return cattle;
+    }
+
+    public Boolean canBreed(Cattle cattle) {
+        return cattle.getStatus() == CattleStatus.cria && ChronoUnit.DAYS.between(cattle.getLastBreeding(), LocalDate.now()) <= 45;
+    }
+
+    public void validateBreed(Cattle cattle) {
+        if (cattle.getStatus() == CattleStatus.cria)
+            cattle.setLastBreeding(LocalDate.now());
     }
 }

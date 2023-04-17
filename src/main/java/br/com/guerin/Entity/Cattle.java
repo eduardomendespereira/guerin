@@ -69,6 +69,10 @@ public class Cattle extends AbstractEntity{
     @Column(name = "breastFeeding", nullable = false)
     private Boolean breastFeeding;
 
+    @Getter @Setter
+    @Column(name = "lastBreeding", nullable = true)
+    private LocalDate lastBreeding;
+
     public Cattle(Long earring) {
         this.earring = earring;
     }
@@ -109,6 +113,23 @@ public class Cattle extends AbstractEntity{
         this.breastFeeding = breastFeeding;
         this.status = status;
     }
+
+    public Cattle(Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
+                  LocalDate bornAt, Boolean breastFeeding, CattleStatus status, LocalDate lastBreeding)
+    {
+        this.earring = earring;
+        this.weight = weight;
+        this.specie = specie;
+        this.farm = farm;
+        this.gender = gender;
+        this.father = father;
+        this.mother = mother;
+        this.bornAt = bornAt;
+        this.breastFeeding = breastFeeding;
+        this.status = status;
+        this.lastBreeding = lastBreeding;
+    }
+
 
     @Override
     public boolean equals(Object o) {
