@@ -253,8 +253,9 @@ public class CattleService implements ICattleService {
         return cattle;
     }
 
-    public Boolean canBreed(Cattle cattle) {
-        return cattle.getStatus() == CattleStatus.cria || ChronoUnit.DAYS.between(cattle.getLastBreeding(), LocalDate.now()) <= 45;
+    public Boolean canBreed(Long earring) {
+        Cattle cattle = this.cattleRepository.findByEarring(earring).get();
+        return cattle.getStatus() == CattleStatus.cria || cattle.getLastBreeding() != null && ChronoUnit.DAYS.between(cattle.getLastBreeding(), LocalDate.now()) <= 45;
     }
 
     public void validateBreed(Cattle cattle) {

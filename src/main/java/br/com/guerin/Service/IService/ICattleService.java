@@ -28,4 +28,5 @@ public interface ICattleService {
     Integer countMale();
     Integer countFemale();
     Cattle validateBreastFeeding(Cattle cattle);
+    Boolean canBreed(Long earring);
 }

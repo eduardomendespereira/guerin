@@ -151,4 +151,14 @@ public class CattleController {
         }
     }
 
+    @GetMapping("/can-breed/{earring}")
+    public ResponseEntity<?> canBreed(@PathVariable Long earring) {
+        try {
+            return ResponseEntity.ok().body(this.cattleService.canBreed(earring));
+        }
+        catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
 }
