@@ -1,5 +1,7 @@
 package br.com.guerin.Utils;
 
+import br.com.guerin.Entity.RoleMenu;
+import br.com.guerin.Service.IService.IRoleMenuService;
 import br.com.guerin.Service.IService.IUserService;
 import br.com.guerin.Service.IService.IMenuService;
 import br.com.guerin.Entity.User;
@@ -21,6 +23,9 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Autowired
     private IMenuService menuService;
+
+    @Autowired
+    private IRoleMenuService roleMenuService;
 
     @Override
     public void run(String... args) {
@@ -48,16 +53,21 @@ public class DatabaseSeeder implements CommandLineRunner {
         List<Menu> menus = new ArrayList<>(
                 Arrays.asList(
                         new Menu("Usuarios", 1, "Cadastro de Usuarios", "/usuarios", "fa fa-user fa-2x"),
-                        new Menu("Gados", 2, "Cadastro de Gados", "/gados", "")
+                        new Menu("Gados", 2, "Cadastro de Gados", "/gados", "fa fa-home fa-2x"),
+                        new Menu("Eventos", 3, "Eventos", "/eventos", "fa fa-home fa-2x"),
+                        new Menu("Espécie", 4, "Cadastros de Espécies", "/especie", "fa fa-home fa-2x"),
+                        new Menu("Fazendas", 5, "Cadastros de Fazendas", "/fazendas", "fa fa-home fa-2x"),
+                        new Menu("Tipo de Evento", 6, "Cadastro de Tipos de Eventos", "/tipo-de-evento", "fa fa-home fa-2x"),
+                        new Menu("Sair", 7, "Sair", "/login", "fa fa-home fa-2x")
                 )
         );
+
         for (Menu menu : menus) {
             try {
-                this.menuService.save(menu);
+                RoleMenu roleMenu = new RoleMenu(this.menuService.save(menu), Role.admin);
+                this.roleMenuService.save(roleMenu);
             }
             catch (Exception e) {}
         }
-
     }
-
 }

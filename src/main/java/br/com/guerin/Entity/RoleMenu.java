@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -24,4 +25,9 @@ public class RoleMenu extends AbstractEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
+
+    public RoleMenu(Menu menu, Role role) {
+        this.menu = menu;
+        this.role = role;
+    }
 }
