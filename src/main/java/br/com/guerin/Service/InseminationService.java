@@ -3,6 +3,7 @@ package br.com.guerin.Service;
 import br.com.guerin.Entity.Insemination;
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Repository.Insemination.InseminationRepository;
+import br.com.guerin.Service.IService.IGenerateAutomaticEvent;
 import br.com.guerin.Service.IService.IInseminationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class InseminationService implements IInseminationService {
 
     private final InseminationRepository inseminationRepository;
 
+    private final IGenerateAutomaticEvent generateAutomaticEvent;
 
     public Optional<Insemination> findById(Long id){
         return this.inseminationRepository.findById(id);
@@ -35,6 +37,7 @@ public class InseminationService implements IInseminationService {
     }
 
     public Insemination save(Insemination insemination){
+        generateAutomaticEvent.generateCattleEventInsemination(insemination);
         return saveTransactional(insemination);
     }
 

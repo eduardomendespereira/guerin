@@ -47,6 +47,10 @@ public class CattleEvent extends AbstractEntity{
     @JoinColumn(name = "weighing_id", nullable = true, unique = false)
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     private Weighing weighing;
+    @Getter @Setter
+    @JoinColumn(name = "insemination_id", nullable = true, unique = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    private Insemination insemination;
 
     public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description, VaccineApplication vaccineApplication) {
         this.cattle = cattle;
@@ -62,6 +66,14 @@ public class CattleEvent extends AbstractEntity{
         this.date = date;
         this.description = description;
         this.weighing = weighing;
+    }
+
+    public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description, Insemination insemination) {
+        this.cattle = cattle;
+        this.eventType = eventType;
+        this.date = date;
+        this.description = description;
+        this.insemination = insemination;
     }
 
     public CattleEvent(Cattle cattle, EventType eventType, LocalDateTime date, String description) {

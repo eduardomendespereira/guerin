@@ -1,9 +1,6 @@
 package br.com.guerin.Service;
 
-import br.com.guerin.Entity.CattleEvent;
-import br.com.guerin.Entity.EventType;
-import br.com.guerin.Entity.VaccineApplication;
-import br.com.guerin.Entity.Weighing;
+import br.com.guerin.Entity.*;
 import br.com.guerin.Repository.CattleEvent.CattleEventRepository;
 import br.com.guerin.Repository.EventType.EventTypeRepository;
 import br.com.guerin.Service.IService.IGenerateAutomaticEvent;
@@ -100,6 +97,35 @@ public class GenerateAutomaticEvent implements IGenerateAutomaticEvent {
             event.setCattle(weighing.getCattle());
             event.setDate(weighing.getDate());
             event.setWeighing(weighing);
+            return cattleEventRepository.save(event);
+        }
+    }
+
+    private EventType generayeEventTypeInsemination(){
+        EventType eventTypeInsemination = new EventType(
+                "Inseminação"
+        );
+        if(!findByNameEventType(eventTypeInsemination.getName()).isPresent()){
+            saveEventType(eventTypeInsemination);
+        }
+        return findByNameEventType(eventTypeInsemination.getName()).get();
+    }
+
+    public CattleEvent generateCattleEventInsemination(Insemination insemination){
+        EventType getEventType = this.generayeEventTypeInsemination();
+        CattleEvent cattleEventInsemination = new CattleEvent();
+        if(!this.cattleEventRepository.findByInseminationById(insemination.getId()).isPresent()){
+            cattleEventInsemination.setCattle(insemination.getCattle());
+            cattleEventInsemination.setEventType(getEventType);
+            cattleEventInsemination.setDate(insemination.getDate());
+            cattleEventInsemination.setInsemination(insemination);
+            cattleEventInsemination.setDescription("Inseminação do Gado: " + insemination.getCattle().getEarring());
+            return this.cattleEventRepository.save(cattleEventInsemination);
+        }else {
+            var event = this.cattleEventRepository.findByInseminationById(insemination.getId()).get();
+            event.setCattle(insemination.getCattle());
+            event.setDate(insemination.getDate());
+            event.setInsemination(insemination);
             return cattleEventRepository.save(event);
         }
     }
