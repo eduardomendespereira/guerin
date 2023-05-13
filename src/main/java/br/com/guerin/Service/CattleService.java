@@ -9,8 +9,6 @@ import br.com.guerin.Service.IService.IFarmService;
 import br.com.guerin.Service.IService.ISpecieService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -87,6 +85,10 @@ public class CattleService implements ICattleService {
 
     public ArrayList<Cattle> findAll() {
         return (ArrayList<Cattle>) this.cattleRepository.findAll();
+    }
+
+    public ArrayList<Cattle> findByAllGenderFemale(){
+        return this.cattleRepository.findByAllGender(Gender.female);
     }
 
     @Transactional

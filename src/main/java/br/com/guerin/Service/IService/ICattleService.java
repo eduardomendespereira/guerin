@@ -29,4 +29,5 @@ public interface ICattleService {
     Integer countFemale();
     Cattle validateBreastFeeding(Cattle cattle);
     Boolean canBreed(Long earring);
+    ArrayList<Cattle> findByAllGenderFemale();
 }

@@ -2,6 +2,7 @@ package br.com.guerin.Repository.Cattle;
 
 import br.com.guerin.Entity.Cattle;
 import br.com.guerin.Entity.Farm;
+import br.com.guerin.Entity.Gender;
 import br.com.guerin.Entity.Specie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 
@@ -34,4 +36,7 @@ public interface CattleRepository extends JpaRepository<Cattle, Long> {
 
     @Query("SELECT cattle FROM Cattle cattle where cattle.farm = :farm")
     ArrayList<Cattle> findByFarm(Farm farm);
+
+    @Query("SELECT cattle FROM Cattle cattle where cattle.gender = :gender")
+    ArrayList<Cattle> findByAllGender(Gender gender);
 }
