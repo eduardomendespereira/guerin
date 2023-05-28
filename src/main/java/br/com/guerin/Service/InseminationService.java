@@ -43,8 +43,12 @@ public class InseminationService implements IInseminationService {
     }
 
     public Insemination save(Insemination insemination){
-        generateAutomaticEvent.generateCattleEventInsemination(insemination);
-        return saveTransactional(insemination);
+        if(!this.findById(insemination.getId()).isPresent()){
+            generateAutomaticEvent.generateCattleEventInsemination(insemination);
+            return saveTransactional(insemination);
+        }else{
+            throw new RuntimeException("Inseminação já está registrada");
+        }
     }
 
     public Insemination update(Insemination insemination){
