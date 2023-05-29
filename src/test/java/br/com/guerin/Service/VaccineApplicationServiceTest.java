@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -51,7 +52,10 @@ public class VaccineApplicationServiceTest {
                 farm,
                 Gender.male,
                 null,
-                null
+                null,
+                LocalDate.now(),
+                true,
+                CattleStatus.engorda
         );
         this.vaccine = new Vaccine(
                 "carbunculo",

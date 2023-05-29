@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,10 @@ public class CattleEventServiceTest {
                 farmService.findByName("Fazenda Qualquer").get(),
                 Gender.male,
                 null,
-                null
+                null,
+                LocalDate.now(),
+                true,
+                CattleStatus.engorda
         );
         this.vaccine = new Vaccine(
                 "carbunculo",

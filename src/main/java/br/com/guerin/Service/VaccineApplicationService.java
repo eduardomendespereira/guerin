@@ -33,7 +33,12 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     private final IGenerateAutomaticEvent generateAutomaticEvent;
 
     public Optional<VaccineApplication> findById(Long id){
-        return this.vaccineApplicationRepository.findById(id);
+        Optional<VaccineApplication> va = this.vaccineApplicationRepository.findById(id);
+        if (va.isPresent())
+            return va;
+        else {
+            throw new RuntimeException("Aplicação de vacina não encontrada");
+        }
     }
     public Optional<ArrayList<VaccineApplication>> findByVaccine(Vaccine vaccine){
         return this.vaccineApplicationRepository.findByVaccine(vaccine);
@@ -62,7 +67,7 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public VaccineApplication save(VaccineApplication vaccineApplication){
-        if(validateSaveAndUpdate(vaccineApplication)){
+        if(validateSaveAndUpdate(vaccineApplication) && !this.vaccineApplicationRepository.findById(vaccineApplication.getId()).isPresent()){
             generateAutomaticEvent.generateCattleEventVaccination(vaccineApplication);
             return saveTransactional(vaccineApplication);
         }else {

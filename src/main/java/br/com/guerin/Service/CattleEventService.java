@@ -32,7 +32,15 @@ public class CattleEventService implements ICattleEventService {
     }
 
     public Optional<CattleEvent> findById(Long id) {
-        return cattleEventRepository.findById(id);
+        if(id == null){
+            throw new RuntimeException("Erro: o id fornecido é nulo");
+        }
+        Optional<CattleEvent> ct = cattleEventRepository.findById(id);
+        if(ct.isPresent()){
+            return ct;
+        }else{
+            throw new RuntimeException("O evento informado não foi encontrado!");
+        }
     }
     @Transactional
     public CattleEvent save(CattleEvent cattleEvent) {
@@ -72,11 +80,21 @@ public class CattleEventService implements ICattleEventService {
     }
 
     public Optional<CattleEvent> findByVaccineApplication(Long id){
-        return cattleEventRepository.findByVaccineApplication(id);
+        Optional<CattleEvent> ce = this.cattleEventRepository.findByVaccineApplication(id);
+        if (ce.isPresent())
+            return ce;
+        else {
+            throw new RuntimeException("Evento não encontrado!");
+        }
     }
 
     public Optional<CattleEvent> findByWeighingById(Long id){
-        return cattleEventRepository.findByWeighingById(id);
+        Optional<CattleEvent> ce = this.cattleEventRepository.findByWeighingById(id);
+        if (ce.isPresent()){
+            return ce;
+        }else {
+            throw new RuntimeException("Evento não encontrado!");
+        }
     }
 
     public ArrayList<CattleEvent> findByCattle(Long cattleId) {
@@ -86,7 +104,7 @@ public class CattleEventService implements ICattleEventService {
 
     @Transactional
     public CattleEvent update(Long id, CattleEvent cattleEvent){
-        if(id == cattleEvent.getId() && validateTypeEvent(cattleEvent)){
+        if(id == cattleEvent.getId() && validateTypeEvent(cattleEvent) && this.cattleEventRepository.findById(id).isPresent()){
             return this.cattleEventRepository.save(cattleEvent);
         }else{
             throw new RuntimeException("Evento não encontrado");
@@ -102,7 +120,7 @@ public class CattleEventService implements ICattleEventService {
     }
 
     public Optional<CattleEvent> findByName(String name){
-        if (name != null){
+        if (name != null && this.cattleEventRepository.findByName(name).isPresent()){
             return this.cattleEventRepository.findByName(name);
         }else {
             throw new RuntimeException("Descrição do evento não encontrado!");
