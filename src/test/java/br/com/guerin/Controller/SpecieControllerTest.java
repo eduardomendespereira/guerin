@@ -23,6 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,7 +56,11 @@ public class SpecieControllerTest {
                 Role.admin
         );
         if(!userService.findAll().isEmpty()){
-            return userService.findByUsername("Us3r").get();
+            Optional<User> user_ = userService.findByUsername("Us3r");
+            if (user_.isPresent()) {
+                return user_.get();
+            }
+            return user;
         }else {
             return userService.save(user);
         }

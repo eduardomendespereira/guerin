@@ -17,6 +17,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -66,7 +68,11 @@ public class VaccineApplicationControllerTest {
                     farmService.findByName("Fazenda Qualquer").get(),
                     Gender.male,
                     null,
-                    null);
+                    null,
+                    LocalDate.now(),
+                    true,
+                    CattleStatus.engorda
+            );
             if(cattleService.findByEarring(cattle.getEarring()).isPresent()){
                 return cattleService.findByEarring(cattle.getEarring()).get();
             }
