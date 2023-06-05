@@ -121,8 +121,8 @@ public class MenuControllerTest {
             String token = getToken.getToken(user, "123").access_token;
 
             Menu menu = new Menu();
-            menu.setName("Gados");
-            menu.setPath("/gados");
+            menu.setName("Gados_");
+            menu.setPath("/gados_");
             menu.setDescription("Cadastro de Gados");
 
             String postValue = objectMapper.writeValueAsString(menu);

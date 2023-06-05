@@ -184,7 +184,7 @@ public class FarmControllerTest {
         try {
             String postContent = this.objectMapper.writeValueAsString(farm);
             MvcResult storyResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/farm/" + farm.getId())
+                            .post("/api/farm/" + farm.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postContent))
@@ -211,7 +211,7 @@ public class FarmControllerTest {
         try {
             String postContent = this.objectMapper.writeValueAsString(farm);
             MvcResult storyResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/farm/disable/" + farm.getId())
+                            .post("/api/farm/disable/" + farm.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postContent))
