@@ -23,7 +23,7 @@ public class UserServiceTest {
 
     @Test
     public void save() {
-        User newUser = new User("lucas2", "hanke2", "lucas@hotmail.com", "lucas", "123", Role.admin);
+        User newUser = new User("lucas2", "hanke2", "lucas@hotmail.com", "lucas__", "123", Role.admin);
         var obj = userService.save(newUser);
         Assertions.assertEquals(obj.getUsername(), newUser.getUsername());
     }
@@ -49,7 +49,7 @@ public class UserServiceTest {
         if (!userService.findByUsername(user.getUsername()).isPresent())
             userService.save(user);
         var users = userService.findAll();
-        Assertions.assertEquals(2, users.stream().count());
+        Assertions.assertEquals(7, users.stream().count());
     }
 
     @Test
