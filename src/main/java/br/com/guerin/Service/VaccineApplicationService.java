@@ -67,7 +67,7 @@ public class VaccineApplicationService implements IVaccineApplicationService {
     }
 
     public VaccineApplication save(VaccineApplication vaccineApplication){
-        if(validateSaveAndUpdate(vaccineApplication) && !this.vaccineApplicationRepository.findById(vaccineApplication.getId()).isPresent()){
+        if(validateSaveAndUpdate(vaccineApplication)){
             generateAutomaticEvent.generateCattleEventVaccination(vaccineApplication);
             return saveTransactional(vaccineApplication);
         }else {

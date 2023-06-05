@@ -37,12 +37,12 @@ public class SpecieServiceTest {
         if(specieService.listAll().isEmpty()){
             specieService.save(new Specie("Fidelis"));
         }
-        Specie specie = specieService.findById(1L).get();
+        Specie specie = specieService.listAll().get(0);
         Assertions.assertNotNull(specie);
         String temp = specie.getName();
         specie.setName("Dragon");
-        specieService.update(1L, specie);
-        Specie specie1 = specieService.findById(1L).get();
+        specieService.update(specie.getId(), specie);
+        Specie specie1 = specieService.findById(specie.getId()).get();
         Assertions.assertNotEquals(temp, specie1.getName());
     }
 
@@ -51,10 +51,10 @@ public class SpecieServiceTest {
         if(specieService.listAll().isEmpty()){
             specieService.save(new Specie("Jk4"));
         }
-        Specie specie =specieService.findById(1L).get();
+        Specie specie =specieService.listAll().get(0);
         Assertions.assertFalse(specie.isInactive());
-        specieService.disable(1L, specie);
-        Specie specie1 = specieService.findById(1L).get();
+        specieService.disable(specie.getId(), specie);
+        Specie specie1 = specieService.findById(specie.getId()).get();
         Assertions.assertTrue(specie1.isInactive());
     }
     @Test
@@ -69,7 +69,7 @@ public class SpecieServiceTest {
         if(specieService.listAll().isEmpty()){
             specieService.save(new Specie("Fidelao"));
         }
-        Specie specie = specieService.findById(1L).get();
+        Specie specie = specieService.listAll().get(0);
         Assertions.assertNotNull(specie);
     }
 

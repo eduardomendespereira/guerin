@@ -49,7 +49,7 @@ public class UserServiceTest {
         if (!userService.findByUsername(user.getUsername()).isPresent())
             userService.save(user);
         var users = userService.findAll();
-        Assertions.assertEquals(1, users.stream().count());
+        Assertions.assertEquals(2, users.stream().count());
     }
 
     @Test

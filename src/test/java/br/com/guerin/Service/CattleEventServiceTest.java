@@ -63,12 +63,12 @@ public class CattleEventServiceTest {
                 CattleStatus.engorda
         );
         this.vaccine = new Vaccine(
-                "carbunculo",
+                "carbunculo_",
                 LocalDateTime.now(),
                 true
         );
         this.vaccineApplication = new VaccineApplication(
-                "Aplicação de vacina para carbunculo",
+                "Aplicação de vacina para carbunculo_",
                 vaccine,
                 LocalDateTime.now(),
                 cattle
@@ -181,7 +181,7 @@ public class CattleEventServiceTest {
         cattleEventService.update(eventoRandom.getId(), eventoRandom);
         String getNameVaccineApp = String.valueOf(cattleEventService.findById(eventoRandom.getId()).get()
                 .getVaccineApplication().getNote());
-        Assertions.assertEquals(getNameVaccineApp, "Aplicação de vacina para carbunculo");
+        Assertions.assertEquals(getNameVaccineApp, "Aplicação de vacina para carbunculo_");
     }
 
     @Test

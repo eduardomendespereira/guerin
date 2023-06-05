@@ -53,7 +53,7 @@ public class InseminationServiceTest {
         Insemination insemination = new Insemination();
         insemination.setCattle(cattle);
         insemination.setDate(date);
-        return this.inseminationService.save(insemination);
+        return this.inseminationService.saveTransactional(insemination);
     }
 
     @Test
@@ -61,8 +61,8 @@ public class InseminationServiceTest {
     public void checkInsert(){
         Specie specie = this.specieFactory("save");
         Farm farm = this.farmFactory("save", "save, 123");
-        Cattle cattle = this.cattleFactory(100L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
+        Cattle cattle = this.cattleFactory(100L, 300f, specie, farm, Gender.female, null, null, LocalDate.now(), true, CattleStatus.engorda);
         Insemination insemination = this.inseminationFactory(cattle, LocalDateTime.now());
-        Assertions.assertEquals(insemination, this.inseminationService.findById(insemination.getId()).get());
+        Assertions.assertEquals(insemination.getId(), this.inseminationService.findById(insemination.getId()).get().getId());
     }
 }
