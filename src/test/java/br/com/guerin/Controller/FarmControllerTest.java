@@ -179,7 +179,7 @@ public class FarmControllerTest {
         User user = this.userFactory();
         String token = this.gt.getToken(user, "123").access_token;
         Farm farm = this.farmFactory("_guerin5", "rua_5");
-        farm.setName("new_guerin5");
+        farm.setName("new_guerin5_");
 
         try {
             String postContent = this.objectMapper.writeValueAsString(farm);

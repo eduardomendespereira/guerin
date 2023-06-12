@@ -38,13 +38,12 @@ public class SpecieControllerTest {
 
     @Autowired
     private UserService userService;
-    ;
 
     @Autowired
     MockMvc mockMvc;
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final GetToken gtToken = new GetToken();
+    private final GetToken getToken = new GetToken();
 
     public User userFactory(){
         User user = new User(
@@ -89,7 +88,7 @@ public class SpecieControllerTest {
     public void insertSpecie(){
         User user = userFactory();
         Specie specie = specieFactory();
-        String token = this.gtToken.getToken(user, "123").access_token;
+        String token = this.getToken.getToken(user, "123").access_token;
         try {
             this.mockMvc.perform(post("/api/species").header(HttpHeaders.AUTHORIZATION, "Bearer" + token)
                             .content(asJsonString(specie)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -103,7 +102,7 @@ public class SpecieControllerTest {
     @Test
     public void findAllSpecie(){
         User user = userFactory();
-        String token = this.gtToken.getToken(user, "123").access_token;
+        String token = this.getToken.getToken(user, "123").access_token;
         try {
             this.mockMvc.
                     perform(MockMvcRequestBuilders.
@@ -122,7 +121,7 @@ public class SpecieControllerTest {
             objectMapper.registerModule(new JavaTimeModule());
             objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             User user = userFactory();
-            String token = this.gtToken.getToken(user, "123").access_token;
+            String token = this.getToken.getToken(user, "123").access_token;
             Specie specie = saveSpecieFactory();
             String postVal = objectMapper.writeValueAsString(specie);
             this.mockMvc.perform(put("/api/species/" + specie.getId().toString())
@@ -140,7 +139,7 @@ public class SpecieControllerTest {
     public void findSpecieById(){
         User user = userFactory();
         Specie specie = saveSpecieFactory();
-        String token = this.gtToken.getToken(user, "123").access_token;
+        String token = this.getToken.getToken(user, "123").access_token;
         try {
             MvcResult result = mockMvc.perform(get("/api/species/" + specie.getId().toString()).
                     header(HttpHeaders.AUTHORIZATION, "Bearer" + token)).andExpect(status().isOk()).andReturn();
@@ -155,7 +154,7 @@ public class SpecieControllerTest {
     public void findSpecieByName(){
         User user = userFactory();
         Specie specie = saveSpecieFactory();
-        String token = this.gtToken.getToken(user, "123").access_token;
+        String token = this.getToken.getToken(user, "123").access_token;
         try {
             MvcResult result = mockMvc.perform(get("/api/species/name/" + specie.getName()).
                     header(HttpHeaders.AUTHORIZATION, "Bearer" + token)).andExpect(status().isOk()).andReturn();
@@ -173,7 +172,7 @@ public class SpecieControllerTest {
             objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             User user = userFactory();
             Specie specie = saveSpecieFactory();
-            String token = this.gtToken.getToken(user, "123").access_token;
+            String token = this.getToken.getToken(user, "123").access_token;
             String postVal = objectMapper.writeValueAsString(specie);
 
             this.mockMvc.perform(put("/api/species/disable/"+ specie.getId().toString())
@@ -194,7 +193,7 @@ public class SpecieControllerTest {
         try {
             User user = userFactory();
             Specie specie = saveSpecieFactory();
-            String token = this.gtToken.getToken(user, "123").access_token;
+            String token = this.getToken.getToken(user, "123").access_token;
             Specie specie1 = new Specie();
             specie1.setName(specie.getName());
             this.mockMvc.perform(post("/api/species").header(HttpHeaders.AUTHORIZATION, "Bearer" + token)
@@ -212,7 +211,7 @@ public class SpecieControllerTest {
         try {
             User user = userFactory();
             Specie specie = saveSpecieFactory();
-            String token = this.gtToken.getToken(user, "123").access_token;
+            String token = this.getToken.getToken(user, "123").access_token;
             String postVal = objectMapper.writeValueAsString(specie);
             this.mockMvc.perform(put("/api/species/240")
                             .header(HttpHeaders.AUTHORIZATION, "Bearer" + token).content(postVal)
@@ -234,7 +233,7 @@ public class SpecieControllerTest {
             Specie specie1 = specieService.save(new Specie("Pipocas"));
             Assertions.assertNotEquals(specie1, specie);
             specie.setName(specie1.getName());
-            String token = this.gtToken.getToken(user,"123").access_token;
+            String token = this.getToken.getToken(user,"123").access_token;
             String postVal = objectMapper.writeValueAsString(specie);
             this.mockMvc.perform(put("/api/species/" + specie.getId().toString())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer" + token).content(postVal)
@@ -251,7 +250,7 @@ public class SpecieControllerTest {
         try {
             User user = userFactory();
             Specie specie = saveSpecieFactory();
-            String token = this.gtToken.getToken(user, "123").access_token;
+            String token = this.getToken.getToken(user, "123").access_token;
             this.mockMvc.perform(get("/api/species/240").
                             header(HttpHeaders.AUTHORIZATION, "Bearer" + token))
                     .andExpect(status().isNotFound()).andDo(print()).andReturn();
@@ -265,7 +264,7 @@ public class SpecieControllerTest {
         User user = userFactory();
         Specie specie = saveSpecieFactory();
         specie.setName("Jaozito");
-        String token = this.gtToken.getToken(user, "123").access_token;
+        String token = this.getToken.getToken(user, "123").access_token;
         try {
             MvcResult result = mockMvc.perform(get("/api/species/name/" + specie.getName()).
                     header(HttpHeaders.AUTHORIZATION, "Bearer" + token)).andExpect(status().isNotFound()).andReturn();
