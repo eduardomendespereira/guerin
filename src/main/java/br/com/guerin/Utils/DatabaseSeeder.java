@@ -58,7 +58,8 @@ public class DatabaseSeeder implements CommandLineRunner {
                         new Menu("Espécie", 4, "Cadastros de Espécies", "/especie", "fa fa-home fa-2x"),
                         new Menu("Fazendas", 5, "Cadastros de Fazendas", "/fazendas", "fa fa-home fa-2x"),
                         new Menu("Tipo de Evento", 6, "Cadastro de Tipos de Eventos", "/tipo-de-evento", "fa fa-home fa-2x"),
-                        new Menu("Sair", 7, "Sair", "/login", "fa fa-home fa-2x")
+                        new Menu("Controle de Lactação", 7, "Listagem de lactações", "/lactacoes", "fa fa-home fa-2x"),
+                        new Menu("Sair", 8, "Sair", "/login", "fa fa-home fa-2x")
                 )
         );
 
