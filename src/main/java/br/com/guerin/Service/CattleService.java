@@ -12,9 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import DTO.Cattle.LactatingCattleDTO;
+
 import javax.transaction.Transactional;
+
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.time.temporal.ChronoUnit;
@@ -111,6 +118,7 @@ public class CattleService implements ICattleService {
             this.validateParents(cattle);
             this.validateBreed(cattle);
             cattle = this.validateBreastFeeding(cattle);
+            cattle.setStatus(CattleStatus.cria);
             return this.cattleRepository.save(cattle);
         }
     }
@@ -261,5 +269,23 @@ public class CattleService implements ICattleService {
     public void validateBreed(Cattle cattle) {
         if (cattle.getStatus() == CattleStatus.cria)
             cattle.setLastBreeding(LocalDate.now());
+    }
+    
+    public List<LactatingCattleDTO> findLactatingCattles() {                
+        List<Object[]> results = cattleRepository.findLactatingCattles();
+        List<LactatingCattleDTO> lactatingCattles = new ArrayList<>();
+
+        for (Object[] row : results) {
+            BigInteger id = (BigInteger) row[0];
+            BigInteger earring = (BigInteger) row[1];
+            BigInteger lactatingChildren = (BigInteger) row[2];
+            Timestamp lactationEndDateTimestamp = (Timestamp) row[3];
+            LocalDate lactationEndDate = lactationEndDateTimestamp.toLocalDateTime().toLocalDate();
+
+            LactatingCattleDTO lactatingCattle = new LactatingCattleDTO(id, earring, lactatingChildren, lactationEndDate);
+            lactatingCattles.add(lactatingCattle);
+        }
+
+        return lactatingCattles;
     }
 }

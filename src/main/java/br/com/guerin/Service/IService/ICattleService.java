@@ -5,7 +5,11 @@ import br.com.guerin.Payload.Cattle.ResultFindParents;
 import br.com.guerin.Payload.Cattle.ResultFindChildren;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import DTO.Cattle.LactatingCattleDTO;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public interface ICattleService {
@@ -29,4 +33,5 @@ public interface ICattleService {
     Integer countFemale();
     Cattle validateBreastFeeding(Cattle cattle);
     Boolean canBreed(Long earring);
+    List<LactatingCattleDTO> findLactatingCattles();
 }

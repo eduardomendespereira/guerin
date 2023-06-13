@@ -1,28 +1,22 @@
 package br.com.guerin.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
 @Table(name = "cattles", schema = "public")
-public class Cattle extends AbstractEntity{
+public class Cattle extends AbstractEntity {
 
     @Getter
     @Setter
     @NotNull
-    @Column(name = "earring", nullable = false, unique=true)
+    @Column(name = "earring", nullable = false, unique = true)
     private Long earring;
 
     @Getter
@@ -30,46 +24,55 @@ public class Cattle extends AbstractEntity{
     @Column(name = "weight", nullable = false)
     private Float weight;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @JoinColumn(name = "specie_id", nullable = true)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Specie specie;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @JoinColumn(name = "farm_id", nullable = false)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Farm farm;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private CattleStatus status;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Column(name = "father", nullable = true)
     private Long father;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Column(name = "mother", nullable = true)
     private Long mother;
 
-    @Getter @Setter
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @Getter
+    @Setter
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "bornAt", nullable = false)
     private LocalDate bornAt;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Column(name = "breastFeeding", nullable = false)
     private Boolean breastFeeding;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Column(name = "lastBreeding", nullable = true)
     private LocalDate lastBreeding;
 
@@ -94,14 +97,12 @@ public class Cattle extends AbstractEntity{
             String fazenda_generica,
             Gender male,
             long father,
-            long mother
-    ) {
+            long mother) {
 
     }
 
     public Cattle(Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
-                  LocalDate bornAt, Boolean breastFeeding, CattleStatus status)
-    {
+            LocalDate bornAt, Boolean breastFeeding, CattleStatus status) {
         this.earring = earring;
         this.weight = weight;
         this.specie = specie;
@@ -115,8 +116,7 @@ public class Cattle extends AbstractEntity{
     }
 
     public Cattle(Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
-                  LocalDate bornAt, Boolean breastFeeding, CattleStatus status, LocalDate lastBreeding)
-    {
+            LocalDate bornAt, Boolean breastFeeding, CattleStatus status, LocalDate lastBreeding) {
         this.earring = earring;
         this.weight = weight;
         this.specie = specie;
@@ -130,13 +130,16 @@ public class Cattle extends AbstractEntity{
         this.lastBreeding = lastBreeding;
     }
 
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Cattle cattle = (Cattle) o;
-        return Objects.equals(earring, cattle.earring) && Objects.equals(weight, cattle.weight) && Objects.equals(specie, cattle.specie) && Objects.equals(farm, cattle.farm) && gender == cattle.gender && Objects.equals(father, cattle.father) && Objects.equals(mother, cattle.mother);
+        return Objects.equals(earring, cattle.earring) && Objects.equals(weight, cattle.weight)
+                && Objects.equals(specie, cattle.specie) && Objects.equals(farm, cattle.farm) && gender == cattle.gender
+                && Objects.equals(father, cattle.father) && Objects.equals(mother, cattle.mother);
     }
 
     @Override

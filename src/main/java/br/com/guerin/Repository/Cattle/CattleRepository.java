@@ -9,7 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import DTO.Cattle.LactatingCattleDTO;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -34,4 +37,27 @@ public interface CattleRepository extends JpaRepository<Cattle, Long> {
 
     @Query("SELECT cattle FROM Cattle cattle where cattle.farm = :farm")
     ArrayList<Cattle> findByFarm(Farm farm);
+
+    @Query(value = """
+            SELECT
+                c.id,
+                c.earring,
+                (
+                    SELECT COUNT(id)
+                    FROM cattles
+                    WHERE cattles.mother = c.earring
+                    AND cattles.born_at >= (CURRENT_DATE - INTERVAL '40 days')
+                ) as lactatingChildren,
+                (c.last_breeding + INTERVAL '40 days') as lactationEndDate
+            FROM
+                cattles c
+            WHERE
+                EXISTS (
+                    SELECT 1
+                    FROM cattles
+                    WHERE mother = c.earring
+                    AND born_at >= (CURRENT_DATE - INTERVAL '40 days')
+                )
+            """, nativeQuery = true)
+    List<Object[]> findLactatingCattles();
 }

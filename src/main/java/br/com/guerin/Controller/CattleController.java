@@ -161,4 +161,13 @@ public class CattleController {
         }
     }
 
+    @GetMapping("/lactating-cattles")
+    public ResponseEntity<?> findLactatingCattles() {
+        try {
+            return ResponseEntity.ok().body(this.cattleService.findLactatingCattles());
+        }
+        catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
 }
