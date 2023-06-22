@@ -34,4 +34,5 @@ public interface ICattleService {
     Cattle validateBreastFeeding(Cattle cattle);
     Boolean canBreed(Long earring);
     List<LactatingCattleDTO> findLactatingCattles();
+    ArrayList<Cattle> findByAllGenderFemale();
 }

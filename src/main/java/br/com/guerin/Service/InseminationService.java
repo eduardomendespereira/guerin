@@ -1,5 +1,7 @@
 package br.com.guerin.Service;
 
+import br.com.guerin.Entity.Cattle;
+import br.com.guerin.Entity.Gender;
 import br.com.guerin.Entity.Insemination;
 import br.com.guerin.Entity.Vaccine;
 import br.com.guerin.Repository.Insemination.InseminationRepository;
@@ -33,12 +35,20 @@ public class InseminationService implements IInseminationService {
 
     @Transactional
     public Insemination saveTransactional(Insemination insemination){
-        return this.inseminationRepository.save(insemination);
+        if(insemination.getCattle().getGender() == Gender.female){
+            return this.inseminationRepository.save(insemination);
+        }else {
+            throw new RuntimeException("Inseminação só é válida para femeas");
+        }
     }
 
     public Insemination save(Insemination insemination){
-        generateAutomaticEvent.generateCattleEventInsemination(insemination);
-        return saveTransactional(insemination);
+        if(!this.findById(insemination.getId()).isPresent()){
+            generateAutomaticEvent.generateCattleEventInsemination(insemination);
+            return saveTransactional(insemination);
+        }else{
+            throw new RuntimeException("Inseminação já está registrada");
+        }
     }
 
     public Insemination update(Insemination insemination){

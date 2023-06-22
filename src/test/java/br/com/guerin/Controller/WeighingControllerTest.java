@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -60,9 +61,10 @@ public class WeighingControllerTest {
     }
 
     private Cattle cattleFactory(
-            Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother
+            Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
+            LocalDate bornAt, Boolean breastFeeding, CattleStatus status
     ) {
-        Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother);
+        Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding, status);
         return this.cattleService.save(cattle);
     }
 
@@ -104,7 +106,7 @@ public class WeighingControllerTest {
         try{
             Specie specie = this.specieFactory("insertController");
             Farm farm = this.farmFactory("insertController", "insertController, 1234");
-            Cattle cattle = this.cattleFactory(15L, 700f, specie, farm, Gender.male, null, null);
+            Cattle cattle = this.cattleFactory(15L, 700f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
             Weighing weighing = this.weightFactory(cattle, 200f, LocalDateTime.now());
 
             String object = objectMapper.writeValueAsString(weighing);
@@ -131,7 +133,7 @@ public class WeighingControllerTest {
         try{
             Specie specie = this.specieFactory("updateController");
             Farm farm = this.farmFactory("updateController", "updateController, 1234");
-            Cattle cattle = this.cattleFactory(10L, 300f, specie, farm, Gender.male, null, null);
+            Cattle cattle = this.cattleFactory(10L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
             Weighing weighing = this.weightFactory(cattle, 600f, LocalDateTime.now());
 
             var weighingUpdate = weighing;
@@ -161,7 +163,7 @@ public class WeighingControllerTest {
         try{
             Specie specie = this.specieFactory("disableController");
             Farm farm = this.farmFactory("disableController", "disableController, 1234");
-            Cattle cattle = this.cattleFactory(12L, 200f, specie, farm, Gender.male, null, null);
+            Cattle cattle = this.cattleFactory(12L, 200f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
             Weighing weighingDisable = this.weightFactory(cattle, 800f, LocalDateTime.now());
 
             String object = objectMapper.writeValueAsString(weighingDisable);
@@ -202,7 +204,7 @@ public class WeighingControllerTest {
         try{
             Specie specie = this.specieFactory("findByIdController");
             Farm farm = this.farmFactory("findByIdController", "findByIdController, 1234");
-            Cattle cattle = this.cattleFactory(20L, 550f, specie, farm, Gender.male, null, null);
+            Cattle cattle = this.cattleFactory(20L, 550f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
             Weighing weighing = this.weightFactory(cattle, 600f, LocalDateTime.now());
 
             this.mockMvc.perform(get("/api/weighing/" + weighing.getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))

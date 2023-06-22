@@ -24,6 +24,16 @@ public class CattleController {
         }
     }
 
+    @GetMapping("/gender/female")
+    public ResponseEntity<?> findByAllGenderFemale() {
+        try {
+            return ResponseEntity.ok().body(this.cattleService.findByAllGenderFemale());
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/{cattleId}")
     public ResponseEntity<?> findById(@PathVariable("cattleId") Long cattleId) {
         try {

@@ -179,12 +179,12 @@ public class FarmControllerTest {
         User user = this.userFactory();
         String token = this.gt.getToken(user, "123").access_token;
         Farm farm = this.farmFactory("_guerin5", "rua_5");
-        farm.setName("new_guerin5");
+        farm.setName("new_guerin5_");
 
         try {
             String postContent = this.objectMapper.writeValueAsString(farm);
             MvcResult storyResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/farm/" + farm.getId())
+                            .post("/api/farm/" + farm.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postContent))
@@ -211,7 +211,7 @@ public class FarmControllerTest {
         try {
             String postContent = this.objectMapper.writeValueAsString(farm);
             MvcResult storyResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/farm/disable/" + farm.getId())
+                            .post("/api/farm/disable/" + farm.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postContent))

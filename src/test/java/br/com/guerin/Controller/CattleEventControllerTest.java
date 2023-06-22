@@ -245,7 +245,7 @@ public class CattleEventControllerTest {
         try{
             String postValue = objectMapper.writeValueAsString(cattleEvent);
             mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/cattleEvent/disable/" + cattleEvent.getId())
+                            .get("/api/cattleEvent/disable/" + cattleEvent.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postValue))

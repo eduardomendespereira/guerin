@@ -28,6 +28,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CattleControllerTest {
@@ -52,9 +54,10 @@ public class CattleControllerTest {
     private final GetToken gt = new GetToken();
 
     private Cattle cattleFactory(
-            Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother
+            Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
+            LocalDate bornAt, Boolean breastFeeding, CattleStatus status
     ) {
-        Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother);
+        Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding, status);
         return this.cattleService.save(cattle);
     }
 
@@ -106,7 +109,7 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_1");
         Farm farm = this.farmFactory("new_1", "new_1, 123");
-        Cattle cattle = this.cattleFactory(450L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(450L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
 
         try {
             MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/" + cattle.getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
@@ -130,7 +133,7 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_2");
         Farm farm = this.farmFactory("new_2", "new_2, 123");
-        Cattle cattle = this.cattleFactory(451L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(451L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
 
         try {
             MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/earring/" + cattle.getEarring()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
@@ -154,7 +157,7 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_3");
         Farm farm = this.farmFactory("new_3", "new_3, 123");
-        Cattle cattle = this.cattleFactory(452L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(452L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
 
         try {
             MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/farm/" + cattle.getFarm().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
@@ -178,7 +181,7 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_4");
         Farm farm = this.farmFactory("new_4", "new_4, 123");
-        Cattle cattle = this.cattleFactory(453L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(453L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
         try {
             MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/specie/" + cattle.getSpecie().getId()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                     .andExpect(status().isOk())
@@ -201,7 +204,7 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_5");
         Farm farm = this.farmFactory("new_5", "new_5, 123");
-        Cattle cattle = new Cattle(454L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattle = new Cattle(454L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
 
         try {
             String postContent = this.objectMapper.writeValueAsString(cattle);
@@ -230,7 +233,7 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_6");
         Farm farm = this.farmFactory("new_6", "new_6, 123");
-        Cattle cattle = this.cattleFactory(455L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(455L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
         cattle.setWeight(350f);
 
         try {
@@ -260,7 +263,7 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_7");
         Farm farm = this.farmFactory("new_7", "new_7, 123");
-        Cattle cattle = this.cattleFactory(456L, 300f, specie, farm, Gender.male, null, null);
+        Cattle cattle = this.cattleFactory(456L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
 
 
         try {
@@ -290,8 +293,8 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_8");
         Farm farm = this.farmFactory("new_8", "new_8, 123");
-        Cattle cattleFather = this.cattleFactory(457L, 300f, specie, farm, Gender.male, null, null);
-        Cattle cattleSon = this.cattleFactory(458L, 300f, specie, farm, Gender.male, 457L, null);
+        Cattle cattleFather = this.cattleFactory(457L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
+        Cattle cattleSon = this.cattleFactory(458L, 300f, specie, farm, Gender.male, 457L, null, LocalDate.now(), true, CattleStatus.engorda);
 
         try {
             MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/parents/" + cattleSon.getEarring()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
@@ -315,8 +318,8 @@ public class CattleControllerTest {
         String token = this.gt.getToken(user, "123").access_token;
         Specie specie = this.specieFactory("new_9");
         Farm farm = this.farmFactory("new_9", "new_9, 123");
-        Cattle cattleFather = this.cattleFactory(459L, 300f, specie, farm, Gender.male, null, null);
-        Cattle cattleSon = this.cattleFactory(460L, 300f, specie, farm, Gender.male, 459L, null);
+        Cattle cattleFather = this.cattleFactory(459L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
+        Cattle cattleSon = this.cattleFactory(460L, 300f, specie, farm, Gender.male, 459L, null, LocalDate.now(), true, CattleStatus.engorda);
 
         try {
             MvcResult storyResult = this.mockMvc.perform(get("/api/cattle/children/" + cattleFather.getEarring()).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))

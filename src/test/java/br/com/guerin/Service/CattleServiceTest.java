@@ -44,9 +44,9 @@ public class CattleServiceTest {
 
     @Test
     public void saveTest() {
-        Specie specie = this.specieFactory("save");
-        Farm farm = this.farmFactory("save", "save, 123");
-        Cattle cattle = this.cattleFactory(100L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
+        Specie specie = this.specieFactory("save0000");
+        Farm farm = this.farmFactory("save0000", "save0000, 123");
+        Cattle cattle = this.cattleFactory(10001L, 300f, specie, farm, Gender.male, null, null, LocalDate.now(), true, CattleStatus.engorda);
 
         Assertions.assertEquals(cattle, this.cattleService.findById(cattle.getId()).get());
     }

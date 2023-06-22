@@ -46,9 +46,13 @@ public class VaccineControllerTest {
         vaccine.setName("Raiva vacitec");
 
         vaccine.setRequired(true);
-        if(this.vaccineService.findByName(vaccine.getName()).isPresent()){
-            return this.vaccineService.findByName(vaccine.getName()).get();
+        try {
+            if(this.vaccineService.findByName(vaccine.getName()).isPresent()){
+                return this.vaccineService.findByName(vaccine.getName()).get();
+            }
         }
+        catch (Exception e) {}
+
         return this.vaccineService.save(vaccine);
     }
 
@@ -192,7 +196,7 @@ public class VaccineControllerTest {
             String postValue = objectMapper.writeValueAsString(vaccine);
 
             MvcResult storyResult = mockMvc.perform(MockMvcRequestBuilders
-                            .put("/api/vaccines/disable/" + vaccine.getId())
+                            .get("/api/vaccines/disable/" + vaccine.getId())
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(postValue))

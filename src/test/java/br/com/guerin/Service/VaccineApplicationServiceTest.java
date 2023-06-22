@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -51,7 +52,10 @@ public class VaccineApplicationServiceTest {
                 farm,
                 Gender.male,
                 null,
-                null
+                null,
+                LocalDate.now(),
+                true,
+                CattleStatus.engorda
         );
         this.vaccine = new Vaccine(
                 "carbunculo",
@@ -79,7 +83,7 @@ public class VaccineApplicationServiceTest {
     @Transactional
     public void checkInsert(){
         VaccineApplication vaccineApplication = this.generateVaccineApplication();
-        vaccineApplicationService.save(vaccineApplication);
+        vaccineApplicationService.saveTransactional(vaccineApplication);
         var vaApp = vaccineApplicationService.findById(vaccineApplication.getId());
         Assertions.assertEquals(vaccineApplication.getNote(), vaApp.get().getNote());
     }
@@ -93,7 +97,7 @@ public class VaccineApplicationServiceTest {
     @Transactional
     public void checkUpdate() {
         VaccineApplication vaccineApplication = this.generateVaccineApplication();
-        var getVac = vaccineApplicationService.save(vaccineApplication);
+        var getVac = vaccineApplicationService.saveTransactional(vaccineApplication);
         getVac.setVaccine(vaccine2);
         this.vaccineApplicationService.update(getVac.getId(), getVac);
         var getVaccine = vaccineApplicationService.findById(vaccineApplication.getId());
@@ -103,7 +107,7 @@ public class VaccineApplicationServiceTest {
     @Test
     public void checkDisable(){
         VaccineApplication vaccineApplication = this.generateVaccineApplication();
-        var getVaccineApp = vaccineApplicationService.save(vaccineApplication);
+        var getVaccineApp = vaccineApplicationService.saveTransactional(vaccineApplication);
         vaccineApplicationService.disable(getVaccineApp.getId());
         Optional<VaccineApplication> getVacApp = vaccineApplicationService.findById(getVaccineApp.getId());
         Assertions.assertTrue(getVacApp.isPresent());
