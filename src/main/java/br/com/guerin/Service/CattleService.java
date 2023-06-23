@@ -120,7 +120,6 @@ public class CattleService implements ICattleService {
             this.validateParents(cattle);
             this.validateBreed(cattle);
             cattle = this.validateBreastFeeding(cattle);
-            cattle.setStatus(CattleStatus.cria);
             return this.cattleRepository.save(cattle);
         }
     }

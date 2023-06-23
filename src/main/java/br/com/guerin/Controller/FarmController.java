@@ -66,7 +66,7 @@ public class FarmController {
         }
     }
 
-    @PostMapping("/{farmId}")
+    @PutMapping("/{farmId}")
     public ResponseEntity<?> update(@RequestBody Farm farm, @PathVariable Long farmId) {
         try {
             return ResponseEntity.ok().body(this.farmService.update(farmId, farm));
