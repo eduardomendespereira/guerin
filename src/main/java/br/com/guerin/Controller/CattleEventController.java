@@ -99,14 +99,24 @@ public class CattleEventController {
         }
     }
 
-    @GetMapping("/disable/{id}")
-    public void disable(@PathVariable("id") Long id) {
-        cattleEventService.disable(id);
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<?> disable(@PathVariable("id") Long id) {
+        try{
+            cattleEventService.disable(id);
+            return ResponseEntity.ok().build();
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
-    @GetMapping("/enable/{id}")
-    public void enable(@PathVariable("id") Long id) {
-        cattleEventService.enable(id);
+    @PutMapping("/enable/{id}")
+    public ResponseEntity<?> enable(@PathVariable("id") Long id) {
+        try{
+            cattleEventService.enable(id);
+            return ResponseEntity.ok().build();
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @GetMapping("/agrouped")
