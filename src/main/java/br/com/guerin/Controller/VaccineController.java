@@ -71,14 +71,25 @@ public class VaccineController {
         }
     }
 
-    @GetMapping("/disable/{id}")
-    public void disable(@PathVariable("id") Long id) {
-        vaccineService.disable(id);
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<?> disable(@PathVariable("id") Long id) {
+
+        try{
+            this.vaccineService.disable(id);
+            return ResponseEntity.ok().build();
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
-    @GetMapping("/enable/{id}")
-    public void enable(@PathVariable("id") Long id) {
-        vaccineService.enable(id);
+    @PutMapping("/enable/{id}")
+    public ResponseEntity<?> enable(@PathVariable("id") Long id) {
+        try{
+            this.vaccineService.enable(id);
+            return ResponseEntity.ok().build();
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @GetMapping("/count")
