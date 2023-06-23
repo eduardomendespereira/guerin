@@ -23,7 +23,7 @@ public class Weighing extends AbstractEntity {
     private Cattle cattle;
 
     @Getter @Setter
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd/MM/yyyy, HH:mm:ss")
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
