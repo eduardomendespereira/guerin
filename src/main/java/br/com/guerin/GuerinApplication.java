@@ -3,6 +3,7 @@ package br.com.guerin;
 import br.com.guerin.Entity.*;
 import br.com.guerin.Repository.CattleEvent.CattleEventRepository;
 import br.com.guerin.Service.*;
+import br.com.guerin.Utils.DatabaseSeeder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
