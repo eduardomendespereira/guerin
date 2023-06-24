@@ -45,7 +45,6 @@ public class WeighingService implements IWeighingService{
 
     @Transactional
     public Weighing saveTransactional(Weighing weighing){
-
         return this.weighingRepository.save(weighing);
     }
 
