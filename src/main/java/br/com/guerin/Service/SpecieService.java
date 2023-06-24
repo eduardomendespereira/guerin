@@ -34,23 +34,11 @@ public class SpecieService implements ISpecieService {
     }
     @Transactional
     public Specie update(Long id, Specie specie){
-        if(id == specie.getId()){
-            return this.specieRepository.save(specie);
-        }else{
-            throw  new RuntimeException("Erro : Não foi possivel editar a Especie");
-        }
+        return this.specieRepository.save(specie);
     }
     @Transactional
     public void disable(Long id, Specie specie ){
-        if(id == specie.getId()){
-            this.specieRepository.desativar(specie.getId());
-        }
-    }
-    public boolean checkAtivo(Specie specie){
-        if(specie.isInactive()){
-            return false;
-        }
-        return true;
+        this.specieRepository.desativar(specie.getId());
     }
 
     public void enable(Long id){

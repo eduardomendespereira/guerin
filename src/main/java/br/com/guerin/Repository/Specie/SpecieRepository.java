@@ -12,8 +12,7 @@ import java.util.Optional;
 @Repository
 public interface SpecieRepository extends JpaRepository<Specie, Long> {
     @Modifying
-    @Query("UPDATE Specie specie SET specie.inactive = true " +
-            "WHERE specie.id = :idSpecie")
+    @Query("UPDATE Specie specie SET specie.inactive = true WHERE specie.id = :idSpecie")
     void desativar(@Param("idSpecie") Long idSpecie);
 
     @Query("SELECT s FROM Specie s where s.name = :name")
