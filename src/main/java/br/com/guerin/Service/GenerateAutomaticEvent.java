@@ -84,8 +84,10 @@ public class GenerateAutomaticEvent implements IGenerateAutomaticEvent {
 
     public CattleEvent generateCattleEventWeighing(Weighing weighing){
         EventType getEventType = this.generayeEventTypeWeighing();
-        CattleEvent cattleEventWeighing = new CattleEvent();
-        if(!this.cattleEventRepository.findByWeighingById(weighing.getId()).isPresent()){
+        Optional<CattleEvent> event = this.cattleEventRepository.findByWeighingById(weighing.getId());
+
+        if(!event.isPresent()){
+            CattleEvent cattleEventWeighing = new CattleEvent();
             cattleEventWeighing.setCattle(weighing.getCattle());
             cattleEventWeighing.setEventType(getEventType);
             cattleEventWeighing.setDate(weighing.getDate());
@@ -93,11 +95,11 @@ public class GenerateAutomaticEvent implements IGenerateAutomaticEvent {
             cattleEventWeighing.setDescription("Pesagem do gado " + weighing.getCattle().getEarring());
             return this.cattleEventRepository.save(cattleEventWeighing);
         }else {
-            var event = this.cattleEventRepository.findByWeighingById(weighing.getId()).get();
-            event.setCattle(weighing.getCattle());
-            event.setDate(weighing.getDate());
-            event.setWeighing(weighing);
-            return cattleEventRepository.save(event);
+            var cattleEvent = this.cattleEventRepository.findByWeighingById(weighing.getId()).get();
+            cattleEvent.setCattle(weighing.getCattle());
+            cattleEvent.setDate(weighing.getDate());
+            cattleEvent.setWeighing(weighing);
+            return cattleEventRepository.save(cattleEvent);
         }
     }
 
