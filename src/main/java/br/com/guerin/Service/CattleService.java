@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import DTO.Cattle.LactatingCattleDTO;
+import DTO.Notification.Notification;
+import DTO.Notification.NotificationType;
 
 import javax.transaction.Transactional;
 
@@ -33,12 +35,12 @@ public class CattleService implements ICattleService {
     private final ISpecieService specieService;
     private final IFarmService farmService;
 
-    public void validateParents(Cattle cattle) {
-        this.validateFather(cattle);
-        this.validateMother(cattle);
+    public void validateParents(Cattle cattle, NotificationService notificationService) {
+        this.validateFather(cattle, notificationService);
+        this.validateMother(cattle, notificationService);
     }
 
-    public void validateFather(Cattle cattle) {
+    public void validateFather(Cattle cattle, NotificationService notificationService) {
         Long fatherEarring = cattle.getFather();
         if (fatherEarring != null) {
             if (fatherEarring != cattle.getEarring()) {
@@ -46,20 +48,21 @@ public class CattleService implements ICattleService {
                 if (cattleFather.isPresent()) {
                     Gender fatherGender = cattleFather.get().getGender();
                     if (fatherGender != Gender.male) {
-                        throw new RuntimeException("Gado informado não pode ser pai");
+                        notificationService.addNotification(
+                                new Notification("Gado informado não pode ser pai", NotificationType.ERROR));
                     }
                 }
-//                else {
-//                    throw new RuntimeException("Nao existe no banco");
-//                }
-            }
-            else {
-                throw new RuntimeException("Gado informado não pode ser pai de si mesmo");
+                // else {
+                // throw new RuntimeException("Nao existe no banco");
+                // }
+            } else {
+                notificationService.addNotification(
+                        new Notification("Gado informado não pode ser pai de si mesmo", NotificationType.ERROR));
             }
         }
     }
 
-    public void validateMother(Cattle cattle) {
+    public void validateMother(Cattle cattle, NotificationService notificationService) {
         Long motherEarring = cattle.getMother();
         if (motherEarring != null) {
             if (motherEarring != cattle.getEarring()) {
@@ -67,19 +70,19 @@ public class CattleService implements ICattleService {
                 if (cattleMother.isPresent()) {
                     Gender motherGender = cattleMother.get().getGender();
                     if (motherGender != Gender.female) {
-                        throw new RuntimeException("Gado informado não pode ser mãe");
+                        notificationService.addNotification(
+                                new Notification("Gado informado não pode ser mãe", NotificationType.ERROR));
                     }
                 }
-//                else {
-//                    throw new RuntimeException("Nao existe no banco");
-//                }
-            }
-            else {
-                throw new RuntimeException("Gado informado não pode ser mãe de si mesmo");
+                // else {
+                // throw new RuntimeException("Nao existe no banco");
+                // }
+            } else {
+                notificationService.addNotification(
+                        new Notification("Gado informado não pode ser mãe de si mesmo", NotificationType.ERROR));
             }
         }
     }
-
 
     public Optional<Cattle> findById(Long id) {
         Optional<Cattle> cattle = this.cattleRepository.findById(id);
@@ -94,34 +97,42 @@ public class CattleService implements ICattleService {
         return (ArrayList<Cattle>) this.cattleRepository.findAll();
     }
 
-    public ArrayList<Cattle> findByAllGenderFemale(){
+    public ArrayList<Cattle> findByAllGenderFemale() {
         return this.cattleRepository.findByAllGender(Gender.female);
     }
 
     @Transactional
-    public Cattle update(Long earring, Cattle cattle) {
+    public Cattle update(Long earring, Cattle cattle, NotificationService notificationService) {
         if (Objects.equals(earring, cattle.getEarring())) {
-            this.validateParents(cattle);
+            validateCattle(cattle, notificationService);
+            this.validateParents(cattle, notificationService);
             this.validateBreed(cattle);
+            if (notificationService.hasNotifications()) {
+                return null;
+            }
+
             cattle = this.validateBreastFeeding(cattle);
             return this.cattleRepository.save(cattle);
-        }
-        else {
+        } else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
 
     @Transactional
-    public Cattle save(Cattle cattle) {
-        if (cattle.getId() == null && cattle.getEarring() != null && this.findByEarring(cattle.getEarring()).isPresent()) {
-            throw new RuntimeException("Gado já está registrado");
+    public Cattle save(Cattle cattle, NotificationService notificationService) {
+        validateCattle(cattle, notificationService);
+
+        if (cattle.getId() == null && cattle.getEarring() != null
+                && this.findByEarring(cattle.getEarring()).isPresent()) {
+            notificationService.addNotification(new Notification("Gado já está registrado!", NotificationType.ERROR));
         }
-        else {
-            this.validateParents(cattle);
-            this.validateBreed(cattle);
-            cattle = this.validateBreastFeeding(cattle);
-            return this.cattleRepository.save(cattle);
+        this.validateParents(cattle, notificationService);
+        this.validateBreed(cattle);
+        if (notificationService.hasNotifications()) {
+            return null;
         }
+        cattle = this.validateBreastFeeding(cattle);
+        return this.cattleRepository.save(cattle);
     }
 
     @Transactional
@@ -130,12 +141,10 @@ public class CattleService implements ICattleService {
             if (!this.findByEarring(earring).get().isInactive()) {
                 this.cattleRepository.disable(cattle.getEarring());
                 return this.findByEarring(earring).get();
-            }
-            else {
+            } else {
                 throw new RuntimeException("Gado já está inativo!");
             }
-        }
-        else {
+        } else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
@@ -146,12 +155,10 @@ public class CattleService implements ICattleService {
             if (this.findByEarring(earring).get().isInactive()) {
                 this.cattleRepository.enable(cattle.getEarring());
                 return this.findByEarring(earring).get();
-            }
-            else {
+            } else {
                 throw new RuntimeException("Gado já está ativo!");
             }
-        }
-        else {
+        } else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
@@ -159,8 +166,7 @@ public class CattleService implements ICattleService {
     public Optional<Cattle> findByEarring(Long earring) {
         if (earring != null) {
             return this.cattleRepository.findByEarring(earring);
-        }
-        else {
+        } else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
@@ -177,8 +183,7 @@ public class CattleService implements ICattleService {
         if (specie_id != null) {
             Specie specie = this.specieService.findById(specie_id).get();
             return this.cattleRepository.findBySpecie(specie);
-        }
-        else {
+        } else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
@@ -187,8 +192,7 @@ public class CattleService implements ICattleService {
         if (farm_id != null) {
             Farm farm = this.farmService.findById(farm_id).get();
             return this.cattleRepository.findByFarm(farm);
-        }
-        else {
+        } else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
@@ -208,8 +212,7 @@ public class CattleService implements ICattleService {
             }
 
             return new ResultFindParents(cattle.get(), father, mother);
-        }
-        else {
+        } else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
@@ -219,36 +222,35 @@ public class CattleService implements ICattleService {
         if (cattle.isPresent()) {
             ArrayList<Cattle> children = this.cattleRepository.findChildren(earring);
             return new ResultFindChildren(cattle.get(), children);
-        }
-        else {
+        } else {
             throw new RuntimeException("Gado não encontrado");
         }
     }
 
-    public Integer count(){
+    public Integer count() {
         Integer count = 0;
-        for(Cattle cattle : cattleRepository.findAll()){
-            if(!cattle.isInactive()){
+        for (Cattle cattle : cattleRepository.findAll()) {
+            if (!cattle.isInactive()) {
                 count++;
             }
         }
         return count;
     }
 
-    public Integer countMale(){
+    public Integer countMale() {
         Integer countMale = 0;
-        for(Cattle cattle : cattleRepository.findAll()){
-            if(cattle.getGender() == Gender.male){
+        for (Cattle cattle : cattleRepository.findAll()) {
+            if (cattle.getGender() == Gender.male) {
                 countMale++;
             }
         }
         return countMale;
     }
 
-    public Integer countFemale(){
+    public Integer countFemale() {
         Integer countFemale = 0;
-        for(Cattle cattle : cattleRepository.findAll()){
-            if(cattle.getGender() == Gender.female){
+        for (Cattle cattle : cattleRepository.findAll()) {
+            if (cattle.getGender() == Gender.female) {
                 countFemale++;
             }
         }
@@ -264,15 +266,16 @@ public class CattleService implements ICattleService {
 
     public Boolean canBreed(Long earring) {
         Cattle cattle = this.cattleRepository.findByEarring(earring).get();
-        return cattle.getStatus() == CattleStatus.cria || cattle.getLastBreeding() != null && ChronoUnit.DAYS.between(cattle.getLastBreeding(), LocalDate.now()) <= 45;
+        return cattle.getStatus() == CattleStatus.cria || cattle.getLastBreeding() != null
+                && ChronoUnit.DAYS.between(cattle.getLastBreeding(), LocalDate.now()) <= 45;
     }
 
     public void validateBreed(Cattle cattle) {
         if (cattle.getStatus() == CattleStatus.cria)
             cattle.setLastBreeding(LocalDate.now());
     }
-    
-    public List<LactatingCattleDTO> findLactatingCattles() {                
+
+    public List<LactatingCattleDTO> findLactatingCattles() {
         List<Object[]> results = cattleRepository.findLactatingCattles();
         List<LactatingCattleDTO> lactatingCattles = new ArrayList<>();
 
@@ -283,10 +286,27 @@ public class CattleService implements ICattleService {
             Timestamp lactationEndDateTimestamp = (Timestamp) row[3];
             LocalDate lactationEndDate = lactationEndDateTimestamp.toLocalDateTime().toLocalDate();
 
-            LactatingCattleDTO lactatingCattle = new LactatingCattleDTO(id, earring, lactatingChildren, lactationEndDate);
+            LactatingCattleDTO lactatingCattle = new LactatingCattleDTO(id, earring, lactatingChildren,
+                    lactationEndDate);
             lactatingCattles.add(lactatingCattle);
         }
 
         return lactatingCattles;
+    }
+
+    private void validateCattle(Cattle cattle, NotificationService notificationService) {
+        validateField(cattle.getEarring(), "O brinco é obrigatório.", notificationService);
+        validateField(cattle.getWeight(), "O peso é obrigatório.", notificationService);
+        validateField(cattle.getStatus(), "O status é obrigatório.", notificationService);
+        validateField(cattle.getGender(), "O genero é obrigatório.", notificationService);
+        validateField(cattle.getFarm(), "A fazenda é obrigatoria.", notificationService);
+        validateField(cattle.getSpecie(), "A especie é obrigatoria.", notificationService);
+    }
+
+    private void validateField(Object fieldValue, String errorMessage, NotificationService notificationService) {
+        if (Objects.isNull(fieldValue)) {
+            Notification notification = new Notification(errorMessage, NotificationType.ERROR);
+            notificationService.addNotification(notification);
+        }
     }
 }
