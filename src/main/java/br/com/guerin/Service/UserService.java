@@ -2,6 +2,7 @@ package br.com.guerin.Service;
 
 import br.com.guerin.Entity.User;
 import br.com.guerin.Repository.User.UserRepository;
+import br.com.guerin.Service.IService.INotificationService;
 import br.com.guerin.Service.IService.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +17,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import DTO.Notification.Notification;
+import DTO.Notification.NotificationType;
+
 import javax.transaction.Transactional;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,7 +33,7 @@ import java.util.Optional;
 @Slf4j
 public class UserService implements IUserService, UserDetailsService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;    
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,7 +43,8 @@ public class UserService implements IUserService, UserDetailsService {
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.get().getRole().value));
-        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.get().getUsername(),
+                user.get().getPassword(), authorities);
     }
 
     public Optional<User> findById(Long id) {
@@ -50,9 +56,17 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Transactional
-    public User save(User user) {
-        if (user.getId() == null && user.getUsername() != null && findByUsername(user.getUsername()).isPresent())
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Username ja cadastrado!");
+    public User save(User user, NotificationService notificationService) {        
+        validateUser(user, notificationService);
+
+        if (user.getId() == null && user.getUsername() != null && findByUsername(user.getUsername()).isPresent()) {
+            notificationService.addNotification(new Notification("Username ja cadastrado!", NotificationType.ERROR));
+        }
+
+        if (notificationService.hasNotifications()) {
+            return null;
+        }
+
         if (!user.getPassword().startsWith("$2a$10"))
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -72,10 +86,25 @@ public class UserService implements IUserService, UserDetailsService {
             userRepository.disable(id);
         }
     }
+
     @Transactional
     public void enable(Long id) {
         if (this.findById(id).get().isInactive()) {
             userRepository.enable(id);
         }
     }
+
+    private void validateUser(User user, NotificationService notificationService) {
+        validateField(user.getFirstName(), "O nome é obrigatório.", notificationService);
+        validateField(user.getUsername(), "O usuario é obrigatório.", notificationService);
+        validateField(user.getEmail(),"O e-mail é obrigatório.", notificationService);
+        validateField(user.getPassword(), "A senha é obrigatória.", notificationService);
+    }
+
+    private void validateField(String fieldValue, String errorMessage, NotificationService notificationService) {
+        if (Objects.isNull(fieldValue) || fieldValue.trim().isEmpty()) {
+            Notification notification = new Notification(errorMessage, NotificationType.ERROR);
+            notificationService.addNotification(notification);
+        }
+    }  
 }

@@ -1,6 +1,8 @@
 package br.com.guerin.Service.IService;
 
 import br.com.guerin.Entity.User;
+import br.com.guerin.Service.NotificationService;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +13,7 @@ import java.util.Optional;
 public interface IUserService {
     Optional<User> findById(Long id);
     ArrayList<User> findAll();
-    User save(User user);
+    User save(User user, NotificationService notificationService);
     Optional<User> findByEmail(String email);
     Optional<User> findByUsername(String username);
     UserDetails loadUserByUsername(String username);

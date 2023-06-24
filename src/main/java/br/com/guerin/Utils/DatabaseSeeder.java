@@ -3,6 +3,7 @@ package br.com.guerin.Utils;
 import br.com.guerin.Entity.RoleMenu;
 import br.com.guerin.Service.IService.IRoleMenuService;
 import br.com.guerin.Service.IService.IUserService;
+import br.com.guerin.Service.NotificationService;
 import br.com.guerin.Service.IService.IMenuService;
 import br.com.guerin.Entity.User;
 import br.com.guerin.Entity.Menu;
@@ -35,6 +36,7 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     private void createDefaultUser() {
         try {
+            NotificationService notificationService = new NotificationService();
             this.userService.save(
                     new User(
                             "admin",
@@ -43,7 +45,8 @@ public class DatabaseSeeder implements CommandLineRunner {
                             "admin",
                             "guerin.admin",
                             Role.admin
-                    )
+                    ), 
+                    notificationService
             );
         }
         catch (Exception e) {}

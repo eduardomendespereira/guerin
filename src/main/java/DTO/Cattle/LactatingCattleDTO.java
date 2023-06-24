@@ -1,7 +1,6 @@
 package DTO.Cattle;
 
 import java.math.BigInteger;
-import java.security.Timestamp;
 import java.time.LocalDate;
 
 import lombok.Getter;
