@@ -6,6 +6,7 @@ import br.com.guerin.Payload.Cattle.ResultFindChildren;
 import br.com.guerin.Payload.Cattle.ResultFindParents;
 import br.com.guerin.Service.IService.IFarmService;
 import br.com.guerin.Service.IService.ISpecieService;
+import br.com.guerin.Service.NotificationService;
 import br.com.guerin.Utils.GetToken;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -58,7 +59,8 @@ public class CattleControllerTest {
             LocalDate bornAt, Boolean breastFeeding, CattleStatus status
     ) {
         Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding, status);
-        return this.cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        return this.cattleService.save(cattle, notificationService);
     }
 
     private Farm farmFactory(String name, String address) {
@@ -83,7 +85,8 @@ public class CattleControllerTest {
         if (this.userService.findByUsername(user.getUsername()).isPresent()) {
             return this.userService.findByUsername(user.getUsername()).get();
         }
-        return this.userService.save(user);
+        NotificationService notificationService = new NotificationService();
+        return this.userService.save(user, notificationService);
     }
 
     @Test

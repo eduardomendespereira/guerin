@@ -2,6 +2,7 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.*;
 import br.com.guerin.Service.IService.*;
+import br.com.guerin.Service.NotificationService;
 import br.com.guerin.Utils.GetToken;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -76,7 +77,8 @@ public class VaccineApplicationControllerTest {
             if(cattleService.findByEarring(cattle.getEarring()).isPresent()){
                 return cattleService.findByEarring(cattle.getEarring()).get();
             }
-            return cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+            return cattleService.save(cattle, notificationService);
     }
 
     private Vaccine vaccineFactory(){
@@ -122,7 +124,8 @@ public class VaccineApplicationControllerTest {
         if (this.userService.findByUsername(user.getUsername()).isPresent()) {
             return this.userService.findByUsername(user.getUsername()).get();
         }
-        return this.userService.save(user);
+        NotificationService notificationService = new NotificationService();
+        return this.userService.save(user, notificationService);
     }
 
     @Test

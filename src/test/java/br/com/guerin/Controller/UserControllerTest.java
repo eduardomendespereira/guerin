@@ -4,6 +4,7 @@ import br.com.guerin.Entity.Role;
 import br.com.guerin.Entity.User;
 import br.com.guerin.Payload.User.ResultTokens;
 import br.com.guerin.Service.IService.IUserService;
+import br.com.guerin.Service.NotificationService;
 import br.com.guerin.Utils.GetToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +48,8 @@ public class UserControllerTest {
         );
         if (this.userService.findByUsername(user.getUsername()).isPresent())
             return this.userService.findByUsername(user.getUsername()).get();
-        return this.userService.save(user);
+        NotificationService notificationService = new NotificationService();
+        return this.userService.save(user, notificationService);
     }
 
     private User userFactoryUser() {
@@ -61,7 +63,8 @@ public class UserControllerTest {
         );
         if (this.userService.findByUsername(user.getUsername()).isPresent())
             return this.userService.findByUsername(user.getUsername()).get();
-        return this.userService.save(user);
+        NotificationService notificationService = new NotificationService();
+        return this.userService.save(user, notificationService);
     }
 
     @Test

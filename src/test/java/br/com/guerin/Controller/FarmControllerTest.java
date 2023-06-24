@@ -1,5 +1,6 @@
 package br.com.guerin.Controller;
 
+import br.com.guerin.Service.NotificationService;
 import br.com.guerin.Utils.GetToken;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,7 +60,8 @@ public class FarmControllerTest {
         if (this.userService.findByUsername(user.getUsername()).isPresent()) {
             return this.userService.findByUsername(user.getUsername()).get();
         }
-        return this.userService.save(user);
+        NotificationService notificationService = new NotificationService();
+        return this.userService.save(user, notificationService);
     }
 
     @Test

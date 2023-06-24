@@ -68,7 +68,8 @@ public class VaccineApplicationServiceTest {
                 true
         );
         vaccineService.save(vaccine);
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         VaccineApplication vaccineApplication = new VaccineApplication(
                 "aplicacao de vacina pra raiva",
                 vaccine,

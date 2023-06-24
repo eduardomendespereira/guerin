@@ -2,6 +2,7 @@ package br.com.guerin.Controller;
 
 import br.com.guerin.Entity.*;
 import br.com.guerin.Service.IService.*;
+import br.com.guerin.Service.NotificationService;
 import br.com.guerin.Utils.GetToken;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -65,7 +66,8 @@ public class WeighingControllerTest {
             LocalDate bornAt, Boolean breastFeeding, CattleStatus status
     ) {
         Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding, status);
-        return this.cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        return this.cattleService.save(cattle, notificationService);
     }
 
     private Weighing weightFactory(
@@ -94,7 +96,8 @@ public class WeighingControllerTest {
         );
         if (this.userService.findByUsername(user.getUsername()).isPresent())
             return this.userService.findByUsername(user.getUsername()).get();
-        return this.userService.save(user);
+        NotificationService notificationService = new NotificationService();
+        return this.userService.save(user, notificationService);
     }
 
     @Test

@@ -45,8 +45,9 @@ public class WeighingServiceTest {
             Long earring, Float weight, Specie specie, Farm farm, Gender gender, Long father, Long mother,
             LocalDate bornAt, Boolean breastFeeding, CattleStatus status
     ) {
+        NotificationService notificationService = new NotificationService();
         Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding, status);
-        return this.cattleService.save(cattle);
+        return this.cattleService.save(cattle, notificationService);
     }
 
     private Weighing weightFactory(

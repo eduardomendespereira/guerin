@@ -2,10 +2,14 @@ package br.com.guerin.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import DTO.Notification.Notification;
+import DTO.Notification.NotificationType;
 import br.com.guerin.Entity.*;
 import br.com.guerin.Payload.Cattle.ResultFindChildren;
 import br.com.guerin.Payload.Cattle.ResultFindParents;
 import br.com.guerin.Service.IService.*;
+import org.aspectj.weaver.ast.Not;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,9 @@ import org.springframework.data.domain.Pageable;
 
 @SpringBootTest
 public class CattleServiceTest {
+
+    @Autowired
+    private INotificationService notificationService;
     private Farm farmFactory(String name, String address) {
         Farm farm = new Farm(name, address);
         return this.farmService.save(farm);
@@ -29,7 +36,8 @@ public class CattleServiceTest {
             LocalDate bornAt, Boolean breastFeeding, CattleStatus status
     ) {
         Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding, status);
-        return this.cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        return this.cattleService.save(cattle, notificationService);
     }
 
     @Autowired
@@ -40,7 +48,6 @@ public class CattleServiceTest {
 
     @Autowired
     private IFarmService farmService;
-
 
     @Test
     public void saveTest() {
@@ -57,7 +64,8 @@ public class CattleServiceTest {
         Farm farm = this.farmFactory("update", "update, 123");
         Cattle cattle = this.cattleFactory(101L, 300f, specie, farm, Gender.female, null, null, LocalDate.now(), true, CattleStatus.recria);
         cattle.setWeight(400f);
-        this.cattleService.update(cattle.getEarring(), cattle);
+        NotificationService notificationService = new NotificationService();
+        this.cattleService.update(cattle.getEarring(), cattle, notificationService);
         Float weight = this.cattleService.findById(cattle.getId()).get().getWeight();
 
         Assertions.assertEquals(weight, 400f);

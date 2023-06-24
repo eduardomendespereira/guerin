@@ -5,6 +5,7 @@ import br.com.guerin.Entity.Role;
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Entity.User;
 import br.com.guerin.Service.EventTypeService;
+import br.com.guerin.Service.NotificationService;
 import br.com.guerin.Service.UserService;
 import br.com.guerin.Utils.GetToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,7 +74,8 @@ public class EventTypeControllerTest {
        if(!userService.findAll().isEmpty()){
            return userService.findByUsername("Us3r").get();
        }else {
-           return userService.save(user);
+           NotificationService notificationService = new NotificationService();
+           return userService.save(user, notificationService);
        }
     }
     public static String asJsonString(final Object obj) {

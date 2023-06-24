@@ -7,6 +7,7 @@ import br.com.guerin.Entity.User;
 import br.com.guerin.Service.IService.IMenuService;
 import br.com.guerin.Service.IService.IRoleMenuService;
 import br.com.guerin.Service.IService.IUserService;
+import br.com.guerin.Service.NotificationService;
 import br.com.guerin.Utils.GetToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -51,7 +52,8 @@ public class RoleMenuControllerTest {
         );
         if (this.userService.findByUsername(user.getUsername()).isPresent())
             return this.userService.findByUsername(user.getUsername()).get();
-        return this.userService.save(user);
+        NotificationService notificationService = new NotificationService();
+        return this.userService.save(user, notificationService);
     }
 
     private Menu menuFactory() {

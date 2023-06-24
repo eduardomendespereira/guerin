@@ -4,6 +4,7 @@ import br.com.guerin.Entity.EventType;
 import br.com.guerin.Entity.Role;
 import br.com.guerin.Entity.Specie;
 import br.com.guerin.Entity.User;
+import br.com.guerin.Service.NotificationService;
 import br.com.guerin.Service.SpecieService;
 import br.com.guerin.Service.UserService;
 import br.com.guerin.Utils.GetToken;
@@ -61,7 +62,8 @@ public class SpecieControllerTest {
             }
             return user;
         }else {
-            return userService.save(user);
+            NotificationService notificationService = new NotificationService();
+            return userService.save(user, notificationService);
         }
     }
     public Specie saveSpecieFactory(){

@@ -32,6 +32,7 @@ public class InseminationServiceTest {
 
     @Autowired
     private IFarmService farmService;
+
     private Farm farmFactory(String name, String address) {
         Farm farm = new Farm(name, address);
         return this.farmService.save(farm);
@@ -46,7 +47,8 @@ public class InseminationServiceTest {
             LocalDate bornAt, Boolean breastFeeding, CattleStatus status
     ) {
         Cattle cattle = new Cattle(earring, weight, specie, farm, gender, father, mother, bornAt, breastFeeding, status);
-        return this.cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        return this.cattleService.save(cattle, notificationService);
     }
 
     private Insemination inseminationFactory(Cattle cattle, LocalDateTime date){

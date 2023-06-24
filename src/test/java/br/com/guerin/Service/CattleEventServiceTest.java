@@ -101,7 +101,8 @@ public class CattleEventServiceTest {
     @Transactional
     public void checkInsertCattleEventVaccineApplication(){
         generateEventFactory();
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         vaccineService.save(vaccine);
         vaccineApplicationService.save(vaccineApplication);
         eventTypeService.save(eventTypeVaccine);
@@ -122,7 +123,8 @@ public class CattleEventServiceTest {
     @Transactional
     public void checkInsertCattleEventWeighing(){
         generateEventFactory();
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         eventTypeService.save(eventTypeWeighing);
         weighingService.save(weighing);
         CattleEvent eventoDePesagem = new CattleEvent(
@@ -142,7 +144,8 @@ public class CattleEventServiceTest {
     @Transactional
     public void checkInsertCattleEventRandom(){
         generateEventFactory();
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         eventTypeService.save(eventRandom);
         CattleEvent eventoRandom = new CattleEvent(
                 cattle,
@@ -165,7 +168,8 @@ public class CattleEventServiceTest {
     @Transactional
     public void checkUpdate(){
         generateEventFactory();
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         eventTypeService.save(eventRandom);
         vaccineService.save(vaccine);
         vaccineApplicationService.save(vaccineApplication);
@@ -187,7 +191,8 @@ public class CattleEventServiceTest {
     @Test
     public void checkDisable(){
         generateEventFactory();
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         eventTypeService.save(eventRandom);
         CattleEvent cattleEvent = new CattleEvent(
                 cattle,
@@ -205,7 +210,8 @@ public class CattleEventServiceTest {
     @Transactional
     public void checkFindByEventType(){
         generateEventFactory();
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         eventTypeService.save(eventRandom);
         CattleEvent newEventCattle = new CattleEvent(
                 cattle,
@@ -222,7 +228,8 @@ public class CattleEventServiceTest {
     @Transactional
     public void checkFindByWeighing(){
         generateEventFactory();
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         eventTypeService.save(eventTypeWeighing);
         weighingService.save(weighing);
         CattleEvent eventoDePesagem = new CattleEvent(
@@ -241,7 +248,8 @@ public class CattleEventServiceTest {
     @Transactional
     public void checkFindByVaccineApp(){
         generateEventFactory();
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         vaccineService.save(vaccine);
         vaccineApplicationService.save(vaccineApplication);
         eventTypeService.save(eventTypeVaccine);
@@ -262,7 +270,8 @@ public class CattleEventServiceTest {
     @Transactional
     public void checkFindByCattle(){
         generateEventFactory();
-        cattleService.save(cattle);
+        NotificationService notificationService = new NotificationService();
+        cattleService.save(cattle, notificationService);
         eventTypeService.save(eventRandom);
         CattleEvent newEventCattle = new CattleEvent(
                 cattle,
