@@ -57,6 +57,17 @@ public class FarmService implements IFarmService {
         }
     }
 
+    @Transactional
+    public Farm enable(Long id, Farm farm) {
+        if (id == farm.getId()) {
+            this.farmRepository.enable(id);
+            return this.findById(id).get();
+        }
+        else {
+            throw new RuntimeException("Fazenda não encontrada!");
+        }
+    }
+
     public Optional<Farm> findByName(String name) {
         return this.farmRepository.findByName(name);
     }

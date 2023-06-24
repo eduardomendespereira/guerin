@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface IFarmService {
     Farm disable(Long id, Farm farm);
+    Farm enable(Long id, Farm farm);
     Optional<Farm> findByName(String name);
     Optional<Farm> findByAddress(String address);
     Farm save(Farm farm);
