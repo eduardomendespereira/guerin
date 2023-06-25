@@ -56,13 +56,13 @@ public class DatabaseSeeder implements CommandLineRunner {
         List<Menu> menus = new ArrayList<>(
                 Arrays.asList(
                         new Menu("Usuarios", 1, "Cadastro de Usuarios", "/usuarios", "fa fa-user fa-2x"),
-                        new Menu("Gados", 2, "Cadastro de Gados", "/gados", "fa fa-home fa-2x"),
-                        new Menu("Eventos", 3, "Eventos", "/eventos", "fa fa-home fa-2x"),
-                        new Menu("Espécie", 4, "Cadastros de Espécies", "/especie", "fa fa-home fa-2x"),
+                        new Menu("Gados", 2, "Cadastro de Gados", "/gados", "fa fa-server fa-2x"),
+                        new Menu("Eventos", 3, "Eventos", "/eventos", "fa fa-calendar-check-o fa-2x"),
+                        new Menu("Espécie", 4, "Cadastros de Espécies", "/especie", "fa fa-database fa-2x"),
                         new Menu("Fazendas", 5, "Cadastros de Fazendas", "/fazendas", "fa fa-home fa-2x"),
-                        new Menu("Tipo de Evento", 6, "Cadastro de Tipos de Eventos", "/tipo-de-evento", "fa fa-home fa-2x"),
-                        new Menu("Controle de Lactação", 7, "Listagem de lactações", "/lactacoes", "fa fa-home fa-2x"),
-                        new Menu("Sair", 8, "Sair", "/login", "fa fa-home fa-2x")
+                        new Menu("Tipo de Evento", 6, "Cadastro de Tipos de Eventos", "/tipo-de-evento", "fa fa-calendar-plus-o fa-2x"),
+                        new Menu("Controle de Lactação", 7, "Listagem de lactações", "/lactacoes", "fa fa-line-chart fa-2x"),
+                        new Menu("Sair", 8, "Sair", "/login", "fa fa-sign-out fa-2x")
                 )
         );
 
